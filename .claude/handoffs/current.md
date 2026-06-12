@@ -1,16 +1,24 @@
 ---
 session: 2026-06-12-m5-complete
 status: in-progress
-updated: 2026-06-12T21:00:00Z
+updated: 2026-06-12T21:45:00Z
 ---
-# Handoff: transcend-harness — M5 done; FastAPI dry run in flight
+# Handoff: transcend-harness — M5 + FastAPI dry run done
 
 ## Goal (carved task)
-All plan milestones (M0–M5) are built. Current activity: live /transcend-init
-dry run against a scratch FastAPI project (mirrors the node dry run that caught
-the pointer-template and missing-script gaps). After that: fix whatever it
-shakes out, then the project is in polish/expansion territory (new stacks,
-real catalog skills, plugin-mode verification).
+All plan milestones (M0–M5) are built and both dry runs (node, fastapi) pass.
+The project is in polish/expansion territory; next carve is plugin-mode
+verification (the only unexecuted step from the original plan).
+
+## FastAPI dry run result (this session)
+Scaffolded uv+fastapi app in /tmp/transcend-fastapi; detect → python-fastapi
+0.9/uv; advisory appetite exercised batch D (per-rule tiers) and Tier-2
+generation for the first time. Output: 16/16 manifest self-verify, scripts
+byte-identical to core, pointer skill followed the template, no placeholders,
+appetite-coherent hooks (PostToolUse/Stop only). Live hook tests: untested-edit
+fires once then dedupes; lint-on-edit no-ops gracefully when uv is absent;
+on-protected-branch nudges on main-with-changes. ZERO defects found — the
+node-dry-run fixes (pointer template, command reconciliation) held.
 
 ## Done
 - M0–M4 (commits 2b564db, e8b9652, 4b1794f, 2a57484, 96ac34d, 262e064).
@@ -25,15 +33,11 @@ real catalog skills, plugin-mode verification).
   test-golden-structure.sh.
 
 ## Next (do these in order)
-1. Finish/redo the FastAPI dry run if interrupted: scaffold pyproject+uv
-   fixture in /tmp, detect (expect python-fastapi 0.9 uv), interview batches
-   A–E (batch E should offer api-contract-audit + migration-safety), generate
-   via transcend-generator, verify manifest + golden-structure-style invariants,
-   fix gaps found.
-2. Plugin-mode verification (plan step 7, never done): claude --plugin-dir,
+1. Plugin-mode verification (plan step 7, never done): claude --plugin-dir,
    confirm ${CLAUDE_PLUGIN_ROOT} resolution + core/ readability both modes.
-3. Possible expansion: rust-cargo stack (plan mentioned it), real catalog
-   skills to replace pointers, Windows shim for hooks.
+2. Possible expansion: rust-cargo stack (plan mentioned it), real catalog
+   skills to replace pointers, Windows shim for hooks, exercising re-init
+   live (change a tier on the fastapi scratch project and watch the merge).
 
 ## Open questions / blockers
 - None.
