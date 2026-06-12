@@ -1,0 +1,23 @@
+---
+paths:
+{src_globs_yaml}
+---
+# Architecture — {architecture_label}
+
+{architecture_description}
+
+## Where code lives
+- {placement_rule}
+
+## Dependency rules
+- {dependency_rule}
+- Cross-module imports go through the declared shared/public surface only.
+
+## Module boundaries
+| Module | May depend on | Must NOT import |
+|--------|---------------|-----------------|
+| {module} | {allowed_deps} | {forbidden_deps} |
+
+When adding code, place it according to the structure above rather than inventing
+a new layout. If a genuinely new kind of module is needed, note it in the handoff
+and keep the boundary table updated.

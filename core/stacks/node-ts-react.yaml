@@ -1,0 +1,36 @@
+id: node-ts-react
+title: "Node + TypeScript + React"
+match:
+  files: [package.json]
+  package_json:
+    dependencies_any: [react, react-dom]
+    devDependencies_any: [typescript]
+vars:
+  lang: typescript
+  # pkg is resolved by the detector from the lockfile; default npm.
+  pkg_mgr_detect:
+    - "pnpm-lock.yaml->pnpm"
+    - "yarn.lock->yarn"
+    - "bun.lockb->bun"
+    - "package-lock.json->npm"
+  pkg: npm
+  test_cmd: "{pkg} test"
+  lint_cmd: "{pkg} run lint"
+  typecheck_cmd: "{pkg} run typecheck"
+  build_cmd: "{pkg} run build"
+  src_globs:
+    - "src/**/*.ts"
+    - "src/**/*.tsx"
+  test_globs:
+    - "**/*.test.ts"
+    - "**/*.test.tsx"
+    - "**/*.spec.ts"
+  protected_branch: main
+  module_boundary_hint: "src/features/*"
+pillar_defaults:
+  architecture: feature-sliced
+  testing: test-after
+  context-handoff: [handoff-on-stop, task-carving]
+  project-git: github-flow
+  review-quality: [lint-typecheck-gate, pre-pr-self-review]
+catalog_recommend: [impeccable, visual-regression, a11y-audit]

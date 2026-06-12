@@ -1,0 +1,44 @@
+id: architecture
+title: Architecture conventions
+question: "How is this codebase organized?"
+header: Architecture
+multiSelect: false
+principle: principles/pillar-architecture.md
+options:
+  - id: feature-sliced
+    label: "Feature-sliced"
+    desc: "Code grouped by feature under e.g. src/features/<feature>; cross-feature imports go through a shared layer."
+    renders:
+      claudemd: fragments/claudemd.architecture.md.tmpl
+      rule: fragments/rule.architecture.md.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 1
+  - id: layered
+    label: "Layered (n-tier)"
+    desc: "Horizontal layers (e.g. api / service / data); each layer depends only on the one below."
+    renders:
+      claudemd: fragments/claudemd.architecture.md.tmpl
+      rule: fragments/rule.architecture.md.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 1
+  - id: modular-monolith
+    label: "Modular monolith"
+    desc: "One deployable, hard module boundaries with explicit public interfaces between modules."
+    renders:
+      claudemd: fragments/claudemd.architecture.md.tmpl
+      rule: fragments/rule.architecture.md.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 1
+  - id: hexagonal
+    label: "Hexagonal / ports-and-adapters"
+    desc: "Domain core isolated behind ports; adapters (db, http, ui) depend inward, never the reverse."
+    renders:
+      claudemd: fragments/claudemd.architecture.md.tmpl
+      rule: fragments/rule.architecture.md.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 1
+# When a boundary is enforced (tier >= 2), also emit the module-boundary artifacts.
+boundary:
+  rule: fragments/rule.module-boundary.md.tmpl
+  advisory_hook: fragments/hook.advisory.module-boundary.json.tmpl
+  blocking_hook: fragments/hook.blocking.module-boundary.json.tmpl

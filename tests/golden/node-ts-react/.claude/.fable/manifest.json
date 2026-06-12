@@ -1,0 +1,109 @@
+{
+  "fable_version": "0.1.0",
+  "generated_at": "2026-06-12T00:00:00Z",
+  "stack": {
+    "profile": "node-ts-react",
+    "confidence": 0.9,
+    "vars": {
+      "pkg": "pnpm",
+      "test_cmd": "pnpm test",
+      "lint_cmd": "pnpm run lint",
+      "typecheck_cmd": "pnpm run typecheck",
+      "protected_branch": "main"
+    }
+  },
+  "scope": "repo",
+  "ownership": "team",
+  "script_mode": "copy",
+  "appetite": "docs",
+  "pillars": {
+    "architecture": {
+      "option": "feature-sliced",
+      "tier": 1
+    },
+    "testing": {
+      "option": "test-after",
+      "tier": 1
+    },
+    "context-handoff": {
+      "options": [
+        "handoff-on-stop",
+        "task-carving"
+      ]
+    },
+    "project-git": {
+      "option": "github-flow",
+      "tier": 1
+    },
+    "review-quality": {
+      "options": [
+        "lint-typecheck-gate",
+        "pre-pr-self-review"
+      ],
+      "tier": 1
+    }
+  },
+  "catalog": [
+    "impeccable",
+    "visual-regression"
+  ],
+  "files": [
+    {
+      "path": ".claude/CLAUDE.md",
+      "hash": "sha256:672566ae4c1e8cb198e06a608905418299a34cb5b8969ea578514639f8d3fc53"
+    },
+    {
+      "path": ".claude/rules/architecture.md",
+      "hash": "sha256:a23390934473c1f13f8862fd2765b1e81523d5b12d4d70ab78920db0a0545bfa"
+    },
+    {
+      "path": ".claude/rules/testing.md",
+      "hash": "sha256:51197284f4dea89ca451b8ead36eb195905193bd69c7841b772163bd8179be52"
+    },
+    {
+      "path": ".claude/rules/git-workflow.md",
+      "hash": "sha256:e952d5a2d24136a464e7fac6df6c4a14f423913f135d691e794c4e3a54c1f58e"
+    },
+    {
+      "path": ".claude/rules/quality-gates.md",
+      "hash": "sha256:98001284235a561b95fc3269867c5e1494676069bfd821626fd86a97f6588924"
+    },
+    {
+      "path": ".claude/rules/task-carving.md",
+      "hash": "sha256:ec58f4226bcc53f86fc04afaaace1033ad06c91c69afb605757c199c892da0b0"
+    },
+    {
+      "path": ".claude/settings.json",
+      "hash": "sha256:d0edceea8ec564c9928ad1a8b3d751e897577c52d700d94cba7804e6b69e41f4"
+    },
+    {
+      "path": ".claude/handoffs/README.md",
+      "hash": "sha256:dc0069299e9c96ad66157dc2d743cf5166cce7ce907f4b28907559a157d384b5"
+    },
+    {
+      "path": ".claude/handoffs/current.md",
+      "hash": "sha256:2aec06d04d7c020a88756be087108c113ef34f7ea4559c75b84ce4901b35c67d"
+    },
+    {
+      "path": ".claude/scripts/fable/lib/common.sh",
+      "hash": "sha256:ff0c6aecf9fa116dff3111d2e9e11949979361af900426d3c0412554c1350ba2"
+    },
+    {
+      "path": ".claude/scripts/fable/sessionstart/load-handoff.sh",
+      "hash": "sha256:7ef20c341c56dca6139416d0da1d82c351df835f93192d9c79ac4ff4b1b97bee"
+    },
+    {
+      "path": ".claude/scripts/fable/advisory/handoff-nudge.sh",
+      "hash": "sha256:5f843be0ee7526da648afbdb016fc9bd0a8ea179989cc2238e2a45dbe3728009"
+    },
+    {
+      "path": ".claude/skills/impeccable/SKILL.md",
+      "hash": "sha256:a26a96f9763875bab25fcfaeb015d61d9e5de16643b967f9f3d69208ef7b07f9"
+    },
+    {
+      "path": ".claude/skills/visual-regression/SKILL.md",
+      "hash": "sha256:7e5d062e6e1f31763403c4dc3bdc83aa38f6ede8562d4ec4ede3703bba88105d"
+    }
+  ],
+  "last_handoff": ".claude/handoffs/current.md"
+}

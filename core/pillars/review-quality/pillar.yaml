@@ -1,0 +1,37 @@
+id: review-quality
+title: Review & quality gates
+question: "Which review / quality gates should this project enforce?"
+header: Review
+multiSelect: true
+principle: principles/pillar-review-quality.md
+options:
+  - id: lint-typecheck-gate
+    label: "Lint + typecheck"
+    desc: "lint_cmd and typecheck_cmd must pass. Cheap, high-signal."
+    default_selected: true
+    renders:
+      claudemd: fragments/claudemd.quality-gates.md.tmpl
+      rule: fragments/rule.quality-gates.md.tmpl
+      advisory_hook: fragments/hook.advisory.lint-on-edit.json.tmpl
+      blocking_hook: fragments/hook.blocking.push-requires-lint.json.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 2
+  - id: pre-pr-self-review
+    label: "Pre-PR self-review"
+    desc: "Agent runs a self-review checklist against its own diff before opening a PR."
+    default_selected: true
+    renders:
+      claudemd: fragments/claudemd.quality-gates.md.tmpl
+      rule: fragments/rule.quality-gates.md.tmpl
+    tier_eligible: [1]
+    tier_default: 1
+  - id: agent-review-gate
+    label: "Agent reviewer"
+    desc: "Generate a project-local reviewer subagent that reviews diffs before merge."
+    default_selected: false
+    renders:
+      claudemd: fragments/claudemd.quality-gates.md.tmpl
+      rule: fragments/rule.quality-gates.md.tmpl
+      agent: fragments/agent.reviewer.md.tmpl
+    tier_eligible: [1]
+    tier_default: 1

@@ -1,0 +1,39 @@
+id: project-git
+title: Project & git workflow
+question: "What branch / PR workflow does this project follow?"
+header: Git flow
+multiSelect: false
+principle: principles/pillar-project-git.md
+options:
+  - id: github-flow
+    label: "GitHub flow"
+    desc: "A branch per change, PR to main, merge on green review. Common default."
+    renders:
+      claudemd: fragments/claudemd.git-workflow.md.tmpl
+      rule: fragments/rule.git-workflow.md.tmpl
+      advisory_hook: fragments/hook.advisory.protect-main.json.tmpl
+      blocking_hook: fragments/hook.blocking.protect-main.json.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 3
+  - id: trunk-based
+    label: "Trunk-based"
+    desc: "Short-lived branches, frequent integration to trunk; relies on strong CI."
+    renders:
+      claudemd: fragments/claudemd.git-workflow.md.tmpl
+      rule: fragments/rule.git-workflow.md.tmpl
+      advisory_hook: fragments/hook.advisory.protect-main.json.tmpl
+      blocking_hook: fragments/hook.blocking.protect-main.json.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 2
+  - id: pr-stacked
+    label: "Stacked PRs"
+    desc: "Dependent PRs for large efforts split into reviewable slices."
+    renders:
+      claudemd: fragments/claudemd.git-workflow.md.tmpl
+      rule: fragments/rule.git-workflow.md.tmpl
+      advisory_hook: fragments/hook.advisory.protect-main.json.tmpl
+      blocking_hook: fragments/hook.blocking.protect-main.json.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 3
+# The protected branch (main/trunk) is parameterized by the stack profile var
+# {protected_branch} (default "main").

@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "fable-marketplace",
+  "owner": {
+    "name": "fable-harness"
+  },
+  "plugins": [
+    {
+      "id": "fable-harness",
+      "name": "fable-harness",
+      "description": "Generate and maintain a bespoke .claude/ harness for any project.",
+      "version": "0.1.0",
+      "source": "./"
+    }
+  ]
+}

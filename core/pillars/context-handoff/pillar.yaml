@@ -1,0 +1,32 @@
+id: context-handoff
+title: Context & handoff management
+question: "Which context-management mechanisms should this project use? (the handoff loop is the centerpiece)"
+header: Handoff
+multiSelect: true
+principle: principles/pillar-context-handoff.md
+# These are complementary, not exclusive. All are pre-selected by default.
+options:
+  - id: handoff-on-stop
+    label: "Handoff + auto-load"
+    desc: "Write a compact handoff doc per session; auto-load the latest at the next SessionStart so you resume cheaply."
+    default_selected: true
+    renders:
+      handoff_template: fragments/handoff.template.md.tmpl
+      sessionstart_hook: fragments/hook.sessionstart.load-handoff.json.tmpl
+      stop_nudge_hook: fragments/hook.stop.handoff-nudge.json.tmpl
+  - id: task-carving
+    label: "Task carving"
+    desc: "Scope each session to ONE module task; the handoff's Context-pointers list is the only required reading."
+    default_selected: true
+    renders:
+      rule: fragments/rule.task-carving.md.tmpl
+  - id: handoff-on-demand
+    label: "On-demand handoff only"
+    desc: "Provide the handoff doc + /fable-handoff and /fable-resume, but do NOT auto-load on session start."
+    default_selected: false
+    renders:
+      handoff_template: fragments/handoff.template.md.tmpl
+# Notes:
+# - handoff-on-stop and handoff-on-demand both provide the handoff template; if
+#   handoff-on-stop is selected it supersedes (auto-load on). If only
+#   handoff-on-demand is selected, the SessionStart hook is NOT generated.

@@ -1,0 +1,26 @@
+id: unknown
+title: "Generic / undetected"
+# Fallback when no profile matches with confidence. Produces a generic, docs-only
+# harness; the interview fills in commands.
+match: {}
+vars:
+  lang: unknown
+  pkg: ""
+  pkg_mgr_detect: []
+  test_cmd: "<your test command>"
+  lint_cmd: "<your lint command>"
+  typecheck_cmd: "<your typecheck command>"
+  build_cmd: "<your build command>"
+  src_globs:
+    - "**/*"
+  test_globs:
+    - "**/*test*"
+  protected_branch: main
+  module_boundary_hint: ""
+pillar_defaults:
+  architecture: layered
+  testing: test-after
+  context-handoff: [handoff-on-stop, task-carving]
+  project-git: github-flow
+  review-quality: [pre-pr-self-review]
+catalog_recommend: []

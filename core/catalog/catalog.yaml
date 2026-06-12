@@ -1,0 +1,54 @@
+# Curated catalog of specialized workflow skills/plugins.
+# The interview filters by stack (`stacks` / `triggers`) and presents matches.
+# Chosen entries are wired by the generator per `wiring`.
+#
+# Entry shape:
+#   id        unique id
+#   kind      skill | plugin | external-plugin
+#   what      one-line capability summary
+#   when      when it's worth using
+#   stacks    profile ids this applies to
+#   triggers  detector-signal conditions confirming relevance (optional)
+#   wiring    how to attach it:
+#     claudemd        line spliced into CLAUDE.md "Specialized workflows"
+#     pillar_step     {pillar, text} checklist line added to that pillar's rule
+#     settings_plugin marketplace ref added to settings.json (external-plugin only)
+#     pointer_skill   true -> drop a thin .claude/skills/<id>/SKILL.md pointer
+#     entry           path to the human-readable entry doc
+
+entries:
+  - id: impeccable
+    kind: skill
+    what: "Frontend design critique & UX auditing (visual hierarchy, spacing, states, a11y heuristics)."
+    when: "UI work in a component-based frontend."
+    stacks: [node-ts-react]
+    triggers: { has_react: true }
+    wiring:
+      claudemd: "Frontend/UX audit: invoke `impeccable` before merging UI changes."
+      pillar_step: { pillar: review-quality, text: "Run `impeccable` on changes that touch UI components." }
+      pointer_skill: true
+      entry: entries/impeccable.md
+
+  - id: visual-regression
+    kind: skill
+    what: "Screenshot capture + perceptual diff to catch unintended UI changes."
+    when: "Visual UI that shouldn't change unintentionally."
+    stacks: [node-ts-react]
+    triggers: { has_react: true }
+    wiring:
+      claudemd: "Visual regression: run `visual-regression` and attach diffs to the PR for UI changes."
+      pillar_step: { pillar: review-quality, text: "Run `visual-regression` and review diffs before merging UI changes." }
+      pointer_skill: true
+      entry: entries/visual-regression.md
+
+  - id: a11y-audit
+    kind: skill
+    what: "Accessibility heuristics (roles, labels, contrast, keyboard nav) for web UIs."
+    when: "Any user-facing web UI."
+    stacks: [node-ts-react]
+    triggers: { has_react: true }
+    wiring:
+      claudemd: "Accessibility: run `a11y-audit` on new or changed interactive UI."
+      pillar_step: { pillar: review-quality, text: "Run `a11y-audit` on new interactive components." }
+      pointer_skill: true
+      entry: entries/a11y-audit.md

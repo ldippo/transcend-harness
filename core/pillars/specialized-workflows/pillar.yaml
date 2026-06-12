@@ -1,0 +1,12 @@
+id: specialized-workflows
+title: Specialized workflows
+header: Workflows
+principle: principles/pillar-specialized-workflows.md
+# This pillar is not an option-list like the others. It is driven by the curated
+# catalog (core/catalog/catalog.yaml), filtered by the stack profile's
+# `catalog_recommend` and confirmed by detector signals. The interview presents
+# matching catalog entries (multiSelect); chosen entries are wired via the
+# generator. See core/catalog/catalog.yaml for entry shape and wiring rules.
+catalog: ../../catalog/catalog.yaml
+renders:
+  claudemd: fragments/claudemd.workflows.md.tmpl

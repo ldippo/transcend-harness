@@ -1,0 +1,19 @@
+---
+paths:
+  - "**/*"
+---
+# Git workflow — {gitflow_label}
+
+{gitflow_description}
+
+## Rules
+- Protected branch: `{protected_branch}` — never push directly to it.
+- {branch_rule}
+- {pr_rule}
+- Commit messages: {commit_convention}.
+
+## Before opening a PR
+- Rebase/merge latest `{protected_branch}`.
+- Ensure review & quality gates pass (see @.claude/rules/quality-gates.md).
+
+fable never runs git for you. It generates these rules; you run the commands.

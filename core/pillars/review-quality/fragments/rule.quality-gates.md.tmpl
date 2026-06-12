@@ -1,0 +1,20 @@
+---
+paths:
+{src_globs_yaml}
+---
+# Review & quality gates
+
+Gates enabled for this project: {gates_list}.
+
+## Commands
+- Lint: `{lint_cmd}`
+- Typecheck: `{typecheck_cmd}`
+
+## Self-review checklist (run against your own diff before a PR)
+- Scope matches the carved task; no unrelated changes.
+- Tests added/updated and green (`{test_cmd}`).
+- No leftover debug logging, TODOs without owners, or commented-out code.
+- Naming and placement follow @.claude/rules/architecture.md.
+{quality_extra_checklist}
+
+{quality_tier_note}

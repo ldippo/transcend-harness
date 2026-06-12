@@ -1,0 +1,38 @@
+# Stack profile schema (documentation, not loaded at runtime).
+#
+# A stack profile maps detection signals to concrete defaults. It contains NO
+# templates — it parameterizes which pillar options are pre-selected and fills
+# the command/path variables that fragments interpolate.
+#
+# File: core/stacks/<id>.yaml
+
+id: string                    # unique profile id, matches filename stem
+
+match:                        # how the detector scores this profile
+  files: [string]             # files whose presence is a signal (e.g. package.json)
+  package_json:               # node-only: inspect package.json (optional)
+    dependencies_any: [string]
+    devDependencies_any: [string]
+  pyproject_any: [string]     # python-only: substrings to find in pyproject.toml
+  # ...stack-specific signal blocks, interpreted by detectors/
+
+vars:                         # interpolated into fragments as {name}
+  lang: string                # e.g. typescript | python | go | rust
+  pkg: string                 # resolved package-manager command (npm/pnpm/pip/...)
+  pkg_mgr_detect: [string]    # "lockfile->cmd" rules, resolved by the detector
+  test_cmd: string            # e.g. "{pkg} test -- --run"
+  lint_cmd: string
+  typecheck_cmd: string
+  build_cmd: string
+  src_globs: [string]         # globs for rule `paths:` frontmatter, e.g. ["src/**"]
+  test_globs: [string]        # globs identifying test files
+  module_boundary_hint: string # default boundary glob feeding the architecture pillar
+
+pillar_defaults:              # pre-selected option id per pillar (overridable in interview)
+  architecture: string        # one of architecture pillar option ids
+  testing: string
+  context-handoff: [string]   # multiSelect: list of option ids
+  project-git: string
+  review-quality: [string]    # multiSelect
+
+catalog_recommend: [string]   # catalog entry ids to surface for this stack

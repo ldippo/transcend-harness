@@ -1,0 +1,43 @@
+id: testing
+title: Testing strategy
+question: "How should testing be handled?"
+header: Testing
+multiSelect: false
+principle: principles/pillar-testing.md
+options:
+  - id: test-after
+    label: "Test-after"
+    desc: "Implement, then cover behavior with tests before the change ships. Pragmatic default."
+    renders:
+      claudemd: fragments/claudemd.testing.md.tmpl
+      rule: fragments/rule.testing.md.tmpl
+      advisory_hook: fragments/hook.advisory.untested-edit.json.tmpl
+      blocking_hook: fragments/hook.blocking.push-requires-green.json.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 2
+  - id: tdd-strict
+    label: "TDD (strict)"
+    desc: "Write a failing test first; no implementation without a red test."
+    renders:
+      claudemd: fragments/claudemd.testing.md.tmpl
+      rule: fragments/rule.testing.md.tmpl
+      advisory_hook: fragments/hook.advisory.untested-edit.json.tmpl
+      blocking_hook: fragments/hook.blocking.push-requires-green.json.tmpl
+    tier_eligible: [1, 2, 3]
+    tier_default: 3
+  - id: characterization
+    label: "Characterization"
+    desc: "Legacy/untested code: snapshot current behavior before refactoring."
+    renders:
+      claudemd: fragments/claudemd.testing.md.tmpl
+      rule: fragments/rule.testing.md.tmpl
+    tier_eligible: [1]
+    tier_default: 1
+  - id: spike-then-stabilize
+    label: "Spike-then-stabilize"
+    desc: "Explore without tests, then add tests once the design settles."
+    renders:
+      claudemd: fragments/claudemd.testing.md.tmpl
+      rule: fragments/rule.testing.md.tmpl
+    tier_eligible: [1, 2]
+    tier_default: 1

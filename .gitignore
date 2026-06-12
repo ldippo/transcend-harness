@@ -1,0 +1,10 @@
+# OS / editor
+.DS_Store
+*.swp
+
+# scratch
+*.tmp
+err.tmp
+
+# Node (if a sample app is ever added under tests/)
+node_modules/
