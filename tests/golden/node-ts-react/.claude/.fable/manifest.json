@@ -86,7 +86,7 @@
     },
     {
       "path": ".claude/scripts/fable/lib/common.sh",
-      "hash": "sha256:ff0c6aecf9fa116dff3111d2e9e11949979361af900426d3c0412554c1350ba2"
+      "hash": "sha256:befef1383a6988a720e6e59886ecad751f348324fa3ff548784430c18a0fa3a2"
     },
     {
       "path": ".claude/scripts/fable/sessionstart/load-handoff.sh",
@@ -94,7 +94,7 @@
     },
     {
       "path": ".claude/scripts/fable/advisory/handoff-nudge.sh",
-      "hash": "sha256:5f843be0ee7526da648afbdb016fc9bd0a8ea179989cc2238e2a45dbe3728009"
+      "hash": "sha256:69bb9c7cb7302cf936705253ce5cbd82d3946300f73309e5404a8c90446d75d6"
     },
     {
       "path": ".claude/skills/impeccable/SKILL.md",

@@ -16,6 +16,8 @@ vars:
   pkg: npm
   test_cmd: "{pkg} test"
   lint_cmd: "{pkg} run lint"
+  lint_file_cmd: "npx eslint"        # single-file lint, used by the advisory hook
+  lint_exts: "ts,tsx,js,jsx"
   typecheck_cmd: "{pkg} run typecheck"
   build_cmd: "{pkg} run build"
   src_globs:
@@ -26,6 +28,7 @@ vars:
     - "**/*.test.tsx"
     - "**/*.spec.ts"
   protected_branch: main
+  module_boundary_root: "src/features"   # boundary-hook root: features must not import each other
   module_boundary_hint: "src/features/*"
 pillar_defaults:
   architecture: feature-sliced

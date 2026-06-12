@@ -1,0 +1,16 @@
+{
+  "event": "PreToolUse",
+  "entry": {
+    "matcher": "Bash",
+    "hooks": [
+      {
+        "type": "command",
+        "if": "Bash(git push *)",
+        "command": "{script_ref}/blocking/push-gate.sh",
+        "args": ["tests", "{test_cmd}"],
+        "timeout": 600,
+        "statusMessage": "Running tests before push…"
+      }
+    ]
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "event": "PostToolUse",
+  "entry": {
+    "matcher": "Edit|Write",
+    "hooks": [
+      {
+        "type": "command",
+        "command": "{script_ref}/blocking/module-boundary.sh",
+        "args": ["warn", "{module_boundary_root}"],
+        "timeout": 20
+      }
+    ]
+  }
+}

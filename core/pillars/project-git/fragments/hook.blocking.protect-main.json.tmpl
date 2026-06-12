@@ -1,0 +1,15 @@
+{
+  "event": "PreToolUse",
+  "entry": {
+    "matcher": "Bash",
+    "hooks": [
+      {
+        "type": "command",
+        "if": "Bash(git push *)",
+        "command": "{script_ref}/blocking/protect-main.sh",
+        "args": ["{protected_branch}"],
+        "timeout": 15
+      }
+    ]
+  }
+}

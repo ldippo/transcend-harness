@@ -62,6 +62,82 @@ print(json.dumps(out))
 PYEOF
 }
 
+# Read stdin into a temp file and echo its path. Use for PreToolUse/PostToolUse
+# inputs, which can be large (Write content) — env vars would hit size limits.
+# Caller must rm the file.
+fable_stdin_to_tmp() {
+  _t="$(mktemp "${TMPDIR:-/tmp}/fable-hook.XXXXXX")" || return 1
+  cat > "$_t"
+  printf '%s' "$_t"
+}
+
+# Get a dotted-path value from a JSON file.
+# Usage: fable_json_file_get <file> tool_input.command
+fable_json_file_get() {
+  _py="$(fable_python)"
+  [ -z "$_py" ] && return 1
+  "$_py" -c '
+import sys, json
+try:
+    cur = json.load(open(sys.argv[1]))
+except Exception:
+    sys.exit(0)
+for part in sys.argv[2].split("."):
+    if isinstance(cur, dict) and part in cur:
+        cur = cur[part]
+    else:
+        sys.exit(0)
+sys.stdout.write("" if cur is None else str(cur))
+' "$1" "$2"
+}
+
+# Emit a PreToolUse deny. Usage: fable_emit_deny "<reason>"; always exits.
+fable_emit_deny() {
+  _py="$(fable_python)"
+  if [ -n "$_py" ]; then
+    FABLE_REASON="$1" "$_py" -c '
+import os, json
+print(json.dumps({"hookSpecificOutput": {
+  "hookEventName": "PreToolUse",
+  "permissionDecision": "deny",
+  "permissionDecisionReason": os.environ.get("FABLE_REASON", "blocked by fable harness"),
+}}))
+'
+    exit 0
+  fi
+  # No python: blocking exit code 2, reason on stderr.
+  printf '%s\n' "$1" 1>&2
+  exit 2
+}
+
+# Emit non-blocking additionalContext for a given event.
+# Usage: fable_emit_context <HookEventName> "<note>"
+fable_emit_context() {
+  _py="$(fable_python)"
+  if [ -n "$_py" ]; then
+    FABLE_EVENT="$1" FABLE_NOTE="$2" "$_py" -c '
+import os, json
+print(json.dumps({"hookSpecificOutput": {
+  "hookEventName": os.environ.get("FABLE_EVENT", ""),
+  "additionalContext": os.environ.get("FABLE_NOTE", ""),
+}}))
+'
+  else
+    printf '%s\n' "$2" 1>&2
+  fi
+}
+
+# Once-per-session guard. Usage: fable_once "<session_id>" "<key>" || exit 0
+# Returns 0 (and records the marker) the first time; 1 thereafter.
+# With an empty session_id it always returns 0 (no way to dedupe).
+fable_once() {
+  [ -z "$1" ] && return 0
+  _m="${TMPDIR:-/tmp}/fable-once-$1-$2"
+  [ -f "$_m" ] && return 1
+  : > "$_m" 2>/dev/null
+  return 0
+}
+
 # Read YAML-ish frontmatter value from a markdown file. Cheap line scan, no YAML
 # parser. Usage: fable_frontmatter_field <file> <key>
 fable_frontmatter_field() {

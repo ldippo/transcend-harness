@@ -9,6 +9,8 @@ vars:
   pkg_mgr_detect: []
   test_cmd: "<your test command>"
   lint_cmd: "<your lint command>"
+  lint_file_cmd: ""
+  lint_exts: ""
   typecheck_cmd: "<your typecheck command>"
   build_cmd: "<your build command>"
   src_globs:
@@ -16,6 +18,7 @@ vars:
   test_globs:
     - "**/*test*"
   protected_branch: main
+  module_boundary_root: ""
   module_boundary_hint: ""
 pillar_defaults:
   architecture: layered

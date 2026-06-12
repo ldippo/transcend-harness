@@ -1,0 +1,14 @@
+{
+  "event": "PostToolUse",
+  "entry": {
+    "matcher": "Edit|Write",
+    "hooks": [
+      {
+        "type": "command",
+        "command": "{script_ref}/advisory/lint-on-edit.sh",
+        "args": ["{lint_file_cmd}", "{lint_exts}"],
+        "timeout": 120
+      }
+    ]
+  }
+}

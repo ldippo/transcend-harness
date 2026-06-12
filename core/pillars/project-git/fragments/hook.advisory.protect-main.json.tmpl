@@ -4,7 +4,8 @@
     "hooks": [
       {
         "type": "command",
-        "command": "{script_ref}/advisory/handoff-nudge.sh",
+        "command": "{script_ref}/advisory/on-protected-branch.sh",
+        "args": ["{protected_branch}"],
         "timeout": 15
       }
     ]

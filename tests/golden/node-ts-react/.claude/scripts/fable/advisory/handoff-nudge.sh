@@ -10,13 +10,7 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 HOOK_INPUT="$(read_stdin)"
 
-# Stop fires after EVERY response, and uncommitted changes are the normal state
-# mid-work — so nudge at most once per session. Marker keyed on session_id.
 SESSION_ID="$(printf '%s' "$HOOK_INPUT" | fable_json_get session_id 2>/dev/null)"
-if [ -n "$SESSION_ID" ]; then
-  MARKER="${TMPDIR:-/tmp}/fable-nudge-$SESSION_ID"
-  [ -f "$MARKER" ] && exit 0
-fi
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-}"
 if [ -z "$PROJECT_DIR" ]; then
@@ -43,24 +37,9 @@ if git status --porcelain --untracked-files=all 2>/dev/null | grep -q ".claude/h
   exit 0
 fi
 
-NOTE="You have uncommitted changes but the session handoff (.claude/handoffs/current.md) was not updated this session. Consider running /fable-handoff before ending so the next session can resume cheaply."
+# Stop fires after EVERY response, and uncommitted changes are the normal state
+# mid-work — nudge at most once per session.
+fable_once "$SESSION_ID" "handoff-nudge" || exit 0
 
-# Mark that we nudged this session (only when actually emitting).
-[ -n "$SESSION_ID" ] && : > "${TMPDIR:-/tmp}/fable-nudge-$SESSION_ID" 2>/dev/null
-
-_py="$(fable_python)"
-if [ -n "$_py" ]; then
-  FABLE_NOTE="$NOTE" "$_py" - <<'PYEOF'
-import os, json
-print(json.dumps({
-  "hookSpecificOutput": {
-    "hookEventName": "Stop",
-    "additionalContext": os.environ.get("FABLE_NOTE", "")
-  }
-}))
-PYEOF
-else
-  # No python: print to stderr as a non-blocking note.
-  printf '%s\n' "$NOTE" 1>&2
-fi
+fable_emit_context Stop "You have uncommitted changes but the session handoff (.claude/handoffs/current.md) was not updated this session. Consider running /fable-handoff before ending so the next session can resume cheaply."
 exit 0

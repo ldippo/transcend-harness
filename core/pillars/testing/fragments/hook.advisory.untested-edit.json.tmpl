@@ -1,0 +1,13 @@
+{
+  "event": "PostToolUse",
+  "entry": {
+    "matcher": "Edit|Write",
+    "hooks": [
+      {
+        "type": "command",
+        "command": "{script_ref}/advisory/untested-edit.sh",
+        "timeout": 20
+      }
+    ]
+  }
+}

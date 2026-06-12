@@ -30,10 +30,15 @@ The developer can still override any individual rule's tier in the per-rule pass
 
 | Convention | Tier 1 | Tier 2 | Tier 3 |
 |------------|--------|--------|--------|
-| Tests green before push | `rules/testing.md`: "push only on green" | `untested-edit.sh` warns when src changed, no test changed | `push-requires-green.sh` on `Bash(git push *)` |
-| No direct push to `main` | `rules/git-workflow.md` | `Stop` reminds if on `main` with commits | `protect-main.sh` on `Bash(git push origin main*)` |
-| Module boundary | `rules/architecture.md` boundary table | warns on cross-boundary import | `module-boundary.sh` denies cross-boundary import |
-| Lint/typecheck clean | `rules/quality-gates.md` | `lint-on-edit.sh` (touched file only) | `push-requires-lint.sh` |
+| Tests green before push | `rules/testing.md`: "push only on green" | `untested-edit.sh` warns when src changed, no test changed | `push-gate.sh "tests" "{test_cmd}"` on `Bash(git push *)` |
+| No direct push to `main` | `rules/git-workflow.md` | `on-protected-branch.sh` reminds at Stop if on `main` with changes | `protect-main.sh` denies push targeting `main` (or bare push on it) |
+| Module boundary | `rules/architecture.md` boundary table | `module-boundary.sh warn` notes cross-feature imports (PostToolUse) | `module-boundary.sh block` denies them (PreToolUse) |
+| Lint/typecheck clean | `rules/quality-gates.md` | `lint-on-edit.sh` (touched file only) | `push-gate.sh "lint/typecheck" "{lint_cmd} && {typecheck_cmd}"` |
+
+Hook fragments are JSON files of the shape `{"event": "<HookEventName>",
+"entry": {...}}`; the generator appends each rendered `entry` to the target
+project's `settings.json` `hooks.<event>` array and copies the referenced
+scripts into `.claude/scripts/fable/`.
 
 ## Hook portability
 

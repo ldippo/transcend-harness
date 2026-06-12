@@ -1,10 +1,13 @@
 {
-  "matcher": "startup|resume",
-  "hooks": [
-    {
-      "type": "command",
-      "command": "{script_ref}/sessionstart/load-handoff.sh",
-      "timeout": 15
-    }
-  ]
+  "event": "SessionStart",
+  "entry": {
+    "matcher": "startup|resume",
+    "hooks": [
+      {
+        "type": "command",
+        "command": "{script_ref}/sessionstart/load-handoff.sh",
+        "timeout": 15
+      }
+    ]
+  }
 }

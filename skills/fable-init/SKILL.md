@@ -76,10 +76,9 @@ the option's `tier_default` adjusted by appetite. Typical questions:
 - Lint/typecheck → [Doc / Remind on edit / Block push if failing].
 
 If appetite is "Docs only", SKIP this step entirely (everything is Tier 1).
-**For M1, Tier 2/3 hook fragments may be absent — if a chosen tier's fragment
-does not exist on disk, record the intended tier in the manifest, generate the
-Tier-1 rule, and tell the developer that tier's hook will be added in a later
-fable version.** Never invent a hook fragment.
+If a chosen tier's fragment does not exist on disk (not every option ships
+hooks), record the intended tier in the manifest, generate the Tier-1 rule, and
+tell the developer. Never invent a hook fragment.
 
 ## Step 5 — Specialized workflow catalog (AskUserQuestion, batch E)
 
@@ -110,9 +109,9 @@ main context clean; for a small harness, doing it inline is fine. Produce:
    semantics + the detected stack. Always write `rules/task-carving.md` when
    `task-carving` was selected.
 3. **`.claude/settings.json`** — start from `core/templates/settings.json.tmpl`.
-   Merge each selected hook fragment (`hook.sessionstart.*`, `hook.stop.*`, and any
-   Tier-2/3 hooks that exist) into the `hooks` map under the correct event key,
-   substituting `{script_ref}` (see Variables), and copy the referenced scripts
+   Each hook fragment is `{"event": "<HookEventName>", "entry": {...}}`: append the
+   rendered `entry` to the `hooks.<event>` array, substituting `{script_ref}` and
+   the command vars in `args` (see Variables), and copy the referenced scripts
    into `.claude/scripts/fable/`. Add `permissions.deny` entries that
    belt-and-suspender a blocking hook (e.g. `"Bash(git push origin <branch>*)"`).
    Omit the `hooks` key entirely if appetite is Docs-only AND no handoff auto-load.

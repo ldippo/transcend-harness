@@ -22,10 +22,14 @@ vars:                         # interpolated into fragments as {name}
   pkg_mgr_detect: [string]    # "lockfile->cmd" rules, resolved by the detector
   test_cmd: string            # e.g. "{pkg} test -- --run"
   lint_cmd: string
+  lint_file_cmd: string       # single-file lint command for the advisory hook, e.g. "npx eslint"
+  lint_exts: string           # comma list of extensions the lint hook applies to, e.g. "ts,tsx"
   typecheck_cmd: string
   build_cmd: string
   src_globs: [string]         # globs for rule `paths:` frontmatter, e.g. ["src/**"]
   test_globs: [string]        # globs identifying test files
+  protected_branch: string    # branch protected by the git-workflow pillar (default main)
+  module_boundary_root: string # boundary-hook root dir, e.g. "src/features"
   module_boundary_hint: string # default boundary glob feeding the architecture pillar
 
 pillar_defaults:              # pre-selected option id per pillar (overridable in interview)

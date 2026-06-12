@@ -21,8 +21,9 @@ Follow Step 7 of `$FABLE_ROOT/skills/fable-init/SKILL.md` precisely:
    `{src_globs_yaml}`/`{test_globs_yaml}` into indented YAML list items; fill
    option-specific content concretely from the chosen option + stack. Always write
    `rules/task-carving.md` when `task-carving` is selected.
-3. `settings.json` from `core/templates/settings.json.tmpl`, merging every selected
-   hook fragment into the `hooks` map under the correct event key, with
+3. `settings.json` from `core/templates/settings.json.tmpl`. Each hook fragment is
+   `{"event": "<HookEventName>", "entry": {...}}` — append the rendered `entry` to
+   the `hooks.<event>` array, with
    `{script_ref}` = the literal string `${CLAUDE_PROJECT_DIR}/.claude/scripts/fable`.
    ALWAYS copy `core/scripts/lib/common.sh` plus each referenced event script into
    `.claude/scripts/fable/` (preserve the `lib/` relative layout, since scripts
