@@ -115,6 +115,7 @@ can be both Tier 2 and Tier 3.
   tier interview, merged `settings.json`. *(done — commit e8b9652)*
 - **M3** — `transcend-audit`: inventory/critique vs manifest, diff suggestions,
   safe-apply merge. *(done — commit 4b1794f)*
-- **M4** — more stacks + catalog wiring + `transcend-catalog`.
+- **M4** — more stacks (python-fastapi, go-service) + catalog wiring +
+  `transcend-catalog`. *(done — commit 262e064)*
 - **M5** — idempotent re-init/upgrade, monorepo support, `transcend-resume` polish,
   more golden fixtures.
