@@ -1,19 +1,19 @@
 ---
-name: fable-catalog
-description: Browse fable-harness's curated catalog of specialized workflow skills (frontend/UX audit, visual-regression, a11y, etc.) and wire chosen ones into this project's harness. Use to add a specialized workflow to an existing fable harness after init.
+name: transcend-catalog
+description: Browse transcend-harness's curated catalog of specialized workflow skills (frontend/UX audit, visual-regression, a11y, etc.) and wire chosen ones into this project's harness. Use to add a specialized workflow to an existing transcend harness after init.
 user-invocable: true
 allowed-tools: Read, Bash, AskUserQuestion, Write, Edit
 ---
 
-# fable-catalog
+# transcend-catalog
 
 Browse the curated catalog and wire selected entries into the project's harness.
 
 ```!
-FABLE_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$CLAUDE_SKILL_DIR")/.." && pwd)}"
+TRANSCEND_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$CLAUDE_SKILL_DIR")/.." && pwd)}"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
-echo "--- catalog ---"; cat "$FABLE_ROOT/core/catalog/catalog.yaml"
-echo "--- this project's stack/manifest ---"; cat "$PROJECT_DIR/.claude/.fable/manifest.json" 2>/dev/null || sh "$FABLE_ROOT/core/detectors/detect.sh" "$PROJECT_DIR"
+echo "--- catalog ---"; cat "$TRANSCEND_ROOT/core/catalog/catalog.yaml"
+echo "--- this project's stack/manifest ---"; cat "$PROJECT_DIR/.claude/.transcend/manifest.json" 2>/dev/null || sh "$TRANSCEND_ROOT/core/detectors/detect.sh" "$PROJECT_DIR"
 echo "--- already-wired skills ---"; ls "$PROJECT_DIR/.claude/skills" 2>/dev/null || echo "none"
 ```
 
@@ -30,5 +30,5 @@ echo "--- already-wired skills ---"; ls "$PROJECT_DIR/.claude/skills" 2>/dev/nul
      entry doc (`core/catalog/entries/<id>.md`) describing invocation;
    - if `kind: external-plugin`, add its `settings_plugin` ref to the project's
      `settings.json`.
-3. Update `.claude/.fable/manifest.json` `catalog` list. Report what was wired. Do
+3. Update `.claude/.transcend/manifest.json` `catalog` list. Report what was wired. Do
    not commit unless asked.

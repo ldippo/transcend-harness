@@ -1,10 +1,10 @@
 # Principle: architecture conventions
 
 A project should have an explicit, written shape: where code lives, what may
-depend on what, and how things are named. fable codifies this as a short
+depend on what, and how things are named. transcend codifies this as a short
 architecture section in `CLAUDE.md` plus a path-scoped `rules/architecture.md`.
 
-Key ideas fable encodes:
+Key ideas transcend encodes:
 
 - **Module boundaries** — declare which directories are modules and which
   cross-module imports are forbidden (e.g. `auth` must not import `billing`).

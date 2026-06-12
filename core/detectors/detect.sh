@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# fable stack detector. Read-only. Emits a JSON object on stdout:
+# transcend stack detector. Read-only. Emits a JSON object on stdout:
 #   { "profile": "<id>", "confidence": 0.0-1.0, "pkg": "<cmd>",
 #     "signals": { ... }, "candidates": [ {"profile":..,"score":..}, ... ] }
 #

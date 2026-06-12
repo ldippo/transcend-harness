@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
-  "name": "fable-marketplace",
+  "name": "transcend-marketplace",
   "owner": {
-    "name": "fable-harness"
+    "name": "transcend-harness"
   },
   "plugins": [
     {
-      "id": "fable-harness",
-      "name": "fable-harness",
+      "id": "transcend-harness",
+      "name": "transcend-harness",
       "description": "Generate and maintain a bespoke .claude/ harness for any project.",
       "version": "0.1.0",
       "source": "./"

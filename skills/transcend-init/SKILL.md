@@ -1,13 +1,13 @@
 ---
-name: fable-init
+name: transcend-init
 description: Interview the developer and generate a bespoke, committed .claude/ harness tailored to this project's stack — architecture, testing, context/handoff, git workflow, review/quality gates, and specialized workflows. Use to set up or bootstrap Claude Code conventions for a project.
 user-invocable: true
 allowed-tools: Read, Bash, AskUserQuestion, Write, Edit, Task
 ---
 
-# fable-init
+# transcend-init
 
-You are running fable-harness's initialization. Your job: interview the developer,
+You are running transcend-harness's initialization. Your job: interview the developer,
 then generate a bespoke `.claude/` harness in the **target project** and record a
 manifest. Follow these steps in order. Do not write any harness files before the
 plan-preview confirmation in Step 7.
@@ -15,25 +15,25 @@ plan-preview confirmation in Step 7.
 ## Step 0 — Resolve root & detect stack (already run below)
 
 ```!
-FABLE_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$CLAUDE_SKILL_DIR")/.." && pwd)}"
-echo "FABLE_ROOT=$FABLE_ROOT"
+TRANSCEND_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$CLAUDE_SKILL_DIR")/.." && pwd)}"
+echo "TRANSCEND_ROOT=$TRANSCEND_ROOT"
 echo "PROJECT_DIR=${CLAUDE_PROJECT_DIR:-$(pwd)}"
 echo "--- stack detection ---"
-sh "$FABLE_ROOT/core/detectors/detect.sh" "${CLAUDE_PROJECT_DIR:-$(pwd)}"
+sh "$TRANSCEND_ROOT/core/detectors/detect.sh" "${CLAUDE_PROJECT_DIR:-$(pwd)}"
 echo "--- existing .claude ---"
 if [ -d "${CLAUDE_PROJECT_DIR:-$(pwd)}/.claude" ]; then ls -la "${CLAUDE_PROJECT_DIR:-$(pwd)}/.claude"; else echo "NO_EXISTING_CLAUDE"; fi
-if [ -f "${CLAUDE_PROJECT_DIR:-$(pwd)}/.claude/.fable/manifest.json" ]; then echo "FABLE_MANIFEST_PRESENT"; fi
+if [ -f "${CLAUDE_PROJECT_DIR:-$(pwd)}/.claude/.transcend/manifest.json" ]; then echo "TRANSCEND_MANIFEST_PRESENT"; fi
 ```
 
-Read `FABLE_ROOT`, `PROJECT_DIR`, the detected stack JSON, and whether a
+Read `TRANSCEND_ROOT`, `PROJECT_DIR`, the detected stack JSON, and whether a
 `.claude/` already exists from the block output above.
 
 ## Step 1 — Existing-harness guard
 
-- **`.claude/` exists but NO `FABLE_MANIFEST_PRESENT`** → it's handcrafted. STOP.
-  Tell the developer fable won't overwrite a handcrafted harness and recommend
-  running `/fable-audit` instead. End here unless they explicitly insist.
-- **`FABLE_MANIFEST_PRESENT`** → re-init/upgrade mode. Read the manifest; you'll
+- **`.claude/` exists but NO `TRANSCEND_MANIFEST_PRESENT`** → it's handcrafted. STOP.
+  Tell the developer transcend won't overwrite a handcrafted harness and recommend
+  running `/transcend-audit` instead. End here unless they explicitly insist.
+- **`TRANSCEND_MANIFEST_PRESENT`** → re-init/upgrade mode. Read the manifest; you'll
   merge (regenerate only changed choices, preserve hand-edited files — a file
   whose on-disk sha256 differs from the manifest's recorded hash is hand-edited:
   propose changes, do not overwrite). (Full merge logic is M5; for now, confirm
@@ -42,7 +42,7 @@ Read `FABLE_ROOT`, `PROJECT_DIR`, the detected stack JSON, and whether a
 
 ## Step 2 — Confirm stack, scope, ownership, appetite (AskUserQuestion, batch A)
 
-Read the detected `profile` from Step 0. Load `$FABLE_ROOT/core/stacks/<profile>.yaml`
+Read the detected `profile` from Step 0. Load `$TRANSCEND_ROOT/core/stacks/<profile>.yaml`
 (fall back to `unknown.yaml`). Ask up to 4 questions:
 1. "Detected stack: **<profile>** (<pkg>). Correct?" → [Yes / Choose another / It's a monorepo].
 2. "Scope?" → [Whole repo / A subpath / Multiple workspaces].
@@ -65,7 +65,7 @@ package.json scripts)"*.
 
 ## Step 3 — Pillar option pass (AskUserQuestion, batches B & C)
 
-For each pillar, read `$FABLE_ROOT/core/pillars/<pillar>/pillar.yaml`. Pre-select
+For each pillar, read `$TRANSCEND_ROOT/core/pillars/<pillar>/pillar.yaml`. Pre-select
 the option from the stack profile's `pillar_defaults`. Present the pillar's
 `options[].label`/`desc` as the choices.
 
@@ -92,7 +92,7 @@ tell the developer. Never invent a hook fragment.
 
 ## Step 5 — Specialized workflow catalog (AskUserQuestion, batch E)
 
-Read `$FABLE_ROOT/core/catalog/catalog.yaml`. Filter entries whose `stacks`
+Read `$TRANSCEND_ROOT/core/catalog/catalog.yaml`. Filter entries whose `stacks`
 includes the chosen profile and whose `triggers` match the detector signals.
 Present matches as a multiSelect ("Add <id> — <what>?"). Skip if no matches.
 
@@ -105,7 +105,7 @@ to confirm before writing anything. Do not proceed without confirmation.
 ## Step 7 — Generate
 
 Write into `PROJECT_DIR/.claude/`. You MAY delegate this materialization to the
-`fable-generator` agent (pass it the resolved bindings + file plan) to keep the
+`transcend-generator` agent (pass it the resolved bindings + file plan) to keep the
 main context clean; for a small harness, doing it inline is fine. Produce:
 
 1. **`.claude/CLAUDE.md`** — render `core/templates/CLAUDE.md.tmpl`. Splice in each
@@ -122,7 +122,7 @@ main context clean; for a small harness, doing it inline is fine. Produce:
    Each hook fragment is `{"event": "<HookEventName>", "entry": {...}}`: append the
    rendered `entry` to the `hooks.<event>` array, substituting `{script_ref}` and
    the command vars in `args` (see Variables), and copy the referenced scripts
-   into `.claude/scripts/fable/`. Add `permissions.deny` entries that
+   into `.claude/scripts/transcend/`. Add `permissions.deny` entries that
    belt-and-suspender a blocking hook (e.g. `"Bash(git push origin <branch>*)"`).
    Omit the `hooks` key entirely if appetite is Docs-only AND no handoff auto-load.
    NOTE: the SessionStart load-handoff + Stop nudge hooks are generated whenever
@@ -137,8 +137,8 @@ main context clean; for a small harness, doing it inline is fine. Produce:
    `.claude/skills/<id>/SKILL.md` filling `{id}`/`{what}`/`{when}` from the
    catalog entry and `{pillar_rule_ref}` = `.claude/rules/<pillar's rule file>`.
    Do not freestyle pointer skills — the template is the contract.
-6. **`.claude/.fable/manifest.json`** — per `docs/ARCHITECTURE.md`: fable_version
-   (read from `$FABLE_ROOT/.claude-plugin/plugin.json`), generated_at (use the
+6. **`.claude/.transcend/manifest.json`** — per `docs/ARCHITECTURE.md`: transcend_version
+   (read from `$TRANSCEND_ROOT/.claude-plugin/plugin.json`), generated_at (use the
    timestamp from the shell block — run `date -u +%Y-%m-%dT%H:%M:%SZ` if you need
    it), stack (profile/confidence/key vars), scope, ownership, script_mode,
    appetite, per-pillar option+tier, catalog list, and `files[]` with each written
@@ -149,7 +149,7 @@ main context clean; for a small harness, doing it inline is fine. Produce:
    `settings.local.json.tmpl` if ownership is personal or there are personal allows.
 
 Do NOT git-commit. After writing, print a summary and the suggested commands:
-`git add .claude .gitignore && git commit -m "chore: add fable harness"`.
+`git add .claude .gitignore && git commit -m "chore: add transcend harness"`.
 
 ## Variables (for fragment substitution)
 
@@ -157,7 +157,7 @@ Resolve from the chosen stack profile `vars`, the interview answers, and compute
 values. `{pkg}` is the detector's resolved package manager; expand command vars
 like `{test_cmd}` = `"{pkg} test"` → e.g. `pnpm test`.
 
-- `{fable_version}` — from `.claude-plugin/plugin.json`.
+- `{transcend_version}` — from `.claude-plugin/plugin.json`.
 - `{stack_id}`, `{pkg}`, `{test_cmd}`, `{lint_cmd}`, `{typecheck_cmd}`, `{build_cmd}`.
 - `{protected_branch}` — from profile vars (default `main`).
 - `{src_globs_yaml}` / `{test_globs_yaml}` — profile `src_globs`/`test_globs`
@@ -170,19 +170,19 @@ like `{test_cmd}` = `"{pkg} test"` → e.g. `pnpm test`.
 - `{gates_list}`, `{gates_summary}`, `{quality_extra_checklist}`, `{quality_tier_note}`.
 - `{workflows_list}` / `{workflows_summary}` — bullet list of chosen catalog
   entries' `wiring.claudemd` lines, or "None configured." if empty.
-- `{script_ref}` — ALWAYS `${CLAUDE_PROJECT_DIR}/.claude/scripts/fable` (the
+- `{script_ref}` — ALWAYS `${CLAUDE_PROJECT_DIR}/.claude/scripts/transcend` (the
   literal string; Claude Code substitutes it at hook time). Copy the needed
   scripts (`lib/common.sh` plus each referenced event script, preserving the
   `lib/` relative layout since scripts source `../lib/common.sh`) from
-  `$FABLE_ROOT/core/scripts/` into `.claude/scripts/fable/` and `chmod +x` them.
+  `$TRANSCEND_ROOT/core/scripts/` into `.claude/scripts/transcend/` and `chmod +x` them.
   Rationale: `${CLAUDE_PLUGIN_ROOT}` is only substituted for hooks a plugin
   itself defines — it does NOT resolve in a project's committed settings.json —
-  and a team-shared harness must work for teammates who don't have fable
+  and a team-shared harness must work for teammates who don't have transcend
   installed. The committed harness is self-contained.
 
 ## Principles to honor
 
-Read `$FABLE_ROOT/core/principles/00-philosophy.md`. Keep CLAUDE.md terse, push
+Read `$TRANSCEND_ROOT/core/principles/00-philosophy.md`. Keep CLAUDE.md terse, push
 detail into rules/, block only what must not happen, and make the handoff loop
 work. The generated harness is owned by the project — generate clean, hand-editable
 files.

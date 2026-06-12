@@ -10,12 +10,12 @@ each session's context light.
 - `archive/` — superseded handoffs (gitignored by default).
 
 ## Writing a handoff
-Run `/fable-handoff` before you stop. It summarizes what changed, writes a new
+Run `/transcend-handoff` before you stop. It summarizes what changed, writes a new
 dated handoff, and repoints `current.md`.
 
 ## Resuming
 Just start a new session — the latest handoff loads automatically. To reload it
-manually mid-session, run `/fable-resume`.
+manually mid-session, run `/transcend-resume`.
 
 ## The handoff contract
 A good handoff is short (<120 lines) and contains: the carved **Goal**, what's

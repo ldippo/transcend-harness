@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# fable module-boundary hook: detect cross-feature imports in an Edit/Write.
+# transcend module-boundary hook: detect cross-feature imports in an Edit/Write.
 #
 # Usage (hook args): module-boundary.sh <mode> <features-root>
 #   mode:          block (PreToolUse — deny) | warn (PostToolUse — note)
@@ -15,10 +15,10 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 MODE="${1:-warn}"
 ROOT="${2:-src/features}"
 
-_py="$(fable_python)"
+_py="$(transcend_python)"
 [ -z "$_py" ] && exit 0
 
-TMP="$(fable_stdin_to_tmp)" || exit 0
+TMP="$(transcend_stdin_to_tmp)" || exit 0
 trap 'rm -f "$TMP"' EXIT
 
 VIOLATION="$("$_py" -c '
@@ -54,8 +54,8 @@ if hits:
 MSG="Module boundary: this change imports across feature boundaries ($VIOLATION). Features must not import each other directly — go through the shared layer (see .claude/rules/architecture.md)."
 
 if [ "$MODE" = "block" ]; then
-  fable_emit_deny "$MSG"
+  transcend_emit_deny "$MSG"
 else
-  fable_emit_context PostToolUse "$MSG"
+  transcend_emit_context PostToolUse "$MSG"
 fi
 exit 0

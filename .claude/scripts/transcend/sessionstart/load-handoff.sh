@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# fable SessionStart hook: auto-load the latest handoff so a new session resumes
+# transcend SessionStart hook: auto-load the latest handoff so a new session resumes
 # from the "Next" list without re-scanning the codebase.
 #
 # Behavior:
@@ -10,7 +10,7 @@
 #
 # POSIX sh. Resolves its own lib relative to the script's directory, so it works
 # from anywhere it's copied (generated harnesses copy it to
-# ${CLAUDE_PROJECT_DIR}/.claude/scripts/fable/).
+# ${CLAUDE_PROJECT_DIR}/.claude/scripts/transcend/).
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 # lib is a sibling of the event subdir (../lib/common.sh)
@@ -21,19 +21,19 @@ HOOK_INPUT="$(read_stdin)"
 # Determine the project dir: prefer CLAUDE_PROJECT_DIR, else the hook's cwd field.
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-}"
 if [ -z "$PROJECT_DIR" ]; then
-  PROJECT_DIR="$(printf '%s' "$HOOK_INPUT" | fable_json_get cwd 2>/dev/null)"
+  PROJECT_DIR="$(printf '%s' "$HOOK_INPUT" | transcend_json_get cwd 2>/dev/null)"
 fi
 [ -z "$PROJECT_DIR" ] && PROJECT_DIR="$(pwd)"
 
 HANDOFF="$PROJECT_DIR/.claude/handoffs/current.md"
 [ -f "$HANDOFF" ] || exit 0
 
-STATUS="$(fable_frontmatter_field "$HANDOFF" status)"
+STATUS="$(transcend_frontmatter_field "$HANDOFF" status)"
 case "$STATUS" in
   done|Done|DONE) exit 0 ;;
 esac
 
-SLUG="$(fable_frontmatter_field "$HANDOFF" session)"
+SLUG="$(transcend_frontmatter_field "$HANDOFF" session)"
 BODY="$(cat "$HANDOFF")"
 
 MSG="Resuming this project. The latest session handoff is below.
@@ -43,5 +43,5 @@ under **Context pointers** — do not re-scan the whole repository.
 
 $BODY"
 
-fable_emit_initial_message "$SLUG" "$MSG"
+transcend_emit_initial_message "$SLUG" "$MSG"
 exit 0

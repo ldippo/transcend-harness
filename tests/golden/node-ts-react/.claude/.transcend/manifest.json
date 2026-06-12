@@ -1,5 +1,5 @@
 {
-  "fable_version": "0.1.0",
+  "transcend_version": "0.1.0",
   "generated_at": "2026-06-12T00:00:00Z",
   "stack": {
     "profile": "node-ts-react",
@@ -50,7 +50,7 @@
   "files": [
     {
       "path": ".claude/CLAUDE.md",
-      "hash": "sha256:672566ae4c1e8cb198e06a608905418299a34cb5b8969ea578514639f8d3fc53"
+      "hash": "sha256:84dce97bf55b084f049ef68f2e3b284cb3d3f4edc8581e35385d567e8a51a257"
     },
     {
       "path": ".claude/rules/architecture.md",
@@ -58,51 +58,51 @@
     },
     {
       "path": ".claude/rules/testing.md",
-      "hash": "sha256:51197284f4dea89ca451b8ead36eb195905193bd69c7841b772163bd8179be52"
+      "hash": "sha256:e0302194bc25ebc4230b2e62bee606a8f25f37bd4a36601be150c0fcd30b3d1a"
     },
     {
       "path": ".claude/rules/git-workflow.md",
-      "hash": "sha256:e952d5a2d24136a464e7fac6df6c4a14f423913f135d691e794c4e3a54c1f58e"
+      "hash": "sha256:a6e66a8f398a55be8c43d92c55fee0c60af2835eab564fd8b7f86981449e8104"
     },
     {
       "path": ".claude/rules/quality-gates.md",
-      "hash": "sha256:98001284235a561b95fc3269867c5e1494676069bfd821626fd86a97f6588924"
+      "hash": "sha256:4aa94e24f54b42250fa7c0238f083fe0d4199baaa88166f4c9d2168b37a75f94"
     },
     {
       "path": ".claude/rules/task-carving.md",
-      "hash": "sha256:ec58f4226bcc53f86fc04afaaace1033ad06c91c69afb605757c199c892da0b0"
+      "hash": "sha256:8fa83a3a35f1aea908f72ab7446cd1bbb775ea91b47f505bb1ef5e251a8b6d20"
     },
     {
       "path": ".claude/settings.json",
-      "hash": "sha256:d0edceea8ec564c9928ad1a8b3d751e897577c52d700d94cba7804e6b69e41f4"
+      "hash": "sha256:7aa5b38bc2b062360ea4d01f259deebf5a68b0caf561068d04d1dcf62ee8e4bd"
     },
     {
       "path": ".claude/handoffs/README.md",
-      "hash": "sha256:dc0069299e9c96ad66157dc2d743cf5166cce7ce907f4b28907559a157d384b5"
+      "hash": "sha256:57e3ac24991d0452bbf251db6f29da369f83248f0b7432981e981968fc9e7c1e"
     },
     {
       "path": ".claude/handoffs/current.md",
-      "hash": "sha256:2aec06d04d7c020a88756be087108c113ef34f7ea4559c75b84ce4901b35c67d"
+      "hash": "sha256:d4b5850134dc7400c1807d574d000239bbb63cc8a79103e3d9a6c777f7237e14"
     },
     {
-      "path": ".claude/scripts/fable/lib/common.sh",
-      "hash": "sha256:befef1383a6988a720e6e59886ecad751f348324fa3ff548784430c18a0fa3a2"
+      "path": ".claude/scripts/transcend/lib/common.sh",
+      "hash": "sha256:68072059cf13f1d6411719200bdf548e3311f3e844664076f13280950d22e548"
     },
     {
-      "path": ".claude/scripts/fable/sessionstart/load-handoff.sh",
-      "hash": "sha256:7ef20c341c56dca6139416d0da1d82c351df835f93192d9c79ac4ff4b1b97bee"
+      "path": ".claude/scripts/transcend/sessionstart/load-handoff.sh",
+      "hash": "sha256:a03bd20623cda3fadfaee719228f0df10421d08b607173cf0566a8d99c4e0c21"
     },
     {
-      "path": ".claude/scripts/fable/advisory/handoff-nudge.sh",
-      "hash": "sha256:69bb9c7cb7302cf936705253ce5cbd82d3946300f73309e5404a8c90446d75d6"
+      "path": ".claude/scripts/transcend/advisory/handoff-nudge.sh",
+      "hash": "sha256:2c98abc9cc5337a806036985cd3ae796995c5c1d63add3f30322d811f3afd379"
     },
     {
       "path": ".claude/skills/impeccable/SKILL.md",
-      "hash": "sha256:a26a96f9763875bab25fcfaeb015d61d9e5de16643b967f9f3d69208ef7b07f9"
+      "hash": "sha256:711378cfc169f616c4a947a2238db248d4824e434e49276f5338d8a44d58af7e"
     },
     {
       "path": ".claude/skills/visual-regression/SKILL.md",
-      "hash": "sha256:7e5d062e6e1f31763403c4dc3bdc83aa38f6ede8562d4ec4ede3703bba88105d"
+      "hash": "sha256:147be3796634252ce56e9ae51ed34a7f66e26c21d6d1f2c1c59a2129604c7de5"
     }
   ],
   "last_handoff": ".claude/handoffs/current.md"

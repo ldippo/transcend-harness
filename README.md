@@ -1,4 +1,4 @@
-# fable-harness
+# transcend-harness
 
 A meta-framework that, run inside any project, **interviews the developer, detects the stack, and generates a bespoke, committed `.claude/` harness** — then helps maintain and improve it over time.
 
@@ -25,24 +25,24 @@ Every convention can be rendered at one of three tiers, chosen per-rule during t
 
 Inside a target project:
 
-- `/fable-init` — interview + generate the harness (the spine).
-- `/fable-handoff` — write a session handoff before you stop.
-- `/fable-resume` — manually reload the latest handoff.
-- `/fable-audit` — critique an existing harness and propose improvements.
-- `/fable-catalog` — browse / add specialized workflow skills.
+- `/transcend-init` — interview + generate the harness (the spine).
+- `/transcend-handoff` — write a session handoff before you stop.
+- `/transcend-resume` — manually reload the latest handoff.
+- `/transcend-audit` — critique an existing harness and propose improvements.
+- `/transcend-catalog` — browse / add specialized workflow skills.
 
 ## Install modes
 
-fable-harness works two ways from the **same files** (no duplication):
+transcend-harness works two ways from the **same files** (no duplication):
 
 - **As a plugin** — install via the bundled marketplace; skills/agents are discovered from `skills/` and `agents/`, and `${CLAUDE_PLUGIN_ROOT}` resolves to this repo so the CORE library under `core/` is readable.
-- **As a plain repo** — clone/symlink so the skills are discovered (e.g. under `~/.claude` or a project `.claude/`); skills resolve `FABLE_ROOT` by falling back to this repo's root when `$CLAUDE_PLUGIN_ROOT` is unset.
+- **As a plain repo** — clone/symlink so the skills are discovered (e.g. under `~/.claude` or a project `.claude/`); skills resolve `TRANSCEND_ROOT` by falling back to this repo's root when `$CLAUDE_PLUGIN_ROOT` is unset.
 
 ## Layout
 
 ```
 .claude-plugin/   thin packaging (plugin.json, marketplace.json)
-skills/           entry-point skills (fable-init, fable-handoff, fable-audit, …)
+skills/           entry-point skills (transcend-init, transcend-handoff, transcend-audit, …)
 agents/           subagents (stack-detector, generator, auditor)
 core/             the stack-agnostic CORE library (pure data)
   principles/     framework opinions, imported into generated CLAUDE.md

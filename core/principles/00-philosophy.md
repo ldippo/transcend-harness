@@ -1,4 +1,4 @@
-# fable-harness philosophy
+# transcend-harness philosophy
 
 These are the framework's standing opinions. The generator splices short
 summaries of the relevant ones into a project's `CLAUDE.md`; the full text lives
@@ -9,7 +9,7 @@ here.
 Context is the scarcest resource. A session should read the *minimum* needed to do
 its carved task — the handoff's "Context pointers", the relevant `rules/` file,
 and the files it actually edits. Re-scanning the whole repo each session is the
-default failure mode fable exists to prevent.
+default failure mode transcend exists to prevent.
 
 ## 2. Handoff-first
 
@@ -33,11 +33,11 @@ cost — blocking hooks are scoped narrowly so they never fire on unrelated acti
 ## 5. The harness is owned by the project
 
 The generated `.claude/` is committed and shared by the team. It is a living
-artifact: fable can audit it, the team can hand-edit it, and fable preserves those
+artifact: transcend can audit it, the team can hand-edit it, and transcend preserves those
 edits rather than clobbering them.
 
 ## 6. Adapt, don't impose
 
-The same core principles render differently per stack. fable proposes sensible
+The same core principles render differently per stack. transcend proposes sensible
 defaults from a stack profile and the developer chooses — the output is bespoke,
 not boilerplate.

@@ -13,7 +13,7 @@ paths:
 - **Respect the Do-NOT list.** It encodes out-of-scope areas and expensive
   operations to avoid this session.
 - **Update the handoff before stopping.** When the carved task is paused or done,
-  run `/fable-handoff` so the next session resumes cheaply. If you changed files
+  run `/transcend-handoff` so the next session resumes cheaply. If you changed files
   but did not update the handoff, you will be reminded.
 - **Keep carves small.** If the task grows, split it: finish a coherent slice,
   hand off, and carve the remainder as the next session's Goal.

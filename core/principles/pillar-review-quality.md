@@ -11,6 +11,6 @@ Gates offered (combinable):
 - **Agent review gate** — a `reviewer` subagent reviews the diff for correctness
   and convention adherence before merge.
 
-fable wires the chosen gates into `rules/quality-gates.md` and, when an agent
+transcend wires the chosen gates into `rules/quality-gates.md` and, when an agent
 reviewer is chosen, generates a project-local `reviewer` subagent. Specialized
 catalog skills (e.g. UX audit) can attach themselves as extra review steps.

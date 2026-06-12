@@ -1,7 +1,7 @@
 # Principle: specialized workflows
 
 Beyond the universal pillars, most stacks benefit from a few specialized skills
-wired into the workflow at the right moment. fable maintains a curated **catalog**
+wired into the workflow at the right moment. transcend maintains a curated **catalog**
 (`core/catalog/`) and recommends entries based on the detected stack.
 
 Examples:

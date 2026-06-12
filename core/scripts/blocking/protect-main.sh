@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# fable PreToolUse blocking hook: deny direct pushes to the protected branch.
+# transcend PreToolUse blocking hook: deny direct pushes to the protected branch.
 #
 # Usage (hook args): protect-main.sh <protected-branch>   (default: main)
 #
@@ -12,10 +12,10 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 PROTECTED="${1:-main}"
 
-TMP="$(fable_stdin_to_tmp)" || exit 0
+TMP="$(transcend_stdin_to_tmp)" || exit 0
 trap 'rm -f "$TMP"' EXIT
 
-CMD="$(fable_json_file_get "$TMP" tool_input.command)"
+CMD="$(transcend_json_file_get "$TMP" tool_input.command)"
 case "$CMD" in
   *git*push*) ;;
   *) exit 0 ;;
@@ -26,7 +26,7 @@ DENY_MSG="Direct push to '$PROTECTED' is not allowed (see .claude/rules/git-work
 # Explicit refspec targeting the protected branch.
 case "$CMD" in
   *" $PROTECTED"|*" $PROTECTED "*|*":$PROTECTED"|*":$PROTECTED "*)
-    fable_emit_deny "$DENY_MSG"
+    transcend_emit_deny "$DENY_MSG"
     ;;
 esac
 
@@ -41,11 +41,11 @@ for tok in $REST; do
   esac
 done
 if [ "$NONFLAG" -le 1 ]; then
-  PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(fable_json_file_get "$TMP" cwd)}"
+  PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(transcend_json_file_get "$TMP" cwd)}"
   [ -z "$PROJECT_DIR" ] && PROJECT_DIR="$(pwd)"
   CURRENT="$(cd "$PROJECT_DIR" 2>/dev/null && git rev-parse --abbrev-ref HEAD 2>/dev/null)"
   if [ "$CURRENT" = "$PROTECTED" ]; then
-    fable_emit_deny "$DENY_MSG (You are on '$PROTECTED'; a bare \`git push\` would push it.)"
+    transcend_emit_deny "$DENY_MSG (You are on '$PROTECTED'; a bare \`git push\` would push it.)"
   fi
 fi
 

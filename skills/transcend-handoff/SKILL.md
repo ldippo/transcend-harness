@@ -1,11 +1,11 @@
 ---
-name: fable-handoff
+name: transcend-handoff
 description: Write a compact session handoff document so the next Claude Code session can resume cheaply without re-scanning the codebase. Use before ending a work session, when pausing a task, or when you've been reminded that uncommitted changes lack an updated handoff.
 user-invocable: true
 allowed-tools: Read, Bash, Write, Edit
 ---
 
-# fable-handoff
+# transcend-handoff
 
 Capture the state of the current carved task into a compact handoff doc that the
 next session will auto-load. Keep it short (<120 lines) — the goal is a low-token
@@ -14,7 +14,7 @@ bridge across sessions, not a full report.
 ## Step 0 — Gather state (already run below)
 
 ```!
-FABLE_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$CLAUDE_SKILL_DIR")/.." && pwd)}"
+TRANSCEND_ROOT="${CLAUDE_PLUGIN_ROOT:-$(cd "$(dirname "$CLAUDE_SKILL_DIR")/.." && pwd)}"
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"
 echo "PROJECT_DIR=$PROJECT_DIR"
 echo "NOW=$(date -u +%Y-%m-%dT%H:%M:%SZ)"
@@ -30,7 +30,7 @@ cat "$PROJECT_DIR/.claude/handoffs/current.md" 2>/dev/null || echo "NO_CURRENT_H
 ## Step 1 — Draft the handoff
 
 Using the git status/diff above and the conversation so far, fill the template at
-`$FABLE_ROOT/core/templates/handoffs/handoff.template.md.tmpl`. Be concrete and
+`$TRANSCEND_ROOT/core/templates/handoffs/handoff.template.md.tmpl`. Be concrete and
 brief. The sections:
 
 - **Goal (carved task)** — the one task this session targeted; keep the scope line.
@@ -55,7 +55,7 @@ Next/blocker items.
    move it into `.claude/handoffs/archive/` (create the dir if needed).
 3. Overwrite `.claude/handoffs/current.md` with the new handoff's full content
    (CLAUDE.md imports this fixed path, and the SessionStart hook reads it).
-4. If `.claude/.fable/manifest.json` exists, update its `last_handoff` field to the
+4. If `.claude/.transcend/manifest.json` exists, update its `last_handoff` field to the
    new dated path.
 
 ## Step 3 — Confirm

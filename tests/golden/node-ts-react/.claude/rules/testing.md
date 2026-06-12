@@ -19,4 +19,4 @@ Implement the change, then cover its behavior with tests before it ships.
 - Prefer testing behavior through the public surface of a feature over internals.
 
 This convention is documented (Tier 1). Push gating on green tests can be added by
-re-running `/fable-init` with a higher enforcement appetite.
+re-running `/transcend-init` with a higher enforcement appetite.

@@ -7,7 +7,7 @@
 set -e
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 VERIFY="$ROOT/core/audit/verify-manifest.sh"
-TMP="$(mktemp -d "${TMPDIR:-/tmp}/fable-audit-test.XXXXXX")"
+TMP="$(mktemp -d "${TMPDIR:-/tmp}/transcend-audit-test.XXXXXX")"
 trap 'rm -rf "$TMP"' EXIT
 
 cp -R "$ROOT/tests/golden/node-ts-react/." "$TMP/"
@@ -47,7 +47,7 @@ check "unrecorded rule is untracked; handoffs + settings.local.json ignored" \
   'r["untracked"] == [".claude/rules/extra.md"]'
 
 # 5. No manifest -> graceful manifest_present: false.
-rm "$TMP/.claude/.fable/manifest.json"
+rm "$TMP/.claude/.transcend/manifest.json"
 check "missing manifest handled gracefully" \
   'r["manifest_present"] == False'
 

@@ -19,5 +19,5 @@ Gates enabled for this project: lint + typecheck, pre-PR self-review.
 - Run `impeccable` on changes that touch UI components.
 - Run `visual-regression` and review diffs before merging UI changes.
 
-These gates are documented (Tier 1). Re-run `/fable-init` with a higher appetite to
+These gates are documented (Tier 1). Re-run `/transcend-init` with a higher appetite to
 add advisory or blocking enforcement hooks.

@@ -22,7 +22,7 @@ options:
       rule: fragments/rule.task-carving.md.tmpl
   - id: handoff-on-demand
     label: "On-demand handoff only"
-    desc: "Provide the handoff doc + /fable-handoff and /fable-resume, but do NOT auto-load on session start."
+    desc: "Provide the handoff doc + /transcend-handoff and /transcend-resume, but do NOT auto-load on session start."
     default_selected: false
     renders:
       handoff_template: fragments/handoff.template.md.tmpl

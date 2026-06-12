@@ -17,4 +17,4 @@ gates pass.
 - Rebase/merge latest `main`.
 - Ensure review & quality gates pass (see @.claude/rules/quality-gates.md).
 
-fable never runs git for you. It generates these rules; you run the commands.
+transcend never runs git for you. It generates these rules; you run the commands.

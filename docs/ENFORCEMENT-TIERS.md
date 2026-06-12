@@ -1,6 +1,6 @@
 # Enforcement tiers
 
-Every convention fable codifies can be rendered at one of three tiers. The tier is
+Every convention transcend codifies can be rendered at one of three tiers. The tier is
 chosen per-rule during the interview, defaulting from the option's `tier_default`
 in `pillar.yaml` adjusted by the project's overall enforcement appetite.
 
@@ -38,7 +38,7 @@ The developer can still override any individual rule's tier in the per-rule pass
 Hook fragments are JSON files of the shape `{"event": "<HookEventName>",
 "entry": {...}}`; the generator appends each rendered `entry` to the target
 project's `settings.json` `hooks.<event>` array and copies the referenced
-scripts into `.claude/scripts/fable/`.
+scripts into `.claude/scripts/transcend/`.
 
 ## Hook portability
 

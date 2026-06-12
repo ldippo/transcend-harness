@@ -1,10 +1,10 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin.json",
-  "name": "fable-harness",
+  "name": "transcend-harness",
   "description": "Meta-framework: interview a project and generate a bespoke, committed .claude/ harness (architecture, testing, context/handoff, git, review, specialized workflows). Includes an audit mode to critique and improve an existing harness.",
   "version": "0.1.0",
   "author": {
-    "name": "fable-harness"
+    "name": "transcend-harness"
   },
   "keywords": [
     "harness",

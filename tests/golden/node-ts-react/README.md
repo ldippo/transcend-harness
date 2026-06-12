@@ -1,6 +1,6 @@
 # Golden fixture: node-ts-react
 
-Expected `.claude/` output of `/fable-init` for a Node + TypeScript + React project
+Expected `.claude/` output of `/transcend-init` for a Node + TypeScript + React project
 (pnpm), used as a regression baseline and as a worked example of generator output.
 
 ## Scenario (interview answers)
@@ -16,7 +16,7 @@ Expected `.claude/` output of `/fable-init` for a Node + TypeScript + React proj
 | Review/quality | lint-typecheck-gate + pre-pr-self-review |
 | Context/handoff | handoff-on-stop + task-carving |
 | Catalog | impeccable, visual-regression |
-| Script mode | copy (`.claude/scripts/fable/`, referenced via `${CLAUDE_PROJECT_DIR}`) |
+| Script mode | copy (`.claude/scripts/transcend/`, referenced via `${CLAUDE_PROJECT_DIR}`) |
 
 ## What this demonstrates
 
@@ -25,14 +25,14 @@ Expected `.claude/` output of `/fable-init` for a Node + TypeScript + React proj
 - The **context/handoff loop** fully wired even at docs appetite: the SessionStart
   load-handoff hook and the Stop nudge hook are present in `settings.json` (they're
   context tooling, not enforcement), with the handoff scaffold under `handoffs/`.
-- **Self-contained hooks**: scripts are copied into `.claude/scripts/fable/` and
+- **Self-contained hooks**: scripts are copied into `.claude/scripts/transcend/` and
   referenced via `${CLAUDE_PROJECT_DIR}`, so teammates who clone the repo get
-  working hooks without having fable installed (`${CLAUDE_PLUGIN_ROOT}` does not
+  working hooks without having transcend installed (`${CLAUDE_PLUGIN_ROOT}` does not
   resolve in a project's committed settings.json).
 - Catalog wiring: pointer skills under `skills/`, plus checklist lines appended to
   `rules/quality-gates.md` and bullets in CLAUDE.md's "Specialized workflows".
-- A `.fable/manifest.json` recording every choice and a real sha256 per file, so
-  `/fable-audit` can detect hand-edits as drift.
+- A `.transcend/manifest.json` recording every choice and a real sha256 per file, so
+  `/transcend-audit` can detect hand-edits as drift.
 
 ## Notes on higher appetites (M2)
 

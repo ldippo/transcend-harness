@@ -6,7 +6,7 @@ user-invocable: true
 
 # visual-regression (pointer)
 
-Wired into this project's harness by fable-harness. Run `/visual-regression` to
+Wired into this project's harness by transcend-harness. Run `/visual-regression` to
 capture and compare screenshots; attach diffs to the PR for UI changes.
 
 > This is a thin pointer. Replace it with the real `visual-regression`

@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
-# fable Stop hook (advisory, non-blocking): if this session changed files but the
-# current handoff was not updated, remind the developer to run /fable-handoff.
+# transcend Stop hook (advisory, non-blocking): if this session changed files but the
+# current handoff was not updated, remind the developer to run /transcend-handoff.
 #
 # Never blocks. Emits a short additionalContext note via exit code 0 + JSON.
 # POSIX sh.
@@ -10,11 +10,11 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 HOOK_INPUT="$(read_stdin)"
 
-SESSION_ID="$(printf '%s' "$HOOK_INPUT" | fable_json_get session_id 2>/dev/null)"
+SESSION_ID="$(printf '%s' "$HOOK_INPUT" | transcend_json_get session_id 2>/dev/null)"
 
 PROJECT_DIR="${CLAUDE_PROJECT_DIR:-}"
 if [ -z "$PROJECT_DIR" ]; then
-  PROJECT_DIR="$(printf '%s' "$HOOK_INPUT" | fable_json_get cwd 2>/dev/null)"
+  PROJECT_DIR="$(printf '%s' "$HOOK_INPUT" | transcend_json_get cwd 2>/dev/null)"
 fi
 [ -z "$PROJECT_DIR" ] && PROJECT_DIR="$(pwd)"
 
@@ -39,7 +39,7 @@ fi
 
 # Stop fires after EVERY response, and uncommitted changes are the normal state
 # mid-work — nudge at most once per session.
-fable_once "$SESSION_ID" "handoff-nudge" || exit 0
+transcend_once "$SESSION_ID" "handoff-nudge" || exit 0
 
-fable_emit_context Stop "You have uncommitted changes but the session handoff (.claude/handoffs/current.md) was not updated this session. Consider running /fable-handoff before ending so the next session can resume cheaply."
+transcend_emit_context Stop "You have uncommitted changes but the session handoff (.claude/handoffs/current.md) was not updated this session. Consider running /transcend-handoff before ending so the next session can resume cheaply."
 exit 0

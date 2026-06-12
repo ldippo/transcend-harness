@@ -6,7 +6,7 @@ user-invocable: true
 
 # impeccable (pointer)
 
-Wired into this project's harness by fable-harness. Run `/impeccable` against the
+Wired into this project's harness by transcend-harness. Run `/impeccable` against the
 current diff or a target component before merging UI changes.
 
 > This is a thin pointer. Replace it with the real `impeccable` skill/plugin when

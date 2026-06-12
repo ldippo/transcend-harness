@@ -1,19 +1,19 @@
 ---
-name: fable-stack-detector
-description: Detects a project's stack profile for fable-harness. Runs the read-only detectors and inspects manifest/config files, then returns a compact stack profile JSON. Use from fable-init to keep stack detection out of the main context.
+name: transcend-stack-detector
+description: Detects a project's stack profile for transcend-harness. Runs the read-only detectors and inspects manifest/config files, then returns a compact stack profile JSON. Use from transcend-init to keep stack detection out of the main context.
 tools: Read, Bash, Glob, Grep
 model: haiku
 color: cyan
 ---
 
-You detect a project's stack for fable-harness. You are read-only — never modify
+You detect a project's stack for transcend-harness. You are read-only — never modify
 files.
 
 ## Task
 
-1. Resolve `FABLE_ROOT="${CLAUDE_PLUGIN_ROOT:-<repo root>}"` and
+1. Resolve `TRANSCEND_ROOT="${CLAUDE_PLUGIN_ROOT:-<repo root>}"` and
    `PROJECT_DIR="${CLAUDE_PROJECT_DIR:-$(pwd)}"`.
-2. Run `sh "$FABLE_ROOT/core/detectors/detect.sh" "$PROJECT_DIR"` and capture its
+2. Run `sh "$TRANSCEND_ROOT/core/detectors/detect.sh" "$PROJECT_DIR"` and capture its
    JSON.
 3. Sanity-check the result against the files actually present (package.json,
    pyproject.toml, go.mod, Cargo.toml, lockfiles). If the detector's confidence is

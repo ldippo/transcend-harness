@@ -27,6 +27,6 @@ context light: agents start from the pointers, not a repo-wide scan.
 
 ## The loop
 
-carve task → work → `fable-handoff` captures Next + pointers → next `SessionStart`
+carve task → work → `transcend-handoff` captures Next + pointers → next `SessionStart`
 re-injects → resume cheaply. An advisory `Stop` hook reminds you to write the
 handoff if files changed but `current.md` wasn't updated this session.
