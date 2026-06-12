@@ -1,0 +1,137 @@
+{
+  "transcend_version": "0.1.0",
+  "generated_at": "2026-06-12T00:00:00Z",
+  "stack": {
+    "profile": "node-ts-react",
+    "confidence": 0.9,
+    "vars": {
+      "pkg": "pnpm",
+      "test_cmd": "pnpm test",
+      "lint_cmd": "pnpm run lint",
+      "typecheck_cmd": "pnpm run typecheck",
+      "build_cmd": "pnpm run build",
+      "lint_file_cmd": "npx eslint",
+      "lint_exts": "ts,tsx,js,jsx",
+      "protected_branch": "main",
+      "module_boundary_root": "src/features",
+      "src_globs": [
+        "src/**/*.ts",
+        "src/**/*.tsx"
+      ],
+      "test_globs": [
+        "**/*.test.ts",
+        "**/*.test.tsx",
+        "**/*.spec.ts"
+      ]
+    }
+  },
+  "scope": "repo",
+  "ownership": "team",
+  "script_mode": "copy",
+  "appetite": "strict",
+  "pillars": {
+    "architecture": {
+      "option": "feature-sliced",
+      "tier": 1
+    },
+    "testing": {
+      "option": "test-after",
+      "tier": 3
+    },
+    "context-handoff": {
+      "options": [
+        "handoff-on-stop",
+        "task-carving"
+      ]
+    },
+    "project-git": {
+      "option": "github-flow",
+      "tier": 3
+    },
+    "review-quality": {
+      "options": [
+        "lint-typecheck-gate",
+        "pre-pr-self-review"
+      ],
+      "tier": 3
+    }
+  },
+  "catalog": [
+    "impeccable",
+    "visual-regression"
+  ],
+  "files": [
+    {
+      "path": ".claude/CLAUDE.md",
+      "hash": "sha256:acac5f1c8df7d1740513d7b0ac1d14cf3ca79931917a45d3d000615fe4b279b1"
+    },
+    {
+      "path": ".claude/rules/architecture.md",
+      "hash": "sha256:8164194ef70ba3ebc56773b70c7ddb7655ac4d36d22c1bc17efbc26fdc28c0bd"
+    },
+    {
+      "path": ".claude/rules/testing.md",
+      "hash": "sha256:dda40b9a19398ee52e1371456c11586d6ab61f48842df3f141fa589cc52541ae"
+    },
+    {
+      "path": ".claude/rules/git-workflow.md",
+      "hash": "sha256:c49f1c7fac106b89383414db64c2c0cc0beb803e689b13abd600383e66da4bb9"
+    },
+    {
+      "path": ".claude/rules/quality-gates.md",
+      "hash": "sha256:13279739ff7e67dc0cb33e8a6090bc01d1a4ded965b0b1fd3326db1092c450d0"
+    },
+    {
+      "path": ".claude/rules/task-carving.md",
+      "hash": "sha256:8fa83a3a35f1aea908f72ab7446cd1bbb775ea91b47f505bb1ef5e251a8b6d20"
+    },
+    {
+      "path": ".claude/settings.json",
+      "hash": "sha256:575e1ea30c2dfc8d5ca75a6f1c10fd879144cf39ded7bdd8a52712176fdfeed0"
+    },
+    {
+      "path": ".claude/handoffs/README.md",
+      "hash": "sha256:57e3ac24991d0452bbf251db6f29da369f83248f0b7432981e981968fc9e7c1e"
+    },
+    {
+      "path": ".claude/handoffs/current.md",
+      "hash": "sha256:d4b5850134dc7400c1807d574d000239bbb63cc8a79103e3d9a6c777f7237e14"
+    },
+    {
+      "path": ".claude/skills/impeccable/SKILL.md",
+      "hash": "sha256:5bdcb042e54b12c67d9bec4808c5b18946b7436ecc00ac2534464e034f185851"
+    },
+    {
+      "path": ".claude/skills/visual-regression/SKILL.md",
+      "hash": "sha256:2cbb312e788f54ef9cf44a19f88384a3194b70d6c14c55384cd31ccde672c764"
+    },
+    {
+      "path": ".claude/scripts/transcend/lib/common.sh",
+      "hash": "sha256:68072059cf13f1d6411719200bdf548e3311f3e844664076f13280950d22e548"
+    },
+    {
+      "path": ".claude/scripts/transcend/advisory/untested-edit.sh",
+      "hash": "sha256:99de4d4379a07ff568a8ea07a75637afa9fd5774d38ae3f5cd8cd3037b1a43e6"
+    },
+    {
+      "path": ".claude/scripts/transcend/advisory/lint-on-edit.sh",
+      "hash": "sha256:f00f46c6dccee50d9dea54ca0f3571cea47276e9a9e479ca7fbe015e99ae68dd"
+    },
+    {
+      "path": ".claude/scripts/transcend/advisory/handoff-nudge.sh",
+      "hash": "sha256:2c98abc9cc5337a806036985cd3ae796995c5c1d63add3f30322d811f3afd379"
+    },
+    {
+      "path": ".claude/scripts/transcend/sessionstart/load-handoff.sh",
+      "hash": "sha256:a03bd20623cda3fadfaee719228f0df10421d08b607173cf0566a8d99c4e0c21"
+    },
+    {
+      "path": ".claude/scripts/transcend/blocking/push-gate.sh",
+      "hash": "sha256:5426a3978efe56c9a671913d389cf4978f34f06a304df837b0c084b19177c6b0"
+    },
+    {
+      "path": ".claude/scripts/transcend/blocking/protect-main.sh",
+      "hash": "sha256:a5a6dec03ca8d79f89bb7fad5cde6e2c95b95c3296fc7fa47a0ae1736ec6414b"
+    }
+  ]
+}

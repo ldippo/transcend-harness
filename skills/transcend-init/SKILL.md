@@ -33,11 +33,33 @@ Read `TRANSCEND_ROOT`, `PROJECT_DIR`, the detected stack JSON, and whether a
 - **`.claude/` exists but NO `TRANSCEND_MANIFEST_PRESENT`** → it's handcrafted. STOP.
   Tell the developer transcend won't overwrite a handcrafted harness and recommend
   running `/transcend-audit` instead. End here unless they explicitly insist.
-- **`TRANSCEND_MANIFEST_PRESENT`** → re-init/upgrade mode. Read the manifest; you'll
-  merge (regenerate only changed choices, preserve hand-edited files — a file
-  whose on-disk sha256 differs from the manifest's recorded hash is hand-edited:
-  propose changes, do not overwrite). (Full merge logic is M5; for now, confirm
-  with the developer before regenerating anything.)
+- **`TRANSCEND_MANIFEST_PRESENT`** → **re-init/upgrade mode**:
+  1. Run `sh "$TRANSCEND_ROOT/core/audit/verify-manifest.sh" "$PROJECT_DIR"` and
+     read the manifest. Summarize for the developer: current profile, appetite,
+     per-pillar options/tiers, catalog, and the drift counts (N pristine, N
+     hand-edited, N missing).
+  2. Ask (AskUserQuestion): **[Change choices / Upgrade in place / Cancel]**.
+     - **Change choices** — continue to Steps 2–6 with the MANIFEST values (not
+       the stack profile defaults) pre-selected everywhere; the developer edits
+       only what they want changed.
+     - **Upgrade in place** — keep all recorded choices; the change set is just
+       files whose upstream source changed (compare copied scripts byte-wise
+       against `core/scripts/`; treat rendered files as current unless their
+       option/tier/vars changed — do not churn pristine prose for no reason).
+  3. Compute the change set: every file whose generating inputs changed (option,
+     tier, variable bindings, or upstream script). Unchanged inputs → leave the
+     file alone even if pristine.
+  4. Show the plan (Step 6 style): regenerate / create / delete-nothing, and —
+     separately — every **hand-edited** target (drift `modified`) whose inputs
+     changed: these are NEVER overwritten; they get diff-style suggestions.
+  5. On confirmation, delegate to `transcend-generator` **merge mode** (same
+     contract as transcend-audit: re-hash at write time, additive settings
+     merge, suggestions for hand-edited/untracked). Additionally have it update
+     the manifest's `pillars`/`appetite`/`catalog`/`stack.vars` to the new
+     choices and bump `transcend_version` if it changed. Tier *downgrades* must
+     remove the now-unwanted hook entries from `settings.json` — removal of a
+     transcend-recorded hook entry is allowed in re-init ONLY when
+     `settings.json` is pristine; otherwise emit the removal as a suggestion.
 - **No `.claude/`** → fresh init. Continue.
 
 ## Step 2 — Confirm stack, scope, ownership, appetite (AskUserQuestion, batch A)
@@ -52,6 +74,28 @@ Read the detected `profile` from Step 0. Load `$TRANSCEND_ROOT/core/stacks/<prof
 If the stack is wrong/unknown, ask which of the available `core/stacks/*.yaml`
 profiles to use, or proceed with `unknown` and collect the test/lint/typecheck
 commands by asking.
+
+**Scope semantics.** The harness ALWAYS lives at the repo root
+(`<repo>/.claude/`) — committed once, loaded for every session. Scope changes
+what the rules apply to, not where they live:
+- **Whole repo** — globs and commands as-is.
+- **A subpath** — ask for the path (e.g. `packages/web`). Prefix every rule
+  `paths:` glob and `module_boundary_root` with it; prefix commands that must
+  run there (e.g. `cd packages/web && npm test`, or `npm test -w packages/web`
+  when the root package.json declares workspaces). Manifest records
+  `"scope": "subpath", "scope_path": "packages/web"`.
+- **Multiple workspaces** — ask which workspaces get a harness now (detect
+  candidates from `package.json` `workspaces`, `pnpm-workspace.yaml`, or top
+  dirs containing their own `pyproject.toml`/`go.mod`). Run stack detection
+  per workspace (`detect.sh <ws>`). Generate ONE shared CLAUDE.md (a short map
+  listing workspaces + stacks) and per-workspace rule files
+  (`rules/<ws-name>-<pillar>.md`) whose `paths:` globs are prefixed with that
+  workspace's path; per-workspace commands in each rule. Hooks stay
+  repo-global; their scripts take path prefixes from the matched rule's globs
+  where applicable. Manifest records `"scope": "workspaces",
+  "workspaces": [{"path": ..., "profile": ..., "vars": {...}}, ...]`. If the
+  workspaces use different stacks, run the pillar pass (Step 3) once per
+  DISTINCT profile, not once per workspace.
 
 **Reconcile command vars with reality.** Even for a known profile, check the
 detector signals: if `has_test_script` / `has_lint_script` /

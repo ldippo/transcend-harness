@@ -61,8 +61,9 @@ See `docs/ARCHITECTURE.md` for how the engine fits together.
 
 ## Status
 
-Early. The spine works end to end: interview → generate → resume (M1), layered
-Tier-2/3 enforcement (M2), audit with safe-apply merge (M3), and multi-stack
-detection (node-ts-react, python-fastapi, go-service) with a curated catalog
-(M4). Next: idempotent re-init, monorepos, more golden fixtures (M5). See the
-milestone roadmap in `docs/ARCHITECTURE.md`.
+All planned milestones (M0–M5) are built: the interview → generate → resume
+spine, layered Tier-2/3 enforcement, audit with safe-apply merge, multi-stack
+detection (node-ts-react, python-fastapi, go-service) with a curated catalog,
+idempotent re-init, monorepo scoping, and structurally-validated golden
+fixtures. See the roadmap in `docs/ARCHITECTURE.md` and the authoring guides
+(`docs/AUTHORING-PILLARS.md`, `docs/AUTHORING-STACKS.md`).

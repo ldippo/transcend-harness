@@ -50,7 +50,8 @@ provenance. Shape:
     "confidence": 0.9,
     "vars": { "pkg": "pnpm", "test_cmd": "pnpm test -- --run" }
   },
-  "scope": "repo",
+  "scope": "repo",                     // or "subpath" (+ "scope_path") or
+                                       // "workspaces" (+ "workspaces": [{path, profile, vars}])
   "ownership": "team",
   "script_mode": "copy",
   "appetite": "strict",
@@ -92,6 +93,22 @@ hand-edited and untracked files are never written, only suggested. Applied
 merges refresh the affected `files[]` hashes and stamp a top-level
 `last_merge` timestamp in the manifest; `generated_at` is never rewritten.
 
+**Re-init/upgrade** (transcend-init Step 1, M5) reuses the same merge machinery:
+manifest choices become the interview defaults, the change set is only files
+whose generating inputs changed, and hand-edited targets get suggestions. The
+single deviation from audit-merge: a tier downgrade may remove a
+transcend-recorded hook entry from a still-pristine `settings.json`.
+
+## Golden fixtures
+
+Rendered prose (CLAUDE.md, rules) is LLM-filled and not byte-stable between
+generator runs, so golden fixtures are validated **structurally** by
+`tests/test-golden-structure.sh` (the comparison contract): manifest
+self-verification, file-set and frontmatter invariants, hook→script
+resolution, byte-identity for copied scripts only, and appetite/enforcement
+coherence. Two fixtures: `node-ts-react` (docs appetite, no enforcement
+hooks) and `node-ts-react-strict` (Tier-2/3 hooks + `permissions.deny`).
+
 ## Interview → generation flow
 
 See `skills/transcend-init/SKILL.md`. Summary: detect stack → guard against clobbering
@@ -118,4 +135,4 @@ can be both Tier 2 and Tier 3.
 - **M4** — more stacks (python-fastapi, go-service) + catalog wiring +
   `transcend-catalog`. *(done — commit 262e064)*
 - **M5** — idempotent re-init/upgrade, monorepo support, `transcend-resume` polish,
-  more golden fixtures.
+  AUTHORING docs, strict golden fixture + structural golden tests. *(done)*

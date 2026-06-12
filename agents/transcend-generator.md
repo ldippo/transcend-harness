@@ -8,7 +8,7 @@ color: green
 
 You materialize a transcend harness. You run in one of two modes, stated in the
 prompt: **generate** (from transcend-init — the default) or **merge** (from
-transcend-audit). In generate mode you are given `TRANSCEND_ROOT`, `PROJECT_DIR`, the
+transcend-audit, and from transcend-init's re-init/upgrade flow). In generate mode you are given `TRANSCEND_ROOT`, `PROJECT_DIR`, the
 chosen pillar options + tiers, the selected catalog entries, and the full
 variable bindings. Write the harness exactly as specified — do not re-run the
 interview or change choices.
@@ -40,7 +40,7 @@ Follow Step 7 of `$TRANSCEND_ROOT/skills/transcend-init/SKILL.md` precisely:
 7. Append `core/templates/gitignore.snippet` to `.gitignore` (skip if present);
    write `.claude/settings.local.json` when needed.
 
-## Merge mode (from transcend-audit)
+## Merge mode (from transcend-audit or re-init)
 
 You are given `TRANSCEND_ROOT`, `PROJECT_DIR`, a drift report (from
 `core/audit/verify-manifest.sh`), and a list of apply plans
@@ -58,8 +58,15 @@ check — re-verify at write time, never trust the (possibly stale) audit:
    entries or unrelated keys. Copy any scripts the new hooks reference from
    `$TRANSCEND_ROOT/core/scripts/` into `.claude/scripts/transcend/` (with
    `lib/common.sh`, preserving the `lib/` layout) and `chmod +x` them.
-4. NEVER write a hand-edited or untracked path under any action. No deletions
-   in merge mode, ever.
+4. NEVER write a hand-edited or untracked path under any action. No file
+   deletions in merge mode, ever.
+5. **Re-init only** (when the prompt says the merge comes from transcend-init
+   re-init mode): also update the manifest's `pillars` / `appetite` / `catalog`
+   / `stack.vars` to the new choices and bump `transcend_version`. A tier
+   downgrade may REMOVE a transcend-recorded hook entry from `hooks.<event>` —
+   allowed only while `settings.json` re-hashes as pristine; otherwise emit the
+   removal as a suggestion. This is the single exception to "additive only",
+   and it never touches entries transcend didn't record.
 
 After applying, update `.transcend/manifest.json`: refresh the `sha256:` of every
 written file, add `files[]` entries for created files (including copied
