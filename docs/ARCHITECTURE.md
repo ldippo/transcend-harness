@@ -135,4 +135,5 @@ can be both Tier 2 and Tier 3.
 - **M4** — more stacks (python-fastapi, go-service) + catalog wiring +
   `transcend-catalog`. *(done — commit 262e064)*
 - **M5** — idempotent re-init/upgrade, monorepo support, `transcend-resume` polish,
-  AUTHORING docs, strict golden fixture + structural golden tests. *(done)*
+  AUTHORING docs, strict golden fixture + structural golden tests.
+  *(done — commit 638d82d)*
