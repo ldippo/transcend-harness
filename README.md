@@ -49,17 +49,19 @@ core/             the stack-agnostic CORE library (pure data)
   pillars/        per-pillar options + render fragments + pillar.yaml
   stacks/         stack profiles (node-ts-react, …, unknown fallback)
   detectors/      read-only stack detection shell snippets
+  audit/          manifest drift verifier (read-only, JSON out)
   catalog/        curated specialized skills
   templates/      top-level scaffolds (CLAUDE.md, settings, handoffs)
   scripts/        hook implementations (POSIX sh)
 docs/             authoring guides
-tests/golden/     expected generated output per stack
+tests/            behavior tests + golden/ expected output per stack
 ```
 
 See `docs/ARCHITECTURE.md` for how the engine fits together.
 
 ## Status
 
-Early. M1 (the interview → generate → resume spine, Tier-1 docs + the full
-handoff loop) is the current focus. See the milestone roadmap in
+Early. The spine works end to end: interview → generate → resume (M1), layered
+Tier-2/3 enforcement (M2), and audit with safe-apply merge (M3). Next: more
+stacks + catalog wiring (M4). See the milestone roadmap in
 `docs/ARCHITECTURE.md`.

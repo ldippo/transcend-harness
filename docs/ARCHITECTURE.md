@@ -10,7 +10,9 @@ fable-harness has three layers:
   writes files into the target project's `./.claude/`. Heavy file materialization
   is delegated to the `fable-generator` agent.
 - **Audit engine** — the `fable-audit` skill + `fable-auditor` agent. Inspects an
-  existing harness and proposes diff-style improvements.
+  existing harness via the drift verifier (`core/audit/verify-manifest.sh`),
+  proposes diff-style improvements, and safe-applies the additive ones through
+  `fable-generator` merge mode.
 
 ## FABLE_ROOT resolution
 
@@ -71,6 +73,24 @@ provenance. Shape:
 `files[].hash` is the sha256 of the content fable wrote. On re-init/audit, a file
 whose current hash differs from the recorded hash is treated as **hand-edited**:
 it is preserved and any change becomes a suggestion, never an overwrite.
+
+## Audit & safe-apply merge
+
+`core/audit/verify-manifest.sh <project>` is the deterministic drift check: it
+compares every manifest-recorded file's on-disk sha256 against the recorded hash
+and emits `{summary, files[{path,status}], untracked[]}` with statuses `ok`
+(pristine — safe to regenerate), `modified` (hand-edited — preserve, suggest
+only), and `missing`. It skips `.fable/`, `handoffs/` (dated files churn by
+design; `handoffs/current.md` will normally read `modified` — that's the loop
+working), and `settings.local.json`. Behavior-tested by
+`tests/test-verify-manifest.sh`.
+
+`fable-audit` Step 3 routes confirmed fixes to `fable-generator` **merge mode**
+with actions `create` / `regenerate` / `append` / `settings-merge` (additive
+hooks/permissions only). The generator re-hashes each target at write time —
+hand-edited and untracked files are never written, only suggested. Applied
+merges refresh the affected `files[]` hashes and stamp a top-level
+`last_merge` timestamp in the manifest; `generated_at` is never rewritten.
 
 ## Interview → generation flow
 
