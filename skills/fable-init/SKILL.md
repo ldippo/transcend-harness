@@ -53,6 +53,16 @@ If the stack is wrong/unknown, ask which of the available `core/stacks/*.yaml`
 profiles to use, or proceed with `unknown` and collect the test/lint/typecheck
 commands by asking.
 
+**Reconcile command vars with reality.** Even for a known profile, check the
+detector signals: if `has_test_script` / `has_lint_script` /
+`has_typecheck_script` is false for a command the profile vars reference (e.g.
+vite's react-ts template ships no `test` or `typecheck` script), do NOT write a
+command that doesn't exist into the rules. Ask for the real command (one extra
+question, or the Other field of batch A), or — if the project genuinely has
+none yet — set the var to the conventional command and have the generator mark
+it in the affected rule: *"(script not present yet — add `"test": …` to
+package.json scripts)"*.
+
 ## Step 3 — Pillar option pass (AskUserQuestion, batches B & C)
 
 For each pillar, read `$FABLE_ROOT/core/pillars/<pillar>/pillar.yaml`. Pre-select
@@ -123,8 +133,10 @@ main context clean; for a small harness, doing it inline is fine. Produce:
 5. **Catalog wiring** — for each chosen catalog entry: splice its `wiring.claudemd`
    line into the CLAUDE.md "Specialized workflows" section; append its
    `wiring.pillar_step.text` to the named pillar's rule; if `pointer_skill: true`,
-   write a thin `.claude/skills/<id>/SKILL.md` from the entry doc describing
-   invocation.
+   render `core/templates/pointer-skill.SKILL.md.tmpl` to
+   `.claude/skills/<id>/SKILL.md` filling `{id}`/`{what}`/`{when}` from the
+   catalog entry and `{pillar_rule_ref}` = `.claude/rules/<pillar's rule file>`.
+   Do not freestyle pointer skills — the template is the contract.
 6. **`.claude/.fable/manifest.json`** — per `docs/ARCHITECTURE.md`: fable_version
    (read from `$FABLE_ROOT/.claude-plugin/plugin.json`), generated_at (use the
    timestamp from the shell block — run `date -u +%Y-%m-%dT%H:%M:%SZ` if you need
