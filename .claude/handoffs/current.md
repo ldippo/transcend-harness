@@ -1,56 +1,58 @@
 ---
-session: 2026-06-12-m3-complete
+session: 2026-06-12-dryrun-complete
 status: in-progress
-updated: 2026-06-12T18:30:00Z
+updated: 2026-06-12T19:00:00Z
 ---
-# Handoff: fable-harness — M3 complete, M4 next
+# Handoff: fable-harness — live dry run done, M4 next
 
 ## Goal (carved task)
 Build fable-harness per the approved plan (~/.claude/plans/dynamic-stargazing-tarjan.md).
-M0–M3 are done and committed. Next carve: **M4 (more stacks + catalog wiring)**.
-The live end-to-end dry run of /fable-init against a scratch project is still
-outstanding and recommended before or during M4 (it shakes out the interview flow).
+M0–M3 done; live /fable-init dry run done. Next carve: **M4 (more stacks +
+catalog wiring via /fable-catalog)**.
 
 ## Done
-- M0/M1 — packaging, CORE library, skills/agents, handoff loop, golden fixture
-  (commit 2b564db).
-- M2 — layered enforcement: hooks, scripts, reviewer agent (commit e8b9652).
-- M3 — audit engine (commit 4b1794f): `core/audit/verify-manifest.sh` drift
-  verifier (behavior tests: `sh tests/test-verify-manifest.sh` — passing);
-  fable-auditor emits apply plans (create/regenerate/append/settings-merge)
-  only for pristine/new targets; fable-audit Step 3 safe-apply flow;
-  fable-generator merge mode re-hashes at write time, never overwrites
-  hand-edited/untracked files, stamps manifest `last_merge`. Acceptance-tested
-  live: hand-edited rule preserved through a merge containing a hostile
-  regenerate plan against it.
+- M0–M2 — spine, enforcement (commits 2b564db, e8b9652).
+- M3 — audit engine: drift verifier, apply plans, generator merge mode
+  (commit 4b1794f). Tests: `sh tests/test-verify-manifest.sh`.
+- Live /fable-init dry run (commit 2a57484): scaffolded vite react-ts app in
+  /tmp, ran detect → interview (batches A–C, E; D correctly skipped on docs
+  appetite) → plan preview → fable-generator. Output: manifest self-verified
+  (14/14 ok), settings.json + scripts + handoffs/README byte-identical to
+  golden, handoff hook verified live (silent on done, injects on in-progress).
+  Fixes applied: pointer-skill template (core/templates/pointer-skill.SKILL.md.tmpl
+  is now the contract) and Step-2 reconciliation of command vars vs
+  has_*_script detector signals (vite template has no test/typecheck script).
 
 ## Next (do these in order)
-1. M4: python-fastapi + go-service stack profiles, detector signals for both
-   (extend core/detectors/ with signals.python.sh / signals.go.sh, score in
-   detect.sh), catalog wiring via /fable-catalog.
-2. Live dry run: scaffold a scratch vite react app, run /fable-init end-to-end
-   (interview → generate), compare output to tests/golden/node-ts-react/.
-3. M5: idempotent re-init merge (reuse the M3 merge-mode machinery), monorepo
-   scoping, AUTHORING-PILLARS/STACKS docs, second golden fixture (strict
-   appetite — shows Tier-2/3 hooks in settings).
+1. M4: python-fastapi + go-service stack profiles, detector signals
+   (signals.python.sh / signals.go.sh, score in detect.sh), catalog wiring via
+   /fable-catalog. Catalog needs non-react entries or M4 stacks get an empty
+   batch E.
+2. M5: idempotent re-init merge (reuse M3 merge-mode machinery), monorepo
+   scoping, AUTHORING docs, second golden fixture (strict appetite).
+   IMPORTANT M5 design note from the dry run: rule/CLAUDE.md fragments contain
+   LLM-filled sections, so byte-diff against golden fixtures can NOT pass
+   run-to-run. Either make fragments fully deterministic or make golden
+   comparison structural (file set + frontmatter + key invariants + the
+   byte-stable subset: settings.json, scripts, handoffs/README, manifest shape).
 
 ## Open questions / blockers
 - None.
 
 ## Context pointers (read these, not the whole repo)
-- docs/ARCHITECTURE.md (layers, manifest format incl. last_merge, audit/merge
-  semantics, roadmap w/ status)
-- core/audit/verify-manifest.sh + tests/test-verify-manifest.sh (drift contract)
-- agents/fable-generator.md "Merge mode" (safety rules — re-hash at write time)
-- core/detectors/detect.sh + core/stacks/_schema.yaml (what M4 extends)
+- docs/ARCHITECTURE.md (layers, manifest, audit/merge semantics, roadmap)
+- core/detectors/detect.sh + signals.node.sh (pattern M4 extends)
+- core/stacks/node-ts-react.yaml + _schema.yaml (profile shape)
 - core/catalog/catalog.yaml + skills/fable-catalog/SKILL.md (M4 wiring target)
+- skills/fable-init/SKILL.md Step 2 (command-var reconciliation) + Step 7.5
+  (pointer-skill template contract)
 
 ## Do NOT
 - Don't reference ${CLAUDE_PLUGIN_ROOT} in generated project settings.json —
-  it only resolves for plugin-defined hooks; copy scripts instead.
-- Don't put a "_fable" provenance key inside hook JSON (schema rejects unknown
-  keys); provenance lives in .fable/manifest.json.
+  copy scripts instead.
+- Don't put a "_fable" provenance key inside hook JSON; provenance lives in
+  .fable/manifest.json.
 - Don't pass JSON to python via stdin when the program is also on stdin.
-- Don't let merge mode trust the audit's drift report — targets must be
-  re-hashed at write time (audits go stale).
+- Don't let merge mode trust the audit's drift report — re-hash at write time.
 - Don't flag handoffs/current.md drift in audits — that churn is the loop working.
+- Don't freestyle pointer skills — render core/templates/pointer-skill.SKILL.md.tmpl.
