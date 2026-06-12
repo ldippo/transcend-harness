@@ -1,0 +1,19 @@
+/* Accent palette: a warm violet that reads well in both themes. */
+:root {
+  --sl-color-accent-low: #2a1e4f;
+  --sl-color-accent: #7c5cff;
+  --sl-color-accent-high: #c9bcff;
+}
+
+:root[data-theme='light'] {
+  --sl-color-accent-low: #e6e0ff;
+  --sl-color-accent: #5b3df5;
+  --sl-color-accent-high: #2a1e6e;
+}
+
+.hero h1 {
+  background: linear-gradient(90deg, var(--sl-color-accent-high), var(--sl-color-accent));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}

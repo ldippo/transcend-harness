@@ -1,0 +1,68 @@
+---
+title: transcend-harness
+description: A meta-framework that interviews you, detects your stack, and generates a bespoke, committed .claude/ harness.
+template: splash
+hero:
+  tagline: Interviews the developer, detects the stack, and generates a bespoke, committed <code>.claude/</code> harness — then helps maintain and improve it over time.
+  actions:
+    - text: Get Started
+      link: /transcend-harness/getting-started/
+      icon: right-arrow
+    - text: View on GitHub
+      link: https://github.com/ldippo/transcend-harness
+      icon: external
+      variant: minimal
+---
+
+{/* adapted from README.md */}
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Six pillars, codified into your project
+
+Run `/transcend-init` inside any project and transcend interviews you, detects your stack, and writes a harness tailored to your answers — every convention rendered as docs, an advisory nudge, or a hard block, at the [enforcement tier](/transcend-harness/concepts/enforcement-tiers/) you choose per rule.
+
+<CardGrid stagger>
+  <Card title="Architecture" icon="puzzle">
+    Layering and module boundaries, codified into `CLAUDE.md` plus path-scoped `.claude/rules/`.
+
+    [Architecture pillar →](/transcend-harness/pillars/architecture/)
+  </Card>
+  <Card title="Testing" icon="approve-check">
+    Framework, coverage, TDD-vs-after — made explicit and enforced at the tier you choose.
+
+    [Testing pillar →](/transcend-harness/pillars/testing/)
+  </Card>
+  <Card title="Context &amp; Handoff" icon="open-book">
+    The centerpiece: compact per-session handoff docs that auto-load next session, so you resume cheaply and keep context light.
+
+    [Context &amp; handoff pillar →](/transcend-harness/pillars/context-handoff/)
+  </Card>
+  <Card title="Project &amp; Git" icon="seti:git">
+    Branch and PR workflow, protected branches — documented, nudged, or blocked.
+
+    [Project &amp; git pillar →](/transcend-harness/pillars/project-git/)
+  </Card>
+  <Card title="Review &amp; Quality Gates" icon="magnifier">
+    Lint, typecheck, self-review checklists, and an optional reviewer subagent.
+
+    [Review &amp; quality pillar →](/transcend-harness/pillars/review-quality/)
+  </Card>
+  <Card title="Specialized Workflows" icon="rocket">
+    A curated catalog — frontend/UX audit, visual regression, a11y, contract tests — wired in based on your stack.
+
+    [Specialized workflows pillar →](/transcend-harness/pillars/specialized-workflows/)
+  </Card>
+</CardGrid>
+
+## Layered enforcement
+
+Every convention can be rendered at one of three tiers, chosen per-rule during the interview:
+
+| Tier | Mechanism | Example |
+|------|-----------|---------|
+| 1 — DOCS | `CLAUDE.md` + `.claude/rules/*.md` (path-scoped) | "Push only on green." |
+| 2 — ADVISORY | non-blocking `PostToolUse`/`Stop` hooks that nudge | warn when src changed but no test changed |
+| 3 — BLOCKING | `PreToolUse` hooks that `deny` | block `git push` when tests are red |
+
+Block only what genuinely must not happen; nudge the rest; document everything. Read more in [Enforcement Tiers](/transcend-harness/concepts/enforcement-tiers/) and the [Philosophy](/transcend-harness/philosophy/).

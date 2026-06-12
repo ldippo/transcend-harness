@@ -8,3 +8,8 @@ err.tmp
 
 # Node (if a sample app is ever added under tests/)
 node_modules/
+
+# docs site (website/)
+website/node_modules/
+website/dist/
+website/.astro/
