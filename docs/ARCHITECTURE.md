@@ -114,7 +114,7 @@ can be both Tier 2 and Tier 3.
 - **M2** — layered enforcement: Tier 2/3 hook recipes + `core/scripts/`, per-rule
   tier interview, merged `settings.json`. *(done — commit e8b9652)*
 - **M3** — `fable-audit`: inventory/critique vs manifest, diff suggestions,
-  safe-apply merge.
+  safe-apply merge. *(done — commit 4b1794f)*
 - **M4** — more stacks + catalog wiring + `fable-catalog`.
 - **M5** — idempotent re-init/upgrade, monorepo support, `fable-resume` polish,
   more golden fixtures.
