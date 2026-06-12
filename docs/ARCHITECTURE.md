@@ -90,9 +90,9 @@ can be both Tier 2 and Tier 3.
 - **M1** — minimal end-to-end spine: node-ts-react + unknown profiles, node
   detector, `fable-init` covering all six pillars at Tier-1 docs, plus the full
   context/handoff loop (handoff template + `fable-handoff` + SessionStart load
-  hook). Golden fixture.
+  hook). Golden fixture. *(done — commit 2b564db)*
 - **M2** — layered enforcement: Tier 2/3 hook recipes + `core/scripts/`, per-rule
-  tier interview, merged `settings.json`.
+  tier interview, merged `settings.json`. *(done — commit e8b9652)*
 - **M3** — `fable-audit`: inventory/critique vs manifest, diff suggestions,
   safe-apply merge.
 - **M4** — more stacks + catalog wiring + `fable-catalog`.
