@@ -66,3 +66,7 @@ Every convention can be rendered at one of three tiers, chosen per-rule during t
 | 3 — BLOCKING | `PreToolUse` hooks that `deny` | block `git push` when tests are red |
 
 Block only what genuinely must not happen; nudge the rest; document everything. Read more in [Enforcement Tiers](/transcend-harness/concepts/enforcement-tiers/) and the [Philosophy](/transcend-harness/philosophy/).
+
+## Product suite
+
+transcend-harness pairs with [**transcend-mcp**](https://ldippo.github.io/transcend-mcp/) — a code-intelligence MCP server that gives your agent a cheap static map of the repository plus live language-server navigation. The harness shapes *how* your agent works; transcend-mcp gives it *eyes* on the codebase.
