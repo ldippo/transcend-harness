@@ -22,13 +22,23 @@ echo "--- already-wired skills ---"; ls "$PROJECT_DIR/.claude/skills" 2>/dev/nul
 1. From the catalog above, filter entries relevant to this project's stack and not
    already wired. Present them with `AskUserQuestion` (multiSelect): "Add <id> —
    <what>?".
-2. For each chosen entry, apply its `wiring` (idempotently — skip anything already
+2. **Drift guard.** Before writing, run
+   `sh "$TRANSCEND_ROOT/core/audit/verify-manifest.sh" "$PROJECT_DIR"`. A wiring
+   target (CLAUDE.md or a pillar rule) whose status is `modified` is hand-edited:
+   do not write to it — print the exact lines for the developer to splice in
+   themselves. Pristine (`ok`) targets may be edited.
+3. For each chosen entry, apply its `wiring` (idempotently — skip anything already
    present):
    - splice `wiring.claudemd` into the CLAUDE.md "Specialized workflows" section;
    - append `wiring.pillar_step.text` to the named pillar's rule file;
-   - if `pointer_skill: true`, write `.claude/skills/<id>/SKILL.md` from the
-     entry doc (`core/catalog/entries/<id>.md`) describing invocation;
+   - if `pointer_skill: true`, render `core/templates/pointer-skill.SKILL.md.tmpl`
+     to `.claude/skills/<id>/SKILL.md`, filling `{id}`/`{what}`/`{when}` from the
+     catalog entry and `{pillar_rule_ref}` from `wiring.pillar_step.pillar` (do
+     not freestyle pointer skills — the template is the contract);
    - if `kind: external-plugin`, add its `settings_plugin` ref to the project's
      `settings.json`.
-3. Update `.claude/.transcend/manifest.json` `catalog` list. Report what was wired. Do
-   not commit unless asked.
+4. Update `.claude/.transcend/manifest.json`: extend the `catalog` list, refresh
+   the `files[]` sha256 of every file you edited, add entries for new pointer
+   skills, and stamp top-level `last_merge` (ISO-8601 UTC) — otherwise the next
+   audit reports your wiring as hand-edits. Report what was wired (and any
+   hand-edited targets you skipped). Do not commit unless asked.

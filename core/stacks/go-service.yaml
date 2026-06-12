@@ -1,0 +1,30 @@
+id: go-service
+title: "Go service"
+match:
+  files: [go.mod]
+  go_mod_any: [gin-gonic/gin, labstack/echo, go-chi/chi, gofiber/fiber, gorilla/mux, grpc]
+vars:
+  lang: go
+  # The go toolchain is the package manager; no lockfile resolution needed.
+  pkg_mgr_detect: []
+  pkg: go
+  test_cmd: "go test ./..."
+  lint_cmd: "golangci-lint run"
+  lint_file_cmd: "golangci-lint run"       # single-file lint, used by the advisory hook
+  lint_exts: "go"
+  typecheck_cmd: "go vet ./..."
+  build_cmd: "go build ./..."
+  src_globs:
+    - "**/*.go"
+  test_globs:
+    - "**/*_test.go"
+  protected_branch: main
+  module_boundary_root: "internal"         # internal packages must not import each other's guts
+  module_boundary_hint: "internal/*"
+pillar_defaults:
+  architecture: layered
+  testing: test-after
+  context-handoff: [handoff-on-stop, task-carving]
+  project-git: github-flow
+  review-quality: [lint-typecheck-gate, pre-pr-self-review]
+catalog_recommend: [api-contract-audit]

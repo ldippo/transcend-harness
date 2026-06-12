@@ -52,3 +52,27 @@ entries:
       pillar_step: { pillar: review-quality, text: "Run `a11y-audit` on new interactive components." }
       pointer_skill: true
       entry: entries/a11y-audit.md
+
+  - id: api-contract-audit
+    kind: skill
+    what: "API contract review — compare handlers/routes against the OpenAPI spec (or generate one) and flag breaking changes, undocumented endpoints, and schema drift."
+    when: "Any service exposing an HTTP/gRPC API consumed by others."
+    stacks: [python-fastapi, go-service]
+    triggers: { has_fastapi: true, has_http_framework: true }   # either signal qualifies
+    wiring:
+      claudemd: "API contracts: run `api-contract-audit` before merging endpoint or schema changes."
+      pillar_step: { pillar: review-quality, text: "Run `api-contract-audit` on changes to routes, handlers, or response models." }
+      pointer_skill: true
+      entry: entries/api-contract-audit.md
+
+  - id: migration-safety
+    kind: skill
+    what: "Database migration review — check new migrations for destructive operations, missing reversibility, lock-heavy DDL, and drift between models and schema."
+    when: "Projects with schema migrations (e.g. Alembic) touching a shared database."
+    stacks: [python-fastapi]
+    triggers: { has_fastapi: true }
+    wiring:
+      claudemd: "Migrations: run `migration-safety` on every new schema migration."
+      pillar_step: { pillar: review-quality, text: "Run `migration-safety` on PRs that add or edit a migration." }
+      pointer_skill: true
+      entry: entries/migration-safety.md

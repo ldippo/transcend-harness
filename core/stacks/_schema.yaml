@@ -19,6 +19,8 @@ match:                        # how the detector scores this profile
 vars:                         # interpolated into fragments as {name}
   lang: string                # e.g. typescript | python | go | rust
   pkg: string                 # resolved package-manager command (npm/pnpm/pip/...)
+  pkg_run: string             # optional command prefix for env-managed runs
+                              #   (e.g. "uv run" / "poetry run"; "" when not needed)
   pkg_mgr_detect: [string]    # "lockfile->cmd" rules, resolved by the detector
   test_cmd: string            # e.g. "{pkg} test -- --run"
   lint_cmd: string

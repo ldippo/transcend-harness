@@ -1,0 +1,38 @@
+id: python-fastapi
+title: "Python + FastAPI"
+match:
+  files: [pyproject.toml, requirements.txt]
+  pyproject_any: [fastapi]
+vars:
+  lang: python
+  # pkg is the manager (uv/poetry/pip); pkg_run prefixes commands run inside the
+  # project env ("uv run" / "poetry run" / "" for bare pip+venv). Both resolved
+  # by the detector from lockfiles.
+  pkg_mgr_detect:
+    - "uv.lock->uv"
+    - "poetry.lock->poetry"
+    - "requirements.txt->pip"
+  pkg: pip
+  pkg_run: ""
+  test_cmd: "{pkg_run} pytest"
+  lint_cmd: "{pkg_run} ruff check ."
+  lint_file_cmd: "{pkg_run} ruff check"   # single-file lint, used by the advisory hook
+  lint_exts: "py"
+  typecheck_cmd: "{pkg_run} mypy ."
+  build_cmd: ""                            # no build step for a typical service
+  src_globs:
+    - "app/**/*.py"
+    - "src/**/*.py"
+  test_globs:
+    - "tests/**/*.py"
+    - "**/test_*.py"
+  protected_branch: main
+  module_boundary_root: "app"              # routers/services/repositories must not cross-import
+  module_boundary_hint: "app/*"
+pillar_defaults:
+  architecture: layered
+  testing: test-after
+  context-handoff: [handoff-on-stop, task-carving]
+  project-git: github-flow
+  review-quality: [lint-typecheck-gate, pre-pr-self-review]
+catalog_recommend: [api-contract-audit, migration-safety]
