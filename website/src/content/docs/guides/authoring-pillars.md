@@ -19,7 +19,7 @@ Model on `core/pillars/testing/pillar.yaml`. Fields:
 - `principle` — the `core/principles/pillar-<id>.md` essay; write it first, it forces clarity on what the pillar is *for*.
 - `options[]` — 3–4 realistic choices. Each needs:
   - `id`, `label` (1–5 words), `desc` (one sentence, ends with the trade-off).
-  - `renders` — fragment paths this option emits: `claudemd` (terse CLAUDE.md summary) and `rule` (the detailed `.claude/rules/` file) at minimum; `advisory_hook` / `blocking_hook` / `agent` when enforceable.
+  - `renders` — fragment paths this option emits: `claudemd` (terse CLAUDE.md summary) and `rule` (the detailed `.claude/rules/` file) at minimum; `advisory_hook` / `blocking_hook` when enforceable, `agent` / `skill` to generate bespoke subagents or skills.
   - `tier_eligible` / `tier_default` — which [enforcement tiers](../../concepts/enforcement-tiers/) make sense. An option with no hook fragments is `tier_eligible: [1]`.
 - `default_selected` on options (multiSelect pillars only).
 
@@ -30,6 +30,10 @@ Stack profiles pre-select options via `pillar_defaults` — update every `core/s
 - `claudemd.*.md.tmpl` — ≤5 lines; one summary sentence + a `Details: @.claude/rules/<file>` pointer. CLAUDE.md must stay under 200 lines total.
 - `rule.*.md.tmpl` — starts with `paths:` frontmatter using `{src_globs_yaml}`/`{test_globs_yaml}`; states rules imperatively; ends with the tier note (`{*_tier_note}`).
 - `hook.advisory.*.json.tmpl` / `hook.blocking.*.json.tmpl` — shape `{"event": "<HookEventName>", "entry": {...}}`; commands reference `{script_ref}/...` (the copied-scripts dir). The script itself goes in `core/scripts/advisory/` or `core/scripts/blocking/` — POSIX sh, source `../lib/common.sh`, never block on missing python, exit fast on non-matching input. Advisory hooks must be once-per-session (`transcend_once`) or scoped to the touched file; blocking hooks must be narrowly matched (`if:`/matcher) so they never fire on unrelated tool use.
+- `agent.*.md.tmpl` — a generated subagent written to `.claude/agents/<name>.md` (the filename is the frontmatter `name:`). `renders.agent` may be a single template string or a list. Frontmatter (`name`/`description`/`tools`/`model`/`color`) passes through verbatim.
+- `skill.*.md.tmpl` — a full generated skill (distinct from catalog pointer skills). `renders.skill` is a list of `{id, template}` pairs, each rendered to `.claude/skills/<id>/SKILL.md`. If a skill drives a helper script (like the [delivery-pipeline](../../pillars/delivery-pipeline/) issue store), put the script in `core/scripts/<group>/` and have the generator copy it byte-identical — never template a copied script.
+
+Generated agents and skills must be **self-contained**: reference `.claude/rules/*` and `.claude/scripts/transcend/*` by relative path only, never `${CLAUDE_PLUGIN_ROOT}` (a committed harness must work for teammates without transcend installed).
 
 Placeholders use single braces (`{pkg}`, `{test_cmd}`); the full variable list lives in `skills/transcend-init/SKILL.md` → "Variables". A fragment may also declare option-specific slots the generator fills from the option's semantics — keep those minimal: every freeform slot is a spot where regeneration output varies (see the golden-fixture note in [Architecture](../../internals/architecture/)).
 

@@ -31,3 +31,13 @@ Runs in one of two modes:
 Read-only inspector for `/transcend-audit`. Runs the manifest drift verifier, then critiques across the audit dimensions: provenance/drift, missing pillars, over/under-enforcement, stale handoffs, size/import health, portability, and catalog drift. Returns findings JSON with machine-applicable fix plans the generator's merge mode can execute.
 
 For how the three fit together, see [Architecture](../../internals/architecture/).
+
+## Generated agents
+
+The three above are transcend's own machinery. The harness can also **generate bespoke
+agents into your project** — written to `.claude/agents/` and owned by your repo, not the
+framework. The [Delivery Pipeline pillar](../../pillars/delivery-pipeline/) generates four:
+`pm`, `architect`, `coder`, and `research`, each carved to your stack and rules. The
+[Review & Quality pillar](../../pillars/review-quality/)'s agent-review-gate option
+generates a project-local `reviewer`. These are invoked as `Task` subagents by the
+generated orchestration [skills](../skills/).

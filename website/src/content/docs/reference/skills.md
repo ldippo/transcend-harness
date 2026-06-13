@@ -40,3 +40,12 @@ Proposes diff-style improvements and can **safe-apply** the additive ones: hand-
 ## `/transcend-catalog`
 
 Browse the curated catalog of specialized workflow skills and wire chosen ones into the project's harness after init. Filters by the project's stack, guards against writing to hand-edited files, and applies each entry's wiring idempotently. The entries themselves are documented in the [Workflow Catalog](../catalog/).
+
+## Generated skills
+
+Beyond these five framework entry points, a harness can **generate bespoke skills into
+your project** (`.claude/skills/`, owned by your repo). The [Delivery Pipeline pillar](../../pillars/delivery-pipeline/)
+generates two: `/pipeline-plan` (plan a high-level goal into a reviewable roadmap of
+issues via the `pm` agent) and `/pipeline-loop` (execute one issue end-to-end — the
+`/loop` target that grinds the roadmap to done). These are full bespoke skills, distinct
+from the thin pointer skills the [catalog](../catalog/) drops in.

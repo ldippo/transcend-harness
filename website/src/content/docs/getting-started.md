@@ -63,6 +63,6 @@ Full details on each: [Skills & Commands](../reference/skills/).
 ## Where to go next
 
 - [Philosophy](../philosophy/) — the framework's standing opinions.
-- [The Six Pillars](../pillars/architecture/) — what each pillar covers and the options offered.
+- [The Seven Pillars](../pillars/architecture/) — what each pillar covers and the options offered.
 - [Enforcement Tiers](../concepts/enforcement-tiers/) — docs vs. advisory vs. blocking.
 - [Authoring guides](../guides/authoring-pillars/) — extend the framework with your own pillars and stacks.
