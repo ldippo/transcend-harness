@@ -46,6 +46,15 @@ echo "{}" > "$TMP/.claude/settings.local.json"
 check "unrecorded rule is untracked; handoffs + settings.local.json ignored" \
   'r["untracked"] == [".claude/rules/extra.md"]'
 
+# 4b. The delivery-pipeline issue store (issues/ + roadmap.md) churns every loop
+#     iteration by design -> never reported as untracked.
+mkdir -p "$TMP/.claude/issues"
+echo "x" > "$TMP/.claude/issues/0001-foo.md"
+echo "x" > "$TMP/.claude/issues/.gitkeep"
+echo "# Roadmap" > "$TMP/.claude/roadmap.md"
+check "issues/ and roadmap.md are skipped (churn by design)" \
+  'r["untracked"] == [".claude/rules/extra.md"]'
+
 # 5. No manifest -> graceful manifest_present: false.
 rm "$TMP/.claude/.transcend/manifest.json"
 check "missing manifest handled gracefully" \

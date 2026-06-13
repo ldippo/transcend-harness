@@ -1,0 +1,145 @@
+{
+  "transcend_version": "0.1.0",
+  "generated_at": "2026-06-12T00:00:00Z",
+  "stack": {
+    "profile": "node-ts-react",
+    "confidence": 0.9,
+    "vars": {
+      "pkg": "pnpm",
+      "test_cmd": "pnpm test",
+      "lint_cmd": "pnpm run lint",
+      "typecheck_cmd": "pnpm run typecheck",
+      "protected_branch": "main"
+    }
+  },
+  "scope": "repo",
+  "ownership": "team",
+  "script_mode": "copy",
+  "appetite": "docs",
+  "pillars": {
+    "architecture": {
+      "option": "feature-sliced",
+      "tier": 1
+    },
+    "testing": {
+      "option": "test-after",
+      "tier": 1
+    },
+    "context-handoff": {
+      "options": [
+        "handoff-on-stop",
+        "task-carving"
+      ]
+    },
+    "project-git": {
+      "option": "github-flow",
+      "tier": 1
+    },
+    "review-quality": {
+      "options": [
+        "lint-typecheck-gate",
+        "pre-pr-self-review"
+      ],
+      "tier": 1
+    },
+    "delivery-pipeline": {
+      "option": "full-pipeline",
+      "tier": 1
+    }
+  },
+  "catalog": [
+    "impeccable",
+    "visual-regression"
+  ],
+  "files": [
+    {
+      "path": ".claude/CLAUDE.md",
+      "hash": "sha256:20604ebe46a2e96209c41d309176081c75f6f628e30dd1dfb6954f490271faf5"
+    },
+    {
+      "path": ".claude/rules/architecture.md",
+      "hash": "sha256:a23390934473c1f13f8862fd2765b1e81523d5b12d4d70ab78920db0a0545bfa"
+    },
+    {
+      "path": ".claude/rules/testing.md",
+      "hash": "sha256:e0302194bc25ebc4230b2e62bee606a8f25f37bd4a36601be150c0fcd30b3d1a"
+    },
+    {
+      "path": ".claude/rules/git-workflow.md",
+      "hash": "sha256:a6e66a8f398a55be8c43d92c55fee0c60af2835eab564fd8b7f86981449e8104"
+    },
+    {
+      "path": ".claude/rules/quality-gates.md",
+      "hash": "sha256:4aa94e24f54b42250fa7c0238f083fe0d4199baaa88166f4c9d2168b37a75f94"
+    },
+    {
+      "path": ".claude/rules/task-carving.md",
+      "hash": "sha256:8fa83a3a35f1aea908f72ab7446cd1bbb775ea91b47f505bb1ef5e251a8b6d20"
+    },
+    {
+      "path": ".claude/settings.json",
+      "hash": "sha256:7aa5b38bc2b062360ea4d01f259deebf5a68b0caf561068d04d1dcf62ee8e4bd"
+    },
+    {
+      "path": ".claude/handoffs/README.md",
+      "hash": "sha256:57e3ac24991d0452bbf251db6f29da369f83248f0b7432981e981968fc9e7c1e"
+    },
+    {
+      "path": ".claude/handoffs/current.md",
+      "hash": "sha256:d4b5850134dc7400c1807d574d000239bbb63cc8a79103e3d9a6c777f7237e14"
+    },
+    {
+      "path": ".claude/scripts/transcend/lib/common.sh",
+      "hash": "sha256:68072059cf13f1d6411719200bdf548e3311f3e844664076f13280950d22e548"
+    },
+    {
+      "path": ".claude/scripts/transcend/sessionstart/load-handoff.sh",
+      "hash": "sha256:a03bd20623cda3fadfaee719228f0df10421d08b607173cf0566a8d99c4e0c21"
+    },
+    {
+      "path": ".claude/scripts/transcend/advisory/handoff-nudge.sh",
+      "hash": "sha256:2c98abc9cc5337a806036985cd3ae796995c5c1d63add3f30322d811f3afd379"
+    },
+    {
+      "path": ".claude/skills/impeccable/SKILL.md",
+      "hash": "sha256:711378cfc169f616c4a947a2238db248d4824e434e49276f5338d8a44d58af7e"
+    },
+    {
+      "path": ".claude/skills/visual-regression/SKILL.md",
+      "hash": "sha256:147be3796634252ce56e9ae51ed34a7f66e26c21d6d1f2c1c59a2129604c7de5"
+    },
+    {
+      "path": ".claude/agents/pm.md",
+      "hash": "sha256:46bfd3e2b6610481116ec84669d7da61d878836698db22be723f23380eb28e33"
+    },
+    {
+      "path": ".claude/agents/architect.md",
+      "hash": "sha256:d5be3268dc5da82515219f3dfaaf34137468b46f0bb172239672f794c72f3349"
+    },
+    {
+      "path": ".claude/agents/coder.md",
+      "hash": "sha256:24c82f34ef4044245a0ca289f3527985739d0cec532e879de14180db119a44e8"
+    },
+    {
+      "path": ".claude/agents/research.md",
+      "hash": "sha256:92f5efb9093acd24d298dcc485203f25ca6d67137ca682640086ab6c654da3dd"
+    },
+    {
+      "path": ".claude/rules/delivery-pipeline.md",
+      "hash": "sha256:396eba11211ecbb7fdd8e7e7849fcbe3d1dd97c22fadec34174326fe333f13b0"
+    },
+    {
+      "path": ".claude/skills/pipeline-plan/SKILL.md",
+      "hash": "sha256:69a1900ca9ff60e42529ebdf8e1ec87abedf7eaf679b142479a265f41b32b939"
+    },
+    {
+      "path": ".claude/scripts/transcend/pipeline/issues.sh",
+      "hash": "sha256:ab80c0ee5885d806151baced5f6f68a32fbe7b3741486dbeab23c7c5610a24c8"
+    },
+    {
+      "path": ".claude/skills/pipeline-loop/SKILL.md",
+      "hash": "sha256:cbf385b480d006d27615a852c08965687af2ef0aede1b9ac4343c5e0b52709a4"
+    }
+  ],
+  "last_handoff": ".claude/handoffs/current.md"
+}

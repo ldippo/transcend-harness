@@ -83,7 +83,8 @@ and emits `{summary, files[{path,status}], untracked[]}` with statuses `ok`
 (pristine — safe to regenerate), `modified` (hand-edited — preserve, suggest
 only), and `missing`. It skips `.transcend/`, `handoffs/` (dated files churn by
 design; `handoffs/current.md` will normally read `modified` — that's the loop
-working), and `settings.local.json`. Behavior-tested by
+working), `issues/` + `roadmap.md` (the delivery-pipeline issue store churns every
+loop iteration by design), and `settings.local.json`. Behavior-tested by
 `tests/test-verify-manifest.sh`.
 
 `transcend-audit` Step 3 routes confirmed fixes to `transcend-generator` **merge mode**
@@ -137,3 +138,12 @@ can be both Tier 2 and Tier 3.
 - **M5** — idempotent re-init/upgrade, monorepo support, `transcend-resume` polish,
   AUTHORING docs, strict golden fixture + structural golden tests.
   *(done — commit 638d82d)*
+- **M6** — bespoke multi-agent delivery pipeline (opt-in `delivery-pipeline` pillar):
+  closes the `agent:` render gap and adds a `skill:` render type, generates PM /
+  architect / coder / research agents + `pipeline-plan` / `pipeline-loop` skills, and
+  a local committed issue store (`roadmap.md` + `issues/`) driven by the deterministic
+  `core/scripts/pipeline/issues.sh` helper. Run the backlog via `/loop pipeline-loop`;
+  PM-filed followups await end-of-roadmap approval. Pillar is orthogonal to appetite
+  (no enforcement hooks); the issue store churns by design and is skipped by the drift
+  verifier. New fixture `node-ts-react-pipeline`; new suite `tests/test-issues-sh.sh`.
+  *(done)*

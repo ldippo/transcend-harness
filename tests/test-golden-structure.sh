@@ -87,6 +87,24 @@ PYEOF
   # 9. The rename holds: no stale branding.
   if grep -ri 'fable' "$FIXDIR" >/dev/null 2>&1; then fail "stale 'fable' reference"; fi
 
+  # 10. Generated agents (if the fixture has any): valid frontmatter, no placeholders.
+  if [ -d "$C/agents" ]; then
+    for a in "$C"/agents/*.md; do
+      head -1 "$a" | grep -q '^---$' || fail "agent $(basename "$a") lacks frontmatter"
+      grep -q '^name:' "$a" || fail "agent $(basename "$a") missing name:"
+      grep -q '^description:' "$a" || fail "agent $(basename "$a") missing description:"
+    done
+    if grep -rnE '\{[a-z_]+\}' "$C/agents" 2>/dev/null | grep -v '^Binary'; then
+      fail "leftover {placeholders} in generated agents"
+    fi
+  fi
+
+  # 11. Self-contained: a committed harness must never reference ${CLAUDE_PLUGIN_ROOT}
+  #     (it only resolves for plugin-defined hooks, not a project's own settings).
+  if grep -rl 'CLAUDE_PLUGIN_ROOT' "$C" >/dev/null 2>&1; then
+    fail "generated harness references CLAUDE_PLUGIN_ROOT (must be self-contained)"
+  fi
+
   echo "ok: $FIX"
 done
 

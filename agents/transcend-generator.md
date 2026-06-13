@@ -23,7 +23,23 @@ Follow Step 7 of `$TRANSCEND_ROOT/skills/transcend-init/SKILL.md` precisely:
    `{src_globs_yaml}`/`{test_globs_yaml}` into indented YAML list items; fill
    option-specific content concretely from the chosen option + stack. Always write
    `rules/task-carving.md` when `task-carving` is selected.
-3. `settings.json` from `core/templates/settings.json.tmpl`. Each hook fragment is
+3. `agents/<name>.md` — for each chosen option with an `agent` render (a single
+   template string OR a list of templates), render each fragment. The output filename
+   is the fragment's frontmatter `name:` (`agent.reviewer.md.tmpl` → `agents/reviewer.md`).
+   Substitute the standard vars ({stack_id}, {protected_branch}, {test_cmd}, {lint_cmd},
+   {typecheck_cmd}); pass the frontmatter (name/description/tools/model/color) through
+   verbatim. NEVER inject `${CLAUDE_PLUGIN_ROOT}` — generated agents reference
+   `.claude/rules/*` and `.claude/scripts/transcend/*` by relative path only.
+4. `skills/<id>/SKILL.md` — for each chosen option with a `skill` render (a list of
+   `{id, template}` pairs), render each FULL skill (NOT a catalog pointer) to
+   `.claude/skills/<id>/SKILL.md`. Substitute the standard vars; keep it
+   self-contained — reference `.claude/...` and `.claude/scripts/transcend/...` only,
+   never `${CLAUDE_PLUGIN_ROOT}`. Record in `files[]`. If any `skill` render needs the
+   delivery-pipeline issue store, ALSO copy `core/scripts/pipeline/issues.sh` into
+   `.claude/scripts/transcend/pipeline/` (chmod +x, byte-identical, record in
+   `files[]`) and create an empty `.claude/roadmap.md` plus `.claude/issues/.gitkeep`
+   — do NOT record those two in `files[]` (the issue store churns by design).
+5. `settings.json` from `core/templates/settings.json.tmpl`. Each hook fragment is
    `{"event": "<HookEventName>", "entry": {...}}` — append the rendered `entry` to
    the `hooks.<event>` array, with
    `{script_ref}` = the literal string `${CLAUDE_PROJECT_DIR}/.claude/scripts/transcend`.
@@ -31,13 +47,14 @@ Follow Step 7 of `$TRANSCEND_ROOT/skills/transcend-init/SKILL.md` precisely:
    `.claude/scripts/transcend/` (preserve the `lib/` relative layout, since scripts
    source `../lib/common.sh`) and `chmod +x` them — the committed harness must be
    self-contained so teammates without transcend installed get working hooks.
-4. `handoffs/README.md` and `handoffs/current.md` (status `done`) from templates.
-5. Catalog wiring for each chosen entry (claudemd line, pillar-rule step, pointer
+6. `handoffs/README.md` and `handoffs/current.md` (status `done`) from templates.
+7. Catalog wiring for each chosen entry (claudemd line, pillar-rule step, pointer
    skill).
-6. `.transcend/manifest.json` with transcend_version, generated_at, stack, scope,
+8. `.transcend/manifest.json` with transcend_version, generated_at, stack, scope,
    ownership, script_mode, appetite, per-pillar option+tier, catalog list, and
-   `files[]` (path + `sha256:` computed via `shasum -a 256`).
-7. Append `core/templates/gitignore.snippet` to `.gitignore` (skip if present);
+   `files[]` (path + `sha256:` computed via `shasum -a 256`). Generated agents and
+   skills go in `files[]` like rules — pristine→regenerate, hand-edited→suggest.
+9. Append `core/templates/gitignore.snippet` to `.gitignore` (skip if present);
    write `.claude/settings.local.json` when needed.
 
 ## Merge mode (from transcend-audit or re-init)

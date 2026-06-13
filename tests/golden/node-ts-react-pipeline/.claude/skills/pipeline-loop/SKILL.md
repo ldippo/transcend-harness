@@ -1,0 +1,58 @@
+---
+name: pipeline-loop
+description: Execute one ready issue from the delivery roadmap end-to-end (research → architect → coder → review), then advance the issue store and handoff. Designed to be run repeatedly via /loop until the roadmap is done.
+user-invocable: true
+allowed-tools: Read, Bash, Task, Write, Edit
+---
+
+# pipeline-loop
+
+Drive ONE issue per invocation for this **node-ts-react** project, then return so
+`/loop pipeline-loop` can call you again. The committed issue store + handoff are
+the only durable state — never rely on conversation memory from a previous iteration.
+Helper: `.claude/scripts/transcend/pipeline/issues.sh`.
+
+## Each invocation
+
+1. **Resume or pick.** Run `issues.sh list in-progress`. If an issue is already
+   in-progress (a prior iteration was interrupted), work THAT issue — do not claim a
+   new one. Otherwise run `issues.sh next`:
+   - **No ready issue** → run `issues.sh list proposed`. If there are proposals,
+     print exactly `PIPELINE DONE — N followups await approval`, list them, and tell
+     the developer to approve with `issues.sh approve <id>`. If there are none, print
+     `PIPELINE DONE — roadmap complete`. **Stop** — do not loop on an empty backlog.
+   - **A ready issue** → `issues.sh claim <id>` (single-flight: it refuses if another
+     issue is in-progress).
+
+2. **Run the pipeline as fresh `Task` subagents** (fresh context per step):
+   - If the issue needs a fact you're unsure of, delegate to the `research` agent first.
+   - Delegate to the `architect` agent with the issue id — it appends a Design.
+   - Delegate to the `coder` agent with the issue id — it implements and runs
+     `pnpm test` / `pnpm run lint` / `pnpm run typecheck`.
+   - **Review:** delegate to the `reviewer` agent if this project has one
+     (`.claude/agents/reviewer.md`); otherwise have the coder self-review its diff
+     against `.claude/rules/`. If review requests changes, send them back to the coder
+     once before proceeding.
+
+3. **Verify + record.** Confirm `pnpm test` and `pnpm run lint` pass (report real
+   results). Commit per `.claude/rules/git-workflow.md` only if the developer has
+   opted into auto-commit; otherwise stage the changes and note them. Then
+   `issues.sh done <id>`.
+
+4. **Followups.** Any bug/gap/enhancement the agents found OUTSIDE this issue's scope
+   should already be filed via `issues.sh new <kind> <slug> --discovered-by <id>`
+   (status `proposed`). Do not act on them now.
+
+5. **Rewrite the handoff** (`.claude/handoffs/current.md`): Goal = the NEXT ready
+   issue (run `issues.sh next`), Done = the issue you just finished, Next = the next
+   issue's acceptance criteria, Context pointers = that issue file + the files you
+   touched. Set frontmatter `status: in-progress` if a next ready issue exists, else
+   `status: done`. This lets a brand-new session resume with zero prior context.
+
+6. **Refresh the projection:** `issues.sh roadmap`. Return a one-line summary
+   (issue done, next up, followups filed). `/loop` will re-invoke you.
+
+## Rules
+- One issue per invocation; one loop per repo (claim is single-flight).
+- Never change an issue's `status` by hand — only via `issues.sh`.
+- Never expand the current issue's scope; discoveries become `proposed` followups.

@@ -27,7 +27,7 @@ Then inspect `$PROJECT_DIR/.claude/` across the dimensions in
    (preserve; suggest only), `missing` = recorded but absent, `untracked` =
    present but unrecorded (never touch). `handoffs/current.md` showing
    `modified` is the handoff loop working — do NOT flag it.
-2. Missing pillars (six expected).
+2. Missing pillars (seven expected; `delivery-pipeline` is opt-in — `none` is not a gap).
 3. Over/under-enforcement vs manifest `appetite`; hooks referencing missing scripts.
 4. Stale handoffs / broken auto-load.
 5. CLAUDE.md size (>200), import depth (>4), dangling `@paths`, empty rule globs.

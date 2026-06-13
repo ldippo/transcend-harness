@@ -1,0 +1,31 @@
+id: delivery-pipeline
+title: Multi-agent delivery pipeline
+question: "Generate a bespoke multi-agent delivery pipeline (PM → architect → coder, with a research helper) driven by a local issue store?"
+header: Pipeline
+multiSelect: false
+principle: principles/pillar-delivery-pipeline.md
+options:
+  - id: none
+    label: "No pipeline"
+    desc: "Skip the multi-agent pipeline; keep the standard handoff loop only."
+    default_selected: true
+    renders: {}
+    tier_eligible: [1]
+    tier_default: 1
+  - id: full-pipeline
+    label: "Full pipeline"
+    desc: "PM / architect / coder / research subagents + a local roadmap & issue store, run through /loop until the roadmap is done. Heaviest; opt-in. Depends on the handoff loop (task-carving + handoff-on-stop)."
+    default_selected: false
+    renders:
+      claudemd: fragments/claudemd.pipeline.md.tmpl
+      rule: fragments/rule.pipeline.md.tmpl
+      agent:
+        - fragments/agent.pm.md.tmpl
+        - fragments/agent.architect.md.tmpl
+        - fragments/agent.coder.md.tmpl
+        - fragments/agent.research.md.tmpl
+      skill:
+        - { id: pipeline-plan, template: fragments/skill.pipeline-plan.md.tmpl }
+        - { id: pipeline-loop, template: fragments/skill.pipeline-loop.md.tmpl }
+    tier_eligible: [1]
+    tier_default: 1

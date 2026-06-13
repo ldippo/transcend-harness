@@ -116,8 +116,15 @@ the option from the stack profile's `pillar_defaults`. Present the pillar's
 - **Batch B (4 questions):** architecture, testing, project-git, review-quality
   (review-quality is multiSelect).
 - **Batch C:** context-handoff (multiSelect — pre-check `handoff-on-stop` and
-  `task-carving`; these are the centerpiece) plus, if useful, ask whether to load
-  handoffs on `resume` only or also on `clear`/`compact` (default `startup|resume`).
+  `task-carving`; these are the centerpiece); `delivery-pipeline` (single-select,
+  default `none` — the multi-agent PM→architect→coder loop, opt-in and heavy); and,
+  if useful, whether to load handoffs on `resume` only or also on `clear`/`compact`
+  (default `startup|resume`).
+
+  **Dependency:** `delivery-pipeline: full-pipeline` requires the handoff loop. If
+  the developer picks it, ensure context-handoff includes BOTH `handoff-on-stop` and
+  `task-carving`; if either was deselected, re-confirm with a one-line note that the
+  pipeline depends on them and default them back on. Surface this in the Step 6 preview.
 
 ## Step 4 — Per-rule tier selection (AskUserQuestion, batch D)
 
@@ -162,7 +169,25 @@ main context clean; for a small harness, doing it inline is fine. Produce:
    module table, testing expectations) concretely from the chosen option's
    semantics + the detected stack. Always write `rules/task-carving.md` when
    `task-carving` was selected.
-3. **`.claude/settings.json`** — start from `core/templates/settings.json.tmpl`.
+3. **`.claude/agents/<name>.md`** — for each chosen pillar option with an `agent`
+   render (a single template string OR a list of templates), render each fragment.
+   The output filename is the fragment's frontmatter `name:` (`agent.reviewer.md.tmpl`
+   → `.claude/agents/reviewer.md`). Substitute the standard vars (`{stack_id}`,
+   `{protected_branch}`, `{test_cmd}`, `{lint_cmd}`, `{typecheck_cmd}`); the
+   frontmatter (name/description/tools/model/color) passes through verbatim. NEVER
+   inject `${CLAUDE_PLUGIN_ROOT}` — generated agents reference `.claude/rules/*` and
+   `.claude/scripts/transcend/*` by relative path only. Record each in manifest `files[]`.
+4. **`.claude/skills/<id>/SKILL.md`** — for each chosen pillar option with a `skill`
+   render (a list of `{id, template}` pairs), render each as a FULL bespoke skill
+   (distinct from catalog pointer skills, which come from `catalog[]` and use the
+   pointer template). Substitute the standard vars; keep self-contained (reference
+   `.claude/...` and `.claude/scripts/transcend/...` only, never
+   `${CLAUDE_PLUGIN_ROOT}`). Record in `files[]`. If a `skill` render needs the
+   delivery-pipeline issue store, also copy `core/scripts/pipeline/issues.sh` into
+   `.claude/scripts/transcend/pipeline/` (chmod +x; record in `files[]`) and create
+   an empty `.claude/roadmap.md` + `.claude/issues/.gitkeep` (do NOT record those two
+   in `files[]` — the issue store churns by design and is skipped by the verifier).
+5. **`.claude/settings.json`** — start from `core/templates/settings.json.tmpl`.
    Each hook fragment is `{"event": "<HookEventName>", "entry": {...}}`: append the
    rendered `entry` to the `hooks.<event>` array, substituting `{script_ref}` and
    the command vars in `args` (see Variables), and copy the referenced scripts
@@ -172,23 +197,23 @@ main context clean; for a small harness, doing it inline is fine. Produce:
    NOTE: the SessionStart load-handoff + Stop nudge hooks are generated whenever
    `handoff-on-stop` is selected, regardless of appetite (they're context tooling,
    not enforcement).
-4. **`.claude/handoffs/`** — write `README.md` (from `handoffs/README.md.tmpl`) and
+6. **`.claude/handoffs/`** — write `README.md` (from `handoffs/README.md.tmpl`) and
    `current.md` (from `handoffs/current.md.tmpl`, status `done`).
-5. **Catalog wiring** — for each chosen catalog entry: splice its `wiring.claudemd`
+7. **Catalog wiring** — for each chosen catalog entry: splice its `wiring.claudemd`
    line into the CLAUDE.md "Specialized workflows" section; append its
    `wiring.pillar_step.text` to the named pillar's rule; if `pointer_skill: true`,
    render `core/templates/pointer-skill.SKILL.md.tmpl` to
    `.claude/skills/<id>/SKILL.md` filling `{id}`/`{what}`/`{when}` from the
    catalog entry and `{pillar_rule_ref}` = `.claude/rules/<pillar's rule file>`.
    Do not freestyle pointer skills — the template is the contract.
-6. **`.claude/.transcend/manifest.json`** — per `docs/ARCHITECTURE.md`: transcend_version
+8. **`.claude/.transcend/manifest.json`** — per `docs/ARCHITECTURE.md`: transcend_version
    (read from `$TRANSCEND_ROOT/.claude-plugin/plugin.json`), generated_at (use the
    timestamp from the shell block — run `date -u +%Y-%m-%dT%H:%M:%SZ` if you need
    it), stack (profile/confidence/key vars), scope, ownership, script_mode,
    appetite, per-pillar option+tier, catalog list, and `files[]` with each written
    file's path + `sha256:` of its content (compute with
    `shasum -a 256 <file>` or `python3`).
-7. **`.gitignore`** — append `core/templates/gitignore.snippet` (skip if already
+9. **`.gitignore`** — append `core/templates/gitignore.snippet` (skip if already
    present). Write personal bits to `.claude/settings.local.json` from
    `settings.local.json.tmpl` if ownership is personal or there are personal allows.
 
@@ -214,6 +239,8 @@ like `{test_cmd}` = `"{pkg} test"` → e.g. `pnpm test`.
 - `{gates_list}`, `{gates_summary}`, `{quality_extra_checklist}`, `{quality_tier_note}`.
 - `{workflows_list}` / `{workflows_summary}` — bullet list of chosen catalog
   entries' `wiring.claudemd` lines, or "None configured." if empty.
+- `{pipeline_summary}` — the delivery-pipeline `claudemd` fragment if
+  `full-pipeline` is chosen; empty string if `none` (the slot collapses).
 - `{script_ref}` — ALWAYS `${CLAUDE_PROJECT_DIR}/.claude/scripts/transcend` (the
   literal string; Claude Code substitutes it at hook time). Copy the needed
   scripts (`lib/common.sh` plus each referenced event script, preserving the
