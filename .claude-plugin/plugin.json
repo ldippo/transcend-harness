@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin.json",
   "name": "transcend-harness",
   "description": "Meta-framework: interview a project and generate a bespoke, committed .claude/ harness (architecture, testing, context/handoff, git, review, specialized workflows). Includes an audit mode to critique and improve an existing harness.",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": {
     "name": "transcend-harness"
   },
