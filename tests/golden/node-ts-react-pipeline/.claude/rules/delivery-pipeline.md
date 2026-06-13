@@ -1,0 +1,53 @@
+---
+paths:
+  - ".claude/issues/**"
+  - ".claude/roadmap.md"
+---
+# Delivery pipeline
+
+A multi-agent loop that turns a high-level goal into shipped, committed work.
+Stack: **node-ts-react**. One issue at a time; the committed issue store is the only
+durable state.
+
+## Agents (in `.claude/agents/`)
+- **pm** — goal → roadmap + ordered issues; files discovered followups as `proposed`.
+- **architect** — system design for one issue; updates docs; hands a plan to the coder.
+- **coder** — implements one issue; runs `pnpm test` and `pnpm run lint`.
+- **research** — fills context gaps; training data for stable facts, live web search
+  for version-specific / post-cutoff / security / pricing / current-best-practice.
+
+Invoke them as subagents via the `Task` tool — never inline the whole pipeline in one
+context. The `pipeline-loop` skill orchestrates them per issue.
+
+## Issue store
+- `.claude/roadmap.md` — a generated projection of the issues (do not hand-edit;
+  regenerate with `issues.sh roadmap`).
+- `.claude/issues/<NNNN>-<slug>.md` — one file per issue. Frontmatter:
+  `id, title, status, milestone, kind, depends_on, discovered_by, updated`.
+  - `status`: `proposed` | `ready` | `in-progress` | `blocked` | `done`
+  - `kind`: `feature` | `bug` | `gap` | `enhancement`
+- The helper `.claude/scripts/transcend/pipeline/issues.sh` is the ONLY thing that
+  transitions status and picks the next issue — agents call it, never edit
+  frontmatter by hand. Subcommands: `next`, `list <status>`, `claim <id>`,
+  `done <id>`, `block <id> "<reason>"`, `approve <id>`, `roadmap`,
+  `new <kind> <slug> --title "..." [--discovered-by NNNN]`.
+
+## Lifecycle
+```
+proposed --(developer approval)--> ready --(loop claims; deps done)--> in-progress
+in-progress --(review passes + commit)--> done
+in-progress --(blocker)--> blocked --(unblocked)--> ready
+```
+- pm (and any agent) create issues as `proposed` for new/discovered work.
+- The developer approves `proposed` → `ready` (`issues.sh approve`).
+- `pipeline-loop` does `ready` → `in-progress` → `done`.
+- architect/coder set `blocked` when they hit a blocker.
+
+## Rules
+- **One loop at a time.** `issues.sh claim` is single-flight (lockfile); never run
+  two `pipeline-loop`s against the same repo.
+- **Resume, don't duplicate.** If an issue is already `in-progress` when the loop
+  wakes, finish it — do not claim a new one.
+- **Followups are proposals, not detours.** Discovered bugs/gaps go in as `proposed`
+  and wait for approval; don't expand the current issue's scope.
+- The pipeline adds no blocking hooks; correctness rides on the agents + this rule.

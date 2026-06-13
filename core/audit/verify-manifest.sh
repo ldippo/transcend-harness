@@ -13,9 +13,11 @@
 #   untracked — present under .claude/ but not in the manifest (never touch)
 #
 # Untracked scan skips .claude/.transcend/, .claude/handoffs/ (the handoff loop
-# creates dated files there by design), and settings.local.json (personal,
-# gitignored). NOTE: handoffs/current.md IS manifest-tracked and will usually
-# report `modified` — that churn is by design; auditors must not flag it.
+# creates dated files there by design), .claude/issues/ + .claude/roadmap.md (the
+# delivery-pipeline issue store churns every loop iteration by design), and
+# settings.local.json (personal, gitignored). NOTE: handoffs/current.md IS
+# manifest-tracked and will usually report `modified` — that churn is by design;
+# auditors must not flag it.
 #
 # Usage: verify-manifest.sh [PROJECT_DIR]   (defaults to $CLAUDE_PROJECT_DIR or cwd)
 # POSIX sh; JSON + hashing via python3 (no jq, no shasum dependency).
@@ -70,7 +72,7 @@ for entry in manifest.get("files", []):
 
 # Untracked: anything under .claude/ the manifest doesn't record, minus paths
 # that churn or are personal by design.
-SKIP_DIRS = {".transcend", "handoffs"}
+SKIP_DIRS = {".transcend", "handoffs", "issues"}
 untracked = []
 for root, dirs, names in os.walk(claude_dir):
     rel_root = os.path.relpath(root, claude_dir)
@@ -84,7 +86,7 @@ for root, dirs, names in os.walk(claude_dir):
         if name == ".DS_Store":
             continue
         rel = os.path.join(".claude", *(parts + [name])) if parts else os.path.join(".claude", name)
-        if rel == ".claude/settings.local.json" or rel in tracked:
+        if rel in (".claude/settings.local.json", ".claude/roadmap.md") or rel in tracked:
             continue
         untracked.append(rel)
 untracked.sort()

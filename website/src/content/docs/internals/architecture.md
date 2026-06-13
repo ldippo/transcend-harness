@@ -61,7 +61,7 @@ Every generated harness writes `./.claude/.transcend/manifest.json` in the targe
 
 ## Audit & safe-apply merge
 
-`core/audit/verify-manifest.sh <project>` is the deterministic drift check: it compares every manifest-recorded file's on-disk sha256 against the recorded hash and emits `{summary, files[{path,status}], untracked[]}` with statuses `ok` (pristine — safe to regenerate), `modified` (hand-edited — preserve, suggest only), and `missing`. It skips `.transcend/`, `handoffs/` (dated files churn by design; `handoffs/current.md` will normally read `modified` — that's the loop working), and `settings.local.json`.
+`core/audit/verify-manifest.sh <project>` is the deterministic drift check: it compares every manifest-recorded file's on-disk sha256 against the recorded hash and emits `{summary, files[{path,status}], untracked[]}` with statuses `ok` (pristine — safe to regenerate), `modified` (hand-edited — preserve, suggest only), and `missing`. It skips `.transcend/`, `handoffs/` (dated files churn by design; `handoffs/current.md` will normally read `modified` — that's the loop working), `issues/` + `roadmap.md` (the delivery-pipeline issue store churns every loop iteration), and `settings.local.json`.
 
 `transcend-audit` routes confirmed fixes to `transcend-generator` **merge mode** with actions `create` / `regenerate` / `append` / `settings-merge` (additive hooks/permissions only). The generator re-hashes each target at write time — hand-edited and untracked files are never written, only suggested. Applied merges refresh the affected `files[]` hashes and stamp a top-level `last_merge` timestamp in the manifest; `generated_at` is never rewritten.
 
@@ -85,3 +85,4 @@ All planned milestones are built:
 - **M3** — `transcend-audit`: inventory/critique vs manifest, diff suggestions, safe-apply merge.
 - **M4** — more stacks (python-fastapi, go-service) + catalog wiring + `transcend-catalog`.
 - **M5** — idempotent re-init/upgrade, monorepo support, `transcend-resume` polish, authoring docs, strict golden fixture + structural golden tests.
+- **M6** — opt-in [delivery-pipeline pillar](../../pillars/delivery-pipeline/): closes the `agent:` render gap and adds a `skill:` render type, generates the PM/architect/coder/research agents + `pipeline-plan`/`pipeline-loop` skills, and a local committed issue store (`roadmap.md` + `issues/`) driven by the deterministic `core/scripts/pipeline/issues.sh` helper.

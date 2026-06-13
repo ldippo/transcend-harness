@@ -51,7 +51,8 @@
     "review-quality": {
       "options": [
         "lint-typecheck-gate",
-        "pre-pr-self-review"
+        "pre-pr-self-review",
+        "agent-review-gate"
       ],
       "tier": 3
     }
@@ -132,6 +133,10 @@
     {
       "path": ".claude/scripts/transcend/blocking/protect-main.sh",
       "hash": "sha256:a5a6dec03ca8d79f89bb7fad5cde6e2c95b95c3296fc7fa47a0ae1736ec6414b"
+    },
+    {
+      "path": ".claude/agents/reviewer.md",
+      "hash": "sha256:a731cc27cca799e35bcb3c3f0cf8a4557358d9ed7c025ee28ee1afb6d91e8397"
     }
   ]
 }

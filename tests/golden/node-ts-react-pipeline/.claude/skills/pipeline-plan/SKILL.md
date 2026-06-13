@@ -1,0 +1,35 @@
+---
+name: pipeline-plan
+description: Turn a high-level goal into a committed roadmap and a reviewable set of issues for this project, using the PM agent. Use to plan a body of work before running the delivery loop.
+user-invocable: true
+allowed-tools: Read, Bash, Task, AskUserQuestion
+---
+
+# pipeline-plan
+
+Turn a high-level goal into a reviewable roadmap of issues for this **node-ts-react**
+project. The goal is whatever the developer passed as arguments.
+
+## Steps
+1. If no goal was given in the arguments, ask the developer for the high-level goal.
+2. Delegate the planning to the `pm` agent via the `Task` tool. Pass it the goal and
+   tell it to: read `.claude/rules/delivery-pipeline.md`, break the goal into small,
+   ordered, vertically-sliced issues, create each with
+   `.claude/scripts/transcend/pipeline/issues.sh new <kind> <slug> --title "..." --milestone "..." [--depends-on "NNNN,NNNN"]`
+   (issues are born `proposed`), fill each issue body, and regenerate the roadmap
+   with `issues.sh roadmap`.
+3. Show the developer the result: run
+   `.claude/scripts/transcend/pipeline/issues.sh list proposed` and print
+   `.claude/roadmap.md`. Summarize the milestone, the issue list, and the order.
+4. Ask the developer to review (AskUserQuestion): **Approve all / Let me edit first /
+   Cancel**.
+   - **Approve all** — run `issues.sh approve <id>` for every proposed issue, then
+     `issues.sh roadmap`, and tell them they can now run `/loop pipeline-loop`.
+   - **Let me edit first** — leave the issues `proposed`; tell them to edit the issue
+     bodies under `.claude/issues/` and approve with `issues.sh approve <id>` when ready.
+   - **Cancel** — leave everything as-is.
+
+## Rules
+- You orchestrate; the `pm` agent does the planning. Do not write issues yourself.
+- Issues are born `proposed`; only the developer's approval moves them to `ready`.
+- Never hand-edit an issue's `status` field or `roadmap.md` — go through `issues.sh`.

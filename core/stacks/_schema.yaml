@@ -40,5 +40,6 @@ pillar_defaults:              # pre-selected option id per pillar (overridable i
   context-handoff: [string]   # multiSelect: list of option ids
   project-git: string
   review-quality: [string]    # multiSelect
+  delivery-pipeline: string   # one of delivery-pipeline option ids (default "none")
 
 catalog_recommend: [string]   # catalog entry ids to surface for this stack

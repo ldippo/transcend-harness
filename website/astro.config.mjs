@@ -27,7 +27,7 @@ export default defineConfig({
         {
           label: 'Concepts',
           items: [
-            { label: 'The Six Pillars', autogenerate: { directory: 'pillars' } },
+            { label: 'The Seven Pillars', autogenerate: { directory: 'pillars' } },
             { label: 'Enforcement Tiers', slug: 'concepts/enforcement-tiers' },
           ],
         },

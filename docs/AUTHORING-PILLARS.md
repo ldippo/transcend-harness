@@ -44,6 +44,18 @@ Stack profiles pre-select options via `pillar_defaults` — update every
   non-matching input. Advisory hooks must be once-per-session
   (`transcend_once`) or scoped to the touched file; blocking hooks must be
   narrowly matched (`if:`/matcher) so they never fire on unrelated tool use.
+- `agent.*.md.tmpl` — a generated subagent. Agent frontmatter
+  (`name`/`description`/`tools`/`model`/`color`) passes through verbatim; the output
+  filename is the `name:`. Rendered to `.claude/agents/<name>.md`. `renders.agent`
+  may be a single template string or a list. Agents must be self-contained — they
+  reference `.claude/rules/*` and `.claude/scripts/transcend/*` only, never
+  `${CLAUDE_PLUGIN_ROOT}`.
+- `skill.*.md.tmpl` — a generated FULL skill (distinct from catalog pointer skills).
+  `renders.skill` is a list of `{id, template}` pairs, each rendered to
+  `.claude/skills/<id>/SKILL.md`. Same self-containment rule. If a skill drives a
+  helper script (e.g. the delivery-pipeline issue store), put the script in
+  `core/scripts/<group>/` and have the generator copy it byte-identical (it joins the
+  golden byte-check) — never template a copied script.
 
 Placeholders use single braces (`{pkg}`, `{test_cmd}`); the full variable list
 lives in `skills/transcend-init/SKILL.md` → "Variables". A fragment may also

@@ -35,4 +35,5 @@ pillar_defaults:
   context-handoff: [handoff-on-stop, task-carving]
   project-git: github-flow
   review-quality: [lint-typecheck-gate, pre-pr-self-review]
+  delivery-pipeline: none
 catalog_recommend: [api-contract-audit, migration-safety]
