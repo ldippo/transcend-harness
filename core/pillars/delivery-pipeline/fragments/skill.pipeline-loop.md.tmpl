@@ -29,10 +29,16 @@ Helper: `.claude/scripts/transcend/pipeline/issues.sh`.
    - Delegate to the `architect` agent with the issue id — it appends a Design.
    - Delegate to the `coder` agent with the issue id — it implements and runs
      `{test_cmd}` / `{lint_cmd}` / `{typecheck_cmd}`.
-   - **Review:** delegate to the `reviewer` agent if this project has one
-     (`.claude/agents/reviewer.md`); otherwise have the coder self-review its diff
-     against `.claude/rules/`. If review requests changes, send them back to the coder
-     once before proceeding.
+   - **Review (adversarial by default):** delegate to the `reviewer` agent if this
+     project has one (`.claude/agents/reviewer.md`), prompted to *refute* the diff
+     against `.claude/rules/` — an independent skeptic, not the author grading itself.
+     Only if there is no reviewer, have the coder self-review its own diff against
+     `.claude/rules/` in that same refuting frame. If review requests changes, send
+     them back to the coder once before proceeding.
+   - **Bindings discipline:** pass each agent the issue *id*, not pasted context; let
+     it read the issue file and write its output back into the issue body. Carry only
+     declared conclusions between steps — never paste one agent's transcript into the
+     next agent's prompt.
 
 3. **Verify + record.** Confirm `{test_cmd}` and `{lint_cmd}` pass (report real
    results). Commit per `.claude/rules/git-workflow.md` only if the developer has
@@ -56,3 +62,7 @@ Helper: `.claude/scripts/transcend/pipeline/issues.sh`.
 - One issue per invocation; one loop per repo (claim is single-flight).
 - Never change an issue's `status` by hand — only via `issues.sh`.
 - Never expand the current issue's scope; discoveries become `proposed` followups.
+- Declared outputs only: agents return conclusions plus issue-file edits, never raw
+  transcripts; keep sub-agent context out of this loop's context (context-as-environment).
+- Keep recursion shallow and bounded: one issue per invocation is the depth cap; the
+  scout (pm) emits the work-list, the loop never hardcodes it.

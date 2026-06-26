@@ -9,7 +9,7 @@
       "id": "transcend-harness",
       "name": "transcend-harness",
       "description": "Generate and maintain a bespoke .claude/ harness for any project.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "source": "./"
     }
   ]

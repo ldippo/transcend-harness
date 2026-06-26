@@ -253,7 +253,10 @@ like `{test_cmd}` = `"{pkg} test"` → e.g. `pnpm test`.
 
 ## Principles to honor
 
-Read `$TRANSCEND_ROOT/core/principles/00-philosophy.md`. Keep CLAUDE.md terse, push
-detail into rules/, block only what must not happen, and make the handoff loop
-work. The generated harness is owned by the project — generate clean, hand-editable
-files.
+Read `$TRANSCEND_ROOT/core/principles/00-philosophy.md` and
+`$TRANSCEND_ROOT/core/principles/01-context-as-environment.md`. Keep CLAUDE.md terse,
+push detail into rules/, block only what must not happen, and make the handoff loop
+work. Treat context as an environment: when the delivery pipeline or any workflow
+fans out subagents, carry declared outputs only, let the scout emit the work-list,
+and bound recursion (depth/calls/budget/timeout). The generated harness is owned by
+the project — generate clean, hand-editable files.

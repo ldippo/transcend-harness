@@ -3,7 +3,7 @@ title: Philosophy
 description: The framework's standing opinions — context frugality, handoff-first work, small carved tasks, deliberate enforcement.
 ---
 
-<!-- adapted from core/principles/00-philosophy.md -->
+<!-- adapted from core/principles/00-philosophy.md and 01-context-as-environment.md -->
 
 These are the framework's standing opinions. The generator splices short summaries of the relevant ones into a project's `CLAUDE.md`; the full text lives in the CORE library.
 
@@ -30,3 +30,13 @@ The generated `.claude/` is committed and shared by the team. It is a living art
 ## 6. Adapt, don't impose
 
 The same core principles render differently per stack. transcend proposes sensible defaults from a stack profile and the developer chooses — the output is bespoke, not boilerplate.
+
+## 7. Context-as-environment (recursive language models)
+
+When a task is too big for one context window — a sweeping audit, a long backlog, a transcript longer than the window — the failure mode is to pour everything into the prompt and watch quality collapse. The recursive-language-model move is the opposite: treat context as a *programmable environment*, not a bucket. Large data lives on disk or in a child session; the orchestrator holds only references and declared outputs. Three commitments make it real:
+
+- **Externalize the corpus.** Big context is filesystem / REPL / variable state; agents `grep`/`split`/`cat` against files rather than pasting tokens inline.
+- **Bindings discipline.** A sub-agent's transcript never re-enters the parent — only declared outputs cross the boundary (a `schema:`-validated object, or a final message that *is* the binding). Paste a sub-agent's prose into the next prompt and the discipline is broken.
+- **The model picks the decomposition.** A **scout** agent *emits* the work-list at runtime; the script never carries a hardcoded array of units (the decisive line between a real recursive workflow and a plain map-reduce).
+
+Recursion is bounded — depth-1 is enough in practice — and every fan-out carries a five-part envelope (depth, calls, budget, timeout, verified preconditions). Because parallel sub-agents are cheap, **adversarial verification is the default**: each finding faces an independent skeptic and survives only if it holds. This principle is the spine of the [Delivery Pipeline](../pillars/delivery-pipeline/) and of any workflow a project authors; the `recursive-workflows` and `golden-session` catalog skills carry the operational detail.

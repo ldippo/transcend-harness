@@ -9,7 +9,9 @@ It is opinionated about six pillars and codifies your choices into the project's
 3. **Context & handoff** — the centerpiece: compact per-session handoff docs that auto-load at the next session so you resume cheaply and keep context light.
 4. **Project / git** — branch & PR workflow, protected branches.
 5. **Review & quality gates** — lint/typecheck/self-review, optional reviewer subagent.
-6. **Specialized workflows** — a curated catalog (frontend/UX audit, visual-regression, a11y, …) wired in based on stack.
+6. **Specialized workflows** — a curated catalog (frontend/UX audit, visual-regression, a11y, recursive-workflows, golden-session, …) wired in based on stack.
+
+Multi-agent work follows a **context-as-environment** principle: when the delivery pipeline or any workflow fans out subagents, it carries declared outputs only, lets the scout emit the work-list, and bounds recursion (depth/calls/budget/timeout).
 
 ## Layered enforcement
 
