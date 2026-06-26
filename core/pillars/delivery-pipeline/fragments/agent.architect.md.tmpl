@@ -17,6 +17,8 @@ first.
 1. Read the issue file in `.claude/issues/` and the code paths it touches. If you
    need a fact you're unsure of (a library's current API, a version-specific
    behavior, a best practice), delegate to the `research` agent — don't guess.
+   Take only its declared conclusion into the Design; never paste its transcript into
+   the issue or downstream (bindings discipline).
 2. Design the change so it obeys `.claude/rules/architecture.md`: correct module
    placement, dependency direction, no cross-boundary imports. Prefer reusing
    existing utilities over new ones.

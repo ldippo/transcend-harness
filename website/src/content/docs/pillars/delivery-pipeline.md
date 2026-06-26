@@ -30,6 +30,27 @@ language semantics and well-established patterns, but reaches for a live web sea
 confirm version-specific APIs, post-cutoff facts, security advisories, current best
 practice, or pricing.
 
+## Orchestration discipline (context-as-environment)
+
+The loop is a multi-agent recursion, so it follows the [context-as-environment
+principle](../../philosophy/#7-context-as-environment-recursive-language-models) and the
+`recursive-workflows` conventions:
+
+- **Declared outputs only (bindings discipline).** Agents receive an issue *id*, read
+  the issue file themselves, write their work into the issue body (Design /
+  Implementation) and the workspace, and return a short conclusion — never a transcript
+  dump. The orchestrator passes references, never pasted prose, so sub-agent context
+  stays out of the loop's context.
+- **The scout emits the work-list (RLM rubric #4).** The `pm` agent *emits* the ordered
+  issues from the goal and the loop reads them from the committed issue store — the
+  decomposition is produced, never a hardcoded array baked into the loop.
+- **Adversarial verification by default.** Review is a separate skeptic (the `reviewer`
+  agent or a fresh refuting pass against `.claude/rules/`), not the author grading
+  itself.
+- **Bounded recursion.** One issue per invocation is the depth cap; cap total
+  delegations, pass explicit timeouts to shell steps, and assert a required CLI/MCP
+  exists before dispatching the agent that needs it.
+
 ## The local issue store
 
 The pipeline's only durable state is committed files — not conversation memory — so any

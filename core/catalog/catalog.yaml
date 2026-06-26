@@ -76,3 +76,25 @@ entries:
       pillar_step: { pillar: review-quality, text: "Run `migration-safety` on PRs that add or edit a migration." }
       pointer_skill: true
       entry: entries/migration-safety.md
+
+  - id: recursive-workflows
+    kind: skill
+    what: "Authoring discipline for dynamic Workflow scripts & multi-agent fan-out: context-as-environment, bindings discipline (declared outputs only), bounded-recursion guardrails (depth/calls/budget/timeout), the 6 patterns, and the 5-point RLM rubric."
+    when: "Writing a Workflow script, orchestrating subagents, recursive/background fan-out, or any multi-agent decomposition."
+    stacks: [node-ts-react, python-fastapi, go-service, unknown]
+    wiring:
+      claudemd: "Workflow authoring: consult `recursive-workflows` before writing a Workflow script or fanning out subagents (declared outputs only, scout-emits-worklist, depth/calls/budget/timeout guardrails)."
+      pillar_step: { pillar: delivery-pipeline, text: "When a step fans out subagents, follow `recursive-workflows`: declared outputs only, the scout emits the work-list (not a hardcoded array), adversarial-verify by default, and depth/calls/budget/timeout guardrails." }
+      pointer_skill: true
+      entry: entries/recursive-workflows.md
+
+  - id: golden-session
+    kind: skill
+    what: "Turn a successful ('golden') Claude Code session into a reusable, parameterized dynamic Workflow script — extract the durable task spine, abstract specifics into args, pick orchestration patterns, emit a runnable .claude/workflows/<name>.js."
+    when: "A run worked well and should be made repeatable ('capture this session', 'make this repeatable', 'turn this run into a workflow')."
+    stacks: [node-ts-react, python-fastapi, go-service, unknown]
+    wiring:
+      claudemd: "Golden sessions: use `golden-session` to capture a successful run as a committed, replayable `.claude/workflows/<name>.js`."
+      pillar_step: { pillar: delivery-pipeline, text: "After a notably good run, consider `golden-session` to capture it as a reusable workflow that follows the `recursive-workflows` conventions." }
+      pointer_skill: true
+      entry: entries/golden-session.md

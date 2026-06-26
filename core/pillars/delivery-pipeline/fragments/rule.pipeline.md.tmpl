@@ -19,6 +19,27 @@ durable state.
 Invoke them as subagents via the `Task` tool — never inline the whole pipeline in one
 context. The `pipeline-loop` skill orchestrates them per issue.
 
+## Orchestration discipline (RLM / context-as-environment)
+The loop is a multi-agent recursion; it follows the project's `recursive-workflows`
+conventions: declared outputs only, the scout emits the work-list, adversarial-verify
+by default, and depth/calls/budget/timeout guardrails.
+- **Bindings discipline — declared outputs only.** A sub-agent's transcript never
+  re-enters the orchestrator. Pass an agent the issue *id* and let it read the issue
+  file itself; agents write their work into the issue body (Design / Implementation)
+  and the workspace, and return a short conclusion — never a transcript dump. Do not
+  paste one agent's prose into the next agent's prompt; pass references.
+- **The scout emits the work-list (RLM rubric #4).** The decomposition is produced,
+  not hardcoded: the `pm` agent *emits* the ordered issue list from the goal and the
+  loop reads it from the committed issue store. Never bake a static array of tasks
+  into the loop.
+- **Adversarial verification by default.** Review is a separate skeptic, not the
+  author grading itself — prefer the `reviewer` agent (or a fresh review pass)
+  prompted to *refute* the diff against `.claude/rules/`, not to rubber-stamp it.
+- **Bounded recursion.** Keep self-delegation shallow (depth-1 is enough); cap total
+  delegations; for any `Bash`/external step pass an explicit `timeout`; and assert a
+  required CLI/MCP exists before dispatching the agent that needs it (fail fast here,
+  not in a doomed child).
+
 ## Issue store
 - `.claude/roadmap.md` — a generated projection of the issues (do not hand-edit;
   regenerate with `issues.sh roadmap`).
@@ -53,3 +74,6 @@ in-progress --(blocker)--> blocked --(unblocked)--> ready
 - **Followups are proposals, not detours.** Discovered bugs/gaps go in as `proposed`
   and wait for approval; don't expand the current issue's scope.
 - The pipeline adds no blocking hooks; correctness rides on the agents + this rule.
+- **Declared outputs only.** Sub-agents return conclusions plus issue-file edits,
+  never raw transcripts; the orchestrator passes issue ids and references, not pasted
+  prose (context-as-environment).
