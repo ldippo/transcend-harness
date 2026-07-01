@@ -33,7 +33,7 @@ practice, or pricing.
 ## Orchestration discipline (context-as-environment)
 
 The loop is a multi-agent recursion, so it follows the [context-as-environment
-principle](../../philosophy/#7-context-as-environment-recursive-language-models) and the
+principle](../../philosophy/#8-context-as-environment-recursive-language-models) and the
 `recursive-workflows` conventions:
 
 - **Declared outputs only (bindings discipline).** Agents receive an issue *id*, read
@@ -109,7 +109,16 @@ worth doing, turning a single goal into a self-extending backlog.
 ## Design commitments
 
 - **One issue at a time.** `issues.sh claim` is single-flight (a lockfile); never run two
-  loops against the same repo. An interrupted iteration is *resumed*, not duplicated.
+  loops against the same repo. An interrupted iteration is *resumed*, not duplicated. To
+  run more than one line of work at once, isolate each on its own **git worktree** (or a
+  Workflow with `isolation: 'worktree'`) — never two unisolated loops on one tree.
+- **Verify by evidence.** For user-visible behavior, the verify step captures an
+  artifact — screenshot, transcript, or log — proving the issue's acceptance criteria are
+  met, recorded in the issue so you approve from proof rather than assertion.
+- **Cap unattended loops.** A `/loop` run left going while you're away carries an explicit
+  stop envelope — token cap, iteration cap, and stop condition — so it can't burn the whole
+  quota. Verifiable objectives may loop on their own signal; open-ended judgment objectives
+  get a tighter cap and a review at the end.
 - **Depends on the handoff loop.** The per-issue `current.md` rewrite relies on
   [task-carving and handoff-on-stop](../context-handoff/) — selecting the pipeline keeps
   them on.

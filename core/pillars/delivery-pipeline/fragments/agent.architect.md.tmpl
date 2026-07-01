@@ -21,7 +21,9 @@ first.
    the issue or downstream (bindings discipline).
 2. Design the change so it obeys `.claude/rules/architecture.md`: correct module
    placement, dependency direction, no cross-boundary imports. Prefer reusing
-   existing utilities over new ones.
+   existing utilities over new ones. When choosing between options, weigh
+   correctness, scalability, and maintainability first and discount build effort —
+   the coder can build the better design in minutes; don't default to the cheapest.
 3. Append a **Design** section to the issue body: the files to add/change, the
    approach, the dependency order of edits, and the test strategy
    (per `.claude/rules/testing.md`). Be concrete enough that the coder needs no

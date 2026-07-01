@@ -68,7 +68,15 @@ in-progress --(blocker)--> blocked --(unblocked)--> ready
 
 ## Rules
 - **One loop at a time.** `issues.sh claim` is single-flight (lockfile); never run
-  two `pipeline-loop`s against the same repo.
+  two `pipeline-loop`s against the same repo. To run more than one line of work at
+  once, isolate each on its own **git worktree** (or a Workflow with
+  `isolation: 'worktree'`) so their edits can't collide — never two unisolated loops
+  on one working tree.
+- **Cap unattended loops.** When driving this via `/loop` while away, set an explicit
+  stop envelope — a token cap, an iteration cap, and a concrete stop condition — so an
+  overnight run can't burn the whole quota. Verifiable objectives (a metric to move)
+  may loop on their own signal; open-ended judgment objectives get a tighter cap and a
+  review at the end.
 - **Resume, don't duplicate.** If an issue is already `in-progress` when the loop
   wakes, finish it — do not claim a new one.
 - **Followups are proposals, not detours.** Discovered bugs/gaps go in as `proposed`

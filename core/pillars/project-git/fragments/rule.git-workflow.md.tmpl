@@ -13,7 +13,8 @@ paths:
 - Commit messages: {commit_convention}.
 
 ## Before opening a PR
-- Rebase/merge latest `{protected_branch}`.
+- Rebase/merge latest `{protected_branch}`, and **resolve any conflicts up front** —
+  don't open a PR that already conflicts with the base.
 - Ensure review & quality gates pass (see @.claude/rules/quality-gates.md).
 
 transcend never runs git for you. It generates these rules; you run the commands.

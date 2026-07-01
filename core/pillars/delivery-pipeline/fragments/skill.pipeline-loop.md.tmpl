@@ -40,10 +40,13 @@ Helper: `.claude/scripts/transcend/pipeline/issues.sh`.
      declared conclusions between steps — never paste one agent's transcript into the
      next agent's prompt.
 
-3. **Verify + record.** Confirm `{test_cmd}` and `{lint_cmd}` pass (report real
-   results). Commit per `.claude/rules/git-workflow.md` only if the developer has
-   opted into auto-commit; otherwise stage the changes and note them. Then
-   `issues.sh done <id>`.
+3. **Verify + record evidence.** Confirm `{test_cmd}` and `{lint_cmd}` pass (report
+   real results). For user-visible behavior, capture **evidence** the issue's
+   acceptance criteria are met — a screenshot/capture, a command transcript, or the
+   output — and record it in the issue's Implementation note so the developer approves
+   from proof, not assertion. Commit per `.claude/rules/git-workflow.md` only if the
+   developer has opted into auto-commit; otherwise stage the changes and note them.
+   Then `issues.sh done <id>`.
 
 4. **Followups.** Any bug/gap/enhancement the agents found OUTSIDE this issue's scope
    should already be filed via `issues.sh new <kind> <slug> --discovered-by <id>`

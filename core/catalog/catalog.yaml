@@ -1,15 +1,22 @@
-# Curated catalog of specialized workflow skills/plugins.
+# Curated, FIRST-PARTY catalog of specialized workflow skills/plugins.
 # The interview filters by stack (`stacks` / `triggers`) and presents matches.
 # Chosen entries are wired by the generator per `wiring`.
 #
+# Trust: a skill/plugin can run arbitrary commands, so a malicious or careless one
+# can exfiltrate secrets or degrade results — and popularity is not evidence of
+# quality. Only vetted first-party entries live here. Any `external-plugin` entry
+# MUST carry a `provenance` note (source + what review it had); never add one on
+# stars alone. See core/principles/pillar-specialized-workflows.md.
+#
 # Entry shape:
-#   id        unique id
-#   kind      skill | plugin | external-plugin
-#   what      one-line capability summary
-#   when      when it's worth using
-#   stacks    profile ids this applies to
-#   triggers  detector-signal conditions confirming relevance (optional)
-#   wiring    how to attach it:
+#   id         unique id
+#   kind       skill | plugin | external-plugin
+#   what       one-line capability summary
+#   when       when it's worth using
+#   stacks     profile ids this applies to
+#   triggers   detector-signal conditions confirming relevance (optional)
+#   provenance source + review status — REQUIRED for kind: external-plugin
+#   wiring     how to attach it:
 #     claudemd        line spliced into CLAUDE.md "Specialized workflows"
 #     pillar_step     {pillar, text} checklist line added to that pillar's rule
 #     settings_plugin marketplace ref added to settings.json (external-plugin only)

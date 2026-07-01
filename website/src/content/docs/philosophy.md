@@ -31,7 +31,11 @@ The generated `.claude/` is committed and shared by the team. It is a living art
 
 The same core principles render differently per stack. transcend proposes sensible defaults from a stack profile and the developer chooses — the output is bespoke, not boilerplate.
 
-## 7. Context-as-environment (recursive language models)
+## 7. Frugal tools, not just frugal context
+
+Context frugality extends to *how* an agent reaches the outside world. The same task costs wildly different amounts by tool: a CLI like `gh` is typically far cheaper in tokens and latency than the equivalent MCP server, and compact output (a table, filtered fields, plain text) costs a fraction of a verbose JSON dump. The standing preferences: reach for a **CLI over an equivalent MCP server** when it's cheaper, ask tools for **token-efficient output** rather than raw JSON, and keep MCP for capabilities a CLI can't provide — assert the tool exists before you depend on it, and don't pay for tokens you won't read.
+
+## 8. Context-as-environment (recursive language models)
 
 When a task is too big for one context window — a sweeping audit, a long backlog, a transcript longer than the window — the failure mode is to pour everything into the prompt and watch quality collapse. The recursive-language-model move is the opposite: treat context as a *programmable environment*, not a bucket. Large data lives on disk or in a child session; the orchestrator holds only references and declared outputs. Three commitments make it real:
 

@@ -17,4 +17,20 @@ Gates enabled for this project: {gates_list}.
 - Naming and placement follow @.claude/rules/architecture.md.
 {quality_extra_checklist}
 
+## Review depth scales with risk
+- Classify the change's risk before reviewing:
+  - **Low** (docs, localized refactor with green tests, config) — light pass; trust
+    the gates.
+  - **High** (auth, data migrations, money, shared/public APIs, anything hard to
+    reverse) — deep diff read plus an independent adversarial reviewer prompted to
+    *refute* the change, not rubber-stamp it.
+- Spend scrutiny where a missed bug actually costs; let low-risk changes flow.
+- An ambiguous **product** decision found in review (which behavior was intended — not
+  a bug) is escalated to the developer, never guessed.
+
+## Evidence over assertion
+- A change with user-visible behavior ships with **evidence** it works against its
+  original intent — a screenshot/short capture for UI, a command transcript or log for
+  behavior, the actual output for data — attached to the PR, not just "tests pass".
+
 {quality_tier_note}

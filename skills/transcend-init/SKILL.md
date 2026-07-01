@@ -114,7 +114,11 @@ the option from the stack profile's `pillar_defaults`. Present the pillar's
 `options[].label`/`desc` as the choices.
 
 - **Batch B (4 questions):** architecture, testing, project-git, review-quality
-  (review-quality is multiSelect).
+  (review-quality is multiSelect). When asking testing, also capture a **test-level
+  preference** (behavioral-first / balanced / unit-first) — use the Other field or a
+  follow-up; it fills `{test_level_note}` in the testing rule. Repro-first bug fixing
+  and the review-quality *risk-tiered review* + *evidence-on-PR* conventions are
+  always-on doctrine in the rendered rules (no separate toggle).
 - **Batch C:** context-handoff (multiSelect — pre-check `handoff-on-stop` and
   `task-carving`; these are the centerpiece); `delivery-pipeline` (single-select,
   default `none` — the multi-agent PM→architect→coder loop, opt-in and heavy); and,
@@ -146,6 +150,11 @@ tell the developer. Never invent a hook fragment.
 Read `$TRANSCEND_ROOT/core/catalog/catalog.yaml`. Filter entries whose `stacks`
 includes the chosen profile and whose `triggers` match the detector signals.
 Present matches as a multiSelect ("Add <id> — <what>?"). Skip if no matches.
+
+The catalog is curated first-party and safe to offer directly. If an entry is
+`kind: external-plugin`, show its `provenance` note in the choice and record it in
+the manifest when chosen — a third-party skill/plugin can run arbitrary code, so it
+is adopted on review, never on popularity (see the specialized-workflows principle).
 
 ## Step 6 — Render plan preview
 
@@ -235,6 +244,10 @@ like `{test_cmd}` = `"{pkg} test"` → e.g. `pnpm test`.
   placement/dependency/module table — from the chosen architecture option + stack.
 - `{testing_label}`, `{testing_description}`, `{testing_expectation}`,
   `{testing_one_liner}`, `{testing_tier_note}` — from chosen testing option + tier.
+- `{test_level_note}` — one line rendering the test-level preference (behavioral-first
+  / balanced / unit-first), e.g. "Prefer end-to-end/behavioral tests over unit tests
+  for product behavior; keep unit tests for pure logic and edge cases." Default to the
+  balanced phrasing if the preference wasn't asked — never leave the placeholder.
 - `{gitflow_label}`, `{gitflow_description}`, branch/PR/commit rules.
 - `{gates_list}`, `{gates_summary}`, `{quality_extra_checklist}`, `{quality_tier_note}`.
 - `{workflows_list}` / `{workflows_summary}` — bullet list of chosen catalog

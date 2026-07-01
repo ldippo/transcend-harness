@@ -15,3 +15,13 @@ Key ideas transcend encodes:
 
 The architecture rule's `paths:` frontmatter scopes it to source globs from the
 stack profile, so it loads only when relevant files are touched.
+
+## Weigh the option, not the effort
+
+When an agent weighs technical options it inherits a human bias from its training
+data: it over-weights *implementation cost* and steers toward the "cheap" option —
+which is often the low-quality, unscalable, or hard-to-maintain one. But an agent
+can build the better option in minutes; the effort delta that matters to a human
+rarely matters here. So the standing instruction is to **choose on correctness,
+scalability, and maintainability first, and discount build effort** — pick the
+design you'd want to live with, not the one that's fastest to type.

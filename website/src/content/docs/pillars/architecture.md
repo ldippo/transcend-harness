@@ -15,6 +15,10 @@ A project should have an explicit, written shape: where code lives, what may dep
 - **Dependency direction** — higher layers depend on lower, never the reverse.
 - **Naming & placement** — where new files of a given kind belong, so agents don't invent ad-hoc structure.
 
+## Choosing between options
+
+When weighing technical options, an agent inherits a human bias from its training data: it over-weights *implementation cost* and steers toward the "cheap" option — often the low-quality, unscalable, or hard-to-maintain one. But an agent can build the better option in minutes. transcend's standing instruction: **choose on correctness, scalability, and maintainability first, and discount build effort.**
+
 ## Scoping
 
 The architecture rule's `paths:` frontmatter scopes it to source globs from the stack profile, so it loads only when relevant files are touched — part of the [context frugality](../../philosophy/) principle.
