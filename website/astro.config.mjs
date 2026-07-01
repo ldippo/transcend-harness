@@ -9,6 +9,7 @@ export default defineConfig({
       title: 'transcend-harness',
       description:
         'A meta-framework that interviews you, detects your stack, and generates a bespoke .claude/ harness.',
+      logo: { src: './src/assets/logo.svg', alt: 'transcend-harness' },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/ldippo/transcend-harness' },
       ],
