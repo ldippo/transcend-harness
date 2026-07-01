@@ -41,3 +41,16 @@ edits rather than clobbering them.
 The same core principles render differently per stack. transcend proposes sensible
 defaults from a stack profile and the developer chooses — the output is bespoke,
 not boilerplate.
+
+## 7. Frugal tools, not just frugal context
+
+Context frugality extends to *how* an agent reaches the outside world. The same
+task costs wildly different amounts depending on the tool: a CLI like `gh` is
+typically far cheaper in tokens and latency than the equivalent MCP server, and a
+compact output format (a table, `--jq`-filtered fields, plain text) can cost a
+fraction of a verbose JSON dump. The standing preferences: reach for a **CLI over
+an equivalent MCP server** when it's cheaper, ask tools for **token-efficient
+output** rather than raw JSON, and keep MCP for capabilities a CLI genuinely can't
+provide. This is the tool-side of the same envelope the RLM principle already asks
+for — assert the tool exists before you depend on it, and don't pay for tokens you
+won't read.

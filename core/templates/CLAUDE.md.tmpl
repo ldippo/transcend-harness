@@ -15,6 +15,11 @@ Stack: **{stack_id}** ({pkg}). This file is the map; the rules under
 
 {quality_summary}
 
+## Tooling
+Reach for a CLI (e.g. `gh`) over an equivalent MCP server when it's cheaper in
+tokens/latency, and ask tools for compact output over verbose JSON. Keep MCP for
+what a CLI can't do.
+
 ## Context & handoff
 Session handoffs live in `.claude/handoffs/`. Carve one module-scoped task per
 session; start from the handoff's Context pointers rather than scanning the repo.

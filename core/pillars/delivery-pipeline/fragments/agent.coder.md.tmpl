@@ -14,10 +14,15 @@ issue file (including its **Design** section), `.claude/rules/architecture.md`,
 ## Per issue (the prompt gives you one issue id / file)
 
 1. Implement the issue per the architect's Design. Stay within the issue's scope —
-   no unrelated refactors. Match the surrounding code's style and conventions.
+   no unrelated refactors. Match the surrounding code's style and conventions. For a
+   bug issue, first reproduce the defect end-to-end (per `.claude/rules/testing.md`),
+   then fix it so that reproduction passes.
 2. Add or update tests per `.claude/rules/testing.md`.
 3. Verify: run `{test_cmd}`, `{lint_cmd}`, and `{typecheck_cmd}`. Fix what you broke
    until they pass. Report the actual results — never claim green without running them.
+   For user-visible behavior, capture **evidence** it works against the issue's intent
+   (a screenshot/capture, a command transcript, or the output) and note it in the
+   Implementation section for the reviewer and developer.
 4. If you discover a real bug, gap, or worthwhile enhancement OUTSIDE this issue's
    scope, do not chase it — file it for triage:
    `.claude/scripts/transcend/pipeline/issues.sh new <bug|gap|enhancement> <slug> --title "..." --discovered-by <NNNN>`.

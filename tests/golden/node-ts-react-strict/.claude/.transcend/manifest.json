@@ -1,5 +1,5 @@
 {
-  "transcend_version": "0.1.0",
+  "transcend_version": "0.3.0",
   "generated_at": "2026-06-12T00:00:00Z",
   "stack": {
     "profile": "node-ts-react",

@@ -26,6 +26,10 @@ Chosen entries are attached to the harness in up to four ways:
 1. A line in `CLAUDE.md`'s "Specialized workflows" section.
 2. An optional checklist step in the relevant pillar rule (e.g. "run `impeccable` on UI changes" in quality-gates).
 3. A thin pointer skill at `.claude/skills/<id>/SKILL.md` documenting invocation.
-4. For external plugins — an entry in the project's `settings.json` so the team gets them on trust.
+4. For external plugins — an entry in the project's `settings.json` so the team gets them.
 
 Add entries after init at any time with `/transcend-catalog` — see [Skills & Commands](../../reference/skills/).
+
+## Provenance & trust
+
+The catalog is deliberately **curated and first-party**. A skill or plugin can instruct the agent to run arbitrary commands, so a malicious or careless one can exfiltrate secrets or source, and even a benign one can *degrade* results by spending more tokens for worse outcomes. **Popularity is not evidence of quality** — a high star count measures reach, not rigor. Prefer the curated catalog; treat any third-party skill/plugin as untrusted until reviewed, and adopt it only after seeing what it actually does — never on stars alone. External entries carry a `provenance` note so the choice stays auditable.

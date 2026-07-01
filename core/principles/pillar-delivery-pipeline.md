@@ -30,3 +30,36 @@ Two design commitments keep it honest:
 The pipeline adds no enforcement hooks; it is orthogonal to the project's
 enforcement appetite. Discipline lives in the agents' instructions and the issue
 state machine, not in blocking gates.
+
+## Verify by evidence, not assertion
+
+The loop's verify step does more than report "tests pass": for a change with
+user-visible behavior it captures an **evidence artifact** — a screenshot, a
+command transcript, a log — that shows the issue's acceptance criteria actually met,
+and attaches it to the change. This is the review-quality *evidence-over-assertion*
+convention applied inside the pipeline, and it is what lets the developer approve a
+finished issue by looking at proof rather than re-running it. Ambiguous *product*
+calls surfaced during review are escalated as `proposed` followups or a note, not
+guessed by the coder.
+
+## Parallelism needs filesystem isolation (opt-in)
+
+The default loop is **single-flight** — one issue, one lock — precisely so two
+agents never clobber the same working tree. When a developer deliberately wants to
+run more than one line of work at once, the safe way is **filesystem isolation**: a
+git worktree per concurrent agent, so their edits can't collide. (A Workflow script
+gets this via `isolation: 'worktree'`; outside one, `git worktree add` a scratch
+dir.) transcend keeps single-flight as the default and offers parallel worktrees as
+an explicit opt-in — never two unisolated loops on one tree.
+
+## Capped autonomous loops
+
+When the pipeline runs unattended (via `/loop`), it must carry an explicit **stop
+envelope**, the loop-shaped sibling of the recursion guardrails: a token cap, an
+iteration cap, and a concrete stop condition — so an overnight run can't silently
+burn the whole quota. Two objective shapes deserve different trust:
+**verifiable objectives** (a measurable target — cut load time, raise coverage,
+drive a metric) can loop on their own signal, while **trusted-judgment objectives**
+(open-ended improvement where the agent applies reasonable taste) should loop with a
+tighter cap and a review at the end. The stop condition is not optional decoration —
+it is what makes "let it run while I sleep" safe rather than reckless.

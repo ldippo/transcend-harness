@@ -22,9 +22,26 @@ or the staged/working changes) against the project's committed conventions.
    logging, dead code, or unowned TODOs.
 5. **Correctness** — read the changed code paths for real bugs: edge cases, error
    handling, state races. Prioritize genuine issues over style.
+6. **Evidence** — for user-visible behavior, confirm the change carries proof it
+   works against its intent (screenshot/capture/log/output), not just "tests pass".
+
+## Depth scales with risk
+First classify the change's risk and set your depth accordingly:
+- **Low** (docs, localized refactor with green tests, config) — a light pass; trust
+  the gates and move on.
+- **High** (auth, data migrations, money, shared/public APIs, anything hard to
+  reverse) — a deep read of every changed path, actively trying to *refute* the
+  diff rather than approve it.
+Spend scrutiny where a missed bug actually costs.
+
+## Escalate, don't guess
+If you hit a genuinely ambiguous **product** decision (which behavior was intended —
+not a bug), do not pick one silently. Flag it as a question for the developer in your
+output and mark the verdict **request-changes** pending their answer.
 
 ## Output
 
 Return findings grouped by severity (blocker / should-fix / nit), each with
-`file:line` references and a concrete suggested fix. End with a verdict:
-**approve** or **request-changes**, with one-line justification.
+`file:line` references and a concrete suggested fix. State the risk tier you used.
+End with a verdict: **approve**, **request-changes**, or **needs-decision** (product
+ambiguity escalated), with one-line justification.

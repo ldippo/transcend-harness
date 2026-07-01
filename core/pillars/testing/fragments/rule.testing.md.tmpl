@@ -15,4 +15,10 @@ paths:
 - Tests live alongside the code they cover ({test_glob_hint}).
 - A behavioral change ships with a test that would fail without it.
 
+## Bug fixes: reproduce first
+- Start every bug fix by **reproducing the defect end-to-end**, as close to the real
+  user's path as possible, *before* changing the fix. The failing reproduction is the
+  definition of done — the fix is finished when that same reproduction passes.
+- {test_level_note}
+
 {testing_tier_note}
